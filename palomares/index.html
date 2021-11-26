@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Palomares Castilla y Le&oacute;n</title>
+
+	<!--Leaflet-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+	<!--jQuery-->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	
+	<!--Bootstrap -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!--BootSideMenu-->
+	<script src="js/BootSideMenu.js"></script>
+	<link rel="stylesheet" href="css/BootSideMenu.css">
+    <!--[if lt IE 9]>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	<!--Ajax-->
+	<script src="js/leaflet.ajax.min.js"></script>
+	
+	<!--Leaflet Spain-->
+	<script src="https://sigdeletras.github.io/Leaflet.Spain.WMS/src/Leaflet.Spain.WMS.js"></script>
+
+	<!--Mapas-->
+	<script type="text/javascript" src="js/mapas.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+
+    <style type="text/css">
+        .user {
+            padding: 5px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+    </style>
+	
+</head>
+
+<body>
+	<!--left-panel -->
+	<div id="left-panel">
+		<div id="wrap">
+			<div class="header"><h4>Opciones</h4></div>
+			<div class="form-group" style="margin:10px 10px;">
+				<select id="provincia" class="chosen-select form-control" name="provincia">
+					<option value="">Elija provincia</option>
+					<option value="24">Le&oacute;n</option>
+					<option value="37">Salamanca</option>
+					<option value="47">Valladolid</option>
+					<option value="49">Zamora</option>
+				</select>
+			</div>				
+<!--
+			<div class="form-group" style="margin:10px 10px;">
+				<select id="centro" class="chosen-select form-control" name="centro">
+					<option value="">Elija centro</option>
+					<option value="1" selected>Centro provincia</option>
+					<option value="2">Capital provincia</option>
+					<option value="3">Centro geogr&aacute;fico palomares</option>
+				</select>
+			</div>
+
+			<div class="form-group" style="margin:10px 10px;">
+				<label>Radio (metros)</label>
+				<br />
+				<input id="radio" type="number" value="" min="100" max="5000000" step="100" class="chosen-select form-control"/>
+				<br />
+				<button id="distancia" type="button" class="btn btn-primary btn-lg btn-block">Distancia</button>
+			</div>
+
+			<div id="datosdistancia"></div>
+-->
+		</div>
+	</div>
+	<!--/left-panel -->
+	<div id="map"></div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			Procesa();
+		});
+		//$('#left-panel').BootSideMenu({side:"left", autoClose:false});
+		$('#left-panel').BootSideMenu({side:"left", autoClose:true});
+		$('#distancia').click(function () {
+			AddText();
+		});
+
+		$('#provincia').on('change',function(){ 
+			var value = $(this).val();
+			MuestraProvincia (value);
+		});
+		$('#centro').on('change',function(){ 
+			var value1 = $(this).val();
+			Centrar (value1);
+		});
+	</script>
+		
+	<!-- Contenido mapa-->
+	<script type="text/javascript">
+			
+		map = L.map('map').setView([41.66, -4.72], 8);
+		//map = L.map('map',{zoomControl:true, maxZoom:20}).setView([41.66, -4.72], 8);
+
+		L.control.layers(baselayers, clubes).addTo(map);
+
+		baselayers["Hibrido"].addTo(map);
+		//clubes["Club 163"].addTo(map);
+		
+		//var exterior = L.circle([42.7274287611111, -5.35708151944444], 800000,{color:'#C02900', weight:1, opacity:1, fillColor: '#00ff00', fillOpacity:.1}).addTo(map);
+		//var interior = L.circle([42.7274287611111, -5.35708151944444], 700000,{color:'#00ff00', weight:1, opacity:1, fillColor: '#ffffff', fillOpacity:.5}).addTo(map);
+
+					
+
+var popup1 = L.marker([42.7274287638889, -5.35708152222222], {icon: redIcon}, {title: "LAHCEN Y GENARO",draggable:true,opacity:1}).bindPopup("<b>ID: 1, 25</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: LAHCEN Y GENARO<br>UTM: X=307026.72, Y=4733240.99, HUSO: 30<br>ETRS89: 42.7274287638889,-5.35708152222222<br>42\u00B0 43\u0027  38.74355\u0022  38.74355, 5\u00B0 21\u0027  25.49348\u0022 W<br>ED50: 42.7285473888889, -5.35568475277778<br>42\u00B0 43\u0027  42.77060\u0022 N, 5\u00B0 21\u0027  20.46511\u0022 W").addTo(club163);
+var popup2 = L.marker([41.6981043666667, -6.41774112777778], {icon: blueIcon}, {title: "ANTERO J. JOAQUIM FERREIRA",draggable:true,opacity:1}).bindPopup("<b>ID: 2</b>, CLUB: 164, PROVINCIA: PORTUGAL<br>PALOMAR: ANTERO J. JOAQUIM FERREIRA<br>UTM: X=215597.21, Y=4621904.11, HUSO: 30<br>ETRS89: 41.6981043666667,-6.41774112777778<br>41\u00B0 41\u0027  53.17572\u0022  53.17572, 6\u00B0 25\u0027  3.86806\u0022 W<br>ED50: 41.6992735305556, -6.41632249722222<br>41\u00B0 41\u0027  57.38471\u0022 N, 6\u00B0 24\u0027  58.76099\u0022 W").addTo(club164);
+var popup3 = L.marker([41.8030984361111, -6.74959058888889], {icon: blueIcon}, {title: "TANDEM DANIEL&JOSE",draggable:true,opacity:1}).bindPopup("<b>ID: 3, 53</b>, CLUB: 164, PROVINCIA: BRAGANZA<br>PALOMAR: TANDEM DANIEL&JOSE<br>UTM: X=188487.26, Y=4634714.46, HUSO: 30<br>ETRS89: 41.8030984361111,-6.74959058888889<br>41\u00B0 48\u0027  11.15437\u0022  11.15437, 6\u00B0 44\u0027  58.52612\u0022 W<br>ED50: 41.8042691111111, -6.74815706944445<br>41\u00B0 48\u0027  15.36880\u0022 N, 6\u00B0 44\u0027  53.36545\u0022 W").addTo(club164);
+var popup4 = L.marker([41.7182889861111, -3.65331503611111], {icon: violetIcon}, {title: "HORATIU HOROTAN",draggable:true,opacity:1}).bindPopup("<b>ID: 4</b>, CLUB: 160, PROVINCIA: BURGOS<br>PALOMAR: HORATIU HOROTAN<br>UTM: X=445655.88, Y=4618705.13, HUSO: 30<br>ETRS89: 41.7182889861111,-3.65331503611111<br>41\u00B0 43\u0027  5.84035\u0022  5.84035, 3\u00B0 39\u0027  11.93413\u0022 W<br>ED50: 41.7194358888889, -3.65199454722222<br>41\u00B0 43\u0027  9.96920\u0022 N, 3\u00B0 39\u0027  7.18037\u0022 W").addTo(club160);
+var popup5 = L.marker([41.0489920361111, -5.77245400833333], {icon: yellowIcon}, {title: "JOSE A. MATÍAS",draggable:true,opacity:1}).bindPopup("<b>ID: 5</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: JOSE A. MATÍAS<br>UTM: X=266992.44, Y=4547899.35, HUSO: 30<br>ETRS89: 41.0489920361111,-5.77245400833333<br>41\u00B0 2\u0027  56.37133\u0022  56.37133, 5\u00B0 46\u0027  20.83443\u0022 W<br>ED50: 41.0501715138889, -5.77107391388889<br>41\u00B0 3\u0027  0.61745\u0022 N, 5\u00B0 46\u0027  15.86609\u0022 W").addTo(club161);
+var popup6 = L.marker([41.0724170583333, -5.61604108611111], {icon: yellowIcon}, {title: "J. LORENZO RINCÓN",draggable:true,opacity:1}).bindPopup("<b>ID: 6</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: J. LORENZO RINCÓN<br>UTM: X=280217.34, Y=4550093.87, HUSO: 30<br>ETRS89: 41.0724170583333,-5.61604108611111<br>41\u00B0 4\u0027  20.70141\u0022  20.70141, 5\u00B0 36\u0027  57.74791\u0022 W<br>ED50: 41.0735932972222, -5.61466408333333<br>41\u00B0 4\u0027  24.93587\u0022 N, 5\u00B0 36\u0027  52.79070\u0022 W").addTo(club161);
+var popup7 = L.marker([41.0211108805556, -5.67000205], {icon: greenIcon}, {title: "G. ANDRÉS MORIÑIGO SANTOS",draggable:true,opacity:1}).bindPopup("<b>ID: 7</b>, CLUB: 165, PROVINCIA: SALAMANCA<br>PALOMAR: G. ANDRÉS MORIÑIGO SANTOS<br>UTM: X=275509, Y=4544535, HUSO: 30<br>ETRS89: 41.0211108805556,-5.67000205<br>41\u00B0 1\u0027  15.99917\u0022  15.99917, 5\u00B0 40\u0027  12.00738\u0022 W<br>ED50: 41.0222899083333, -5.66862478611111<br>41\u00B0 1\u0027  20.24367\u0022 N, 5\u00B0 40\u0027  7.04923\u0022 W").addTo(club165);
+var popup8 = L.marker([41.6492568, -4.72855695277778], {icon: violetIcon}, {title: "VICENTE & JOSE ANTONIO Y RAFAEL",draggable:true,opacity:1}).bindPopup("<b>ID: 8,19,50</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: VICENTE & JOSE ANTONIO Y RAFAEL<br>UTM: X=356059, Y=4612278, HUSO: 30<br>ETRS89: 41.6492568,-4.72855695277778<br>41\u00B0 38\u0027  57.32448\u0022  57.32448, 4\u00B0 43\u0027  42.80503\u0022 W<br>ED50: 41.6504067277778, -4.72720625277778<br>41\u00B0 39\u0027  1.46422\u0022 N, 4\u00B0 43\u0027  37.94251\u0022 W").addTo(club160);
+var popup9 = L.marker([40.9035800638889, -5.16278983611111], {icon: greenIcon}, {title: "JUAN CARLO GALAN SANZ",draggable:true,opacity:1}).bindPopup("<b>ID: 9</b>, CLUB: 165, PROVINCIA: SALAMANCA<br>PALOMAR: JUAN CARLO GALAN SANZ<br>UTM: X=317835, Y=4530305.47, HUSO: 30<br>ETRS89: 40.9035800638889,-5.16278983611111<br>40\u00B0 54\u0027  12.88823\u0022  12.88823, 5\u00B0 9\u0027  46.04341\u0022 W<br>ED50: 40.9047574111111, -5.16143072222222<br>40\u00B0 54\u0027  17.12668\u0022 N, 5\u00B0 9\u0027  41.15060\u0022 W").addTo(club165);
+var popup10 = L.marker([41.0254160555556, -5.61190905277778], {icon: yellowIcon}, {title: "MIGUEL A. GONZÁLEZ",draggable:true,opacity:1}).bindPopup("<b>ID: 10</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: MIGUEL A. GONZÁLEZ<br>UTM: X=280408.19, Y=4544865.1, HUSO: 30<br>ETRS89: 41.0254160555556,-5.61190905277778<br>41\u00B0 1\u0027  31.49780\u0022  31.49780, 5\u00B0 36\u0027  42.87259\u0022 W<br>ED50: 41.0265940277778, -5.61053297222222<br>41\u00B0 1\u0027  35.73850\u0022 N, 5\u00B0 36\u0027  37.91870\u0022 W").addTo(club161);
+var popup11 = L.marker([40.9622066277778, -5.65086353333333], {icon: yellowIcon}, {title: "MANUEL DELGADO",draggable:true,opacity:1}).bindPopup("<b>ID: 11</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: MANUEL DELGADO<br>UTM: X=276919.69, Y=4537946.01, HUSO: 30<br>ETRS89: 40.9622066277778,-5.65086353333333<br>40\u00B0 57\u0027  43.94386\u0022  43.94386, 5\u00B0 39\u0027  3.10872\u0022 W<br>ED50: 40.9633875916667, -5.64948784722222<br>40\u00B0 57\u0027  48.19533\u0022 N, 5\u00B0 38\u0027  58.15625\u0022 W").addTo(club161);
+var popup12 = L.marker([40.9724055611111, -5.63974119166667], {icon: yellowIcon}, {title: "ANTONIO PACHECO",draggable:true,opacity:1}).bindPopup("<b>ID: 12</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: ANTONIO PACHECO<br>UTM: X=277890, Y=4539050, HUSO: 30<br>ETRS89: 40.9724055611111,-5.63974119166667<br>40\u00B0 58\u0027  20.66002\u0022  20.66002, 5\u00B0 38\u0027  23.06829\u0022 W<br>ED50: 40.9735860111111, -5.63836553611111<br>40\u00B0 58\u0027  24.90964\u0022 N, 5\u00B0 38\u0027  18.11593\u0022 W").addTo(club161);
+var popup13 = L.marker([41.0680277111111, -5.64253631111111], {icon: yellowIcon}, {title: "FRANCISCOJ GARCÍA",draggable:true,opacity:1}).bindPopup("<b>ID: 13</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: FRANCISCOJ GARCÍA<br>UTM: X=277976.39, Y=4549673.7, HUSO: 30<br>ETRS89: 41.0680277111111,-5.64253631111111<br>41\u00B0 4\u0027  4.89976\u0022  4.89976, 5\u00B0 38\u0027  33.13072\u0022 W<br>ED50: 41.0692045583333, -5.64115881944444<br>41\u00B0 4\u0027  9.13641\u0022 N, 5\u00B0 38\u0027  28.17175\u0022 W").addTo(club161);
+var popup14 = L.marker([41.52973585, -5.708210225], {icon: blueIcon}, {title: "ILDEFONSO Y MARCOS",draggable:true,opacity:1}).bindPopup("<b>ID: 14,63</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: ILDEFONSO Y MARCOS<br>UTM: X=274058.38, Y=4601107.23, HUSO: 30<br>ETRS89: 41.52973585,-5.708210225<br>41\u00B0 31\u0027  47.04906\u0022  47.04906, 5\u00B0 42\u0027  29.55681\u0022 W<br>ED50: 41.5309005083333, -5.70682176388889<br>41\u00B0 31\u0027  51.24183\u0022 N, 5\u00B0 42\u0027  24.55835\u0022 W").addTo(club164);
+var popup15 = L.marker([40.3882922777778, -5.77875524444444], {icon: yellowIcon}, {title: "ÁNGEL FARIAS",draggable:true,opacity:1}).bindPopup("<b>ID: 15</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: ÁNGEL FARIAS<br>UTM: X=264140.25, Y=4474562.87, HUSO: 30<br>ETRS89: 40.3882922777778,-5.77875524444444<br>40\u00B0 23\u0027  17.85220\u0022  17.85220, 5\u00B0 46\u0027  43.51888\u0022 W<br>ED50: 40.3894914361111, -5.777390275<br>40\u00B0 23\u0027  22.16917\u0022 N, 5\u00B0 46\u0027  38.60499\u0022 W").addTo(club161);
+var popup16 = L.marker([40.3506487166667, -5.835918225], {icon: yellowIcon}, {title: "JOSE A. ROMERO PEREZ",draggable:true,opacity:1}).bindPopup("<b>ID: 16</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: JOSE A. ROMERO PEREZ<br>UTM: X=259153.55, Y=4470537.89, HUSO: 30<br>ETRS89: 40.3506487166667,-5.835918225<br>40\u00B0 21\u0027  2.33538\u0022  2.33538, 5\u00B0 50\u0027  9.30561\u0022 W<br>ED50: 40.3518493055556, -5.83455258333333<br>40\u00B0 21\u0027  6.65750\u0022 N, 5\u00B0 50\u0027  4.38930\u0022 W").addTo(club161);
+var popup17 = L.marker([40.3511756416667, -5.83525051666667], {icon: yellowIcon}, {title: "ADOLFO ROMERO",draggable:true,opacity:1}).bindPopup("<b>ID: 17</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: ADOLFO ROMERO<br>UTM: X=259212.14, Y=4470594.57, HUSO: 30<br>ETRS89: 40.3511756416667,-5.83525051666667<br>40\u00B0 21\u0027  4.23231\u0022  4.23231, 5\u00B0 50\u0027  6.90186\u0022 W<br>ED50: 40.3523762138889, -5.833884875<br>40\u00B0 21\u0027  8.55437\u0022 N, 5\u00B0 50\u0027  1.98555\u0022 W").addTo(club161);
+var popup18 = L.marker([41.3263918555556, -5.1641727], {icon: greenIcon}, {title: "CRISTIAN CUIBUS",draggable:true,opacity:1}).bindPopup("<b>ID: 18</b>, CLUB: 165, PROVINCIA: VALLADOLID<br>PALOMAR: CRISTIAN CUIBUS<br>UTM: X=318885, Y=4577250, HUSO: 30<br>ETRS89: 41.3263918555556,-5.1641727<br>41\u00B0 19\u0027  35.01068\u0022  35.01068, 5\u00B0 9\u0027  51.02172\u0022 W<br>ED50: 41.3275579055556, -5.16280622777778<br>41\u00B0 19\u0027  39.20846\u0022 N, 5\u00B0 9\u0027  46.10242\u0022 W").addTo(club165);
+var popup20 = L.marker([41.6019186083333, -4.75107580833333], {icon: violetIcon}, {title: "MIGUEL PEREZ",draggable:true,opacity:1}).bindPopup("<b>ID: 20</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: MIGUEL PEREZ<br>UTM: X=354077, Y=4607060, HUSO: 30<br>ETRS89: 41.6019186083333,-4.75107580833333<br>41\u00B0 36\u0027  6.90699\u0022  6.90699, 4\u00B0 45\u0027  3.87291\u0022 W<br>ED50: 41.6030702277778, -4.74972423055556<br>41\u00B0 36\u0027  11.05282\u0022 N, 4\u00B0 44\u0027  59.00723\u0022 W").addTo(club160);
+var popup21 = L.marker([41.6401209527778, -4.75784907777778], {icon: violetIcon}, {title: "JAIME & BLANCA SÁEZ",draggable:true,opacity:1}).bindPopup("<b>ID: 21,55</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: JAIME & BLANCA SÁEZ<br>UTM: X=353599, Y=4611313, HUSO: 30<br>ETRS89: 41.6401209527778,-4.75784907777778<br>41\u00B0 38\u0027  24.43543\u0022  24.43543, 4\u00B0 45\u0027  28.25668\u0022 W<br>ED50: 41.6412714666667, -4.75649713055556<br>41\u00B0 38\u0027  28.57728\u0022 N, 4\u00B0 45\u0027  23.38967\u0022 W").addTo(club160);
+var popup22 = L.marker([41.7001606055556, -6.34796691111111], {icon: blueIcon}, {title: "TANDEM PEDRO&ANA",draggable:true,opacity:1}).bindPopup("<b>ID: 22,69</b>, CLUB: 164, PROVINCIA: VALLADOLID<br>PALOMAR: TANDEM PEDRO&ANA<br>UTM: X=221413.04, Y=4621904.11, HUSO: 30<br>ETRS89: 41.7001606055556,-6.34796691111111<br>41\u00B0 42\u0027  0.57818\u0022  0.57818, 6\u00B0 20\u0027  52.68088\u0022 W<br>ED50: 41.7013289416667, -6.34654994722222<br>41\u00B0 42\u0027  4.78419\u0022 N, 6\u00B0 20\u0027  47.57981\u0022 W").addTo(club164);
+var popup23 = L.marker([41.526072075, -4.61928470555556], {icon: blueIcon}, {title: "TANDEM MARCOS & CRISTIAN",draggable:true,opacity:1}).bindPopup("<b>ID: 23,77</b>, CLUB: 164, PROVINCIA: VALLADOLID<br>PALOMAR: TANDEM MARCOS & CRISTIAN<br>UTM: X=364902.02, Y=4598424.54, HUSO: 30<br>ETRS89: 41.526072075,-4.61928470555556<br>41\u00B0 31\u0027  33.85947\u0022  33.85947, 4\u00B0 37\u0027  9.42494\u0022 W<br>ED50: 41.5272266083333, -4.61793802777778<br>41\u00B0 31\u0027  38.01579\u0022 N, 4\u00B0 37\u0027  4.57690\u0022 W").addTo(club164);
+var popup24 = L.marker([42.5134635277778, -5.8589802], {icon: orangeIcon}, {title: "TANDEM BARRALLO Y GUTIEZ. Y TORI Y FDEZ.",draggable:true,opacity:1}).bindPopup("<b>ID: 24,74,35,42,70,75</b>, CLUB: 162, PROVINCIA: LEON<br>PALOMAR: TANDEM BARRALLO Y GUTIEZ. Y TORI Y FDEZ.<br>UTM: X=265130.45, Y=4710749.64, HUSO: 30<br>ETRS89: 42.5134635277778,-5.8589802<br>42\u00B0 30\u0027  48.46870\u0022  48.46870, 5\u00B0 51\u0027  32.32872\u0022 W<br>ED50: 42.5145963027778, -5.85756593333333<br>42\u00B0 30\u0027  52.54669\u0022 N, 5\u00B0 51\u0027  27.23736\u0022 W").addTo(club162);
+var popup26 = L.marker([42.5930796944444, -5.58845111944444], {icon: orangeIcon}, {title: "TEODORO Y EMILIO",draggable:true,opacity:1}).bindPopup("<b>ID: 26,73</b>, CLUB: 162, PROVINCIA: LEON<br>PALOMAR: TEODORO Y EMILIO<br>UTM: X=287626.53, Y=4718876.44, HUSO: 30<br>ETRS89: 42.5930796944444,-5.58845111944444<br>42\u00B0 35\u0027  35.08690\u0022  35.08690, 5\u00B0 35\u0027  18.42403\u0022 W<br>ED50: 42.5942064805556, -5.58704700833333<br>42\u00B0 35\u0027  39.14333\u0022 N, 5\u00B0 35\u0027  13.36923\u0022 W").addTo(club162);
+var popup27 = L.marker([42.6177513111111, -5.53767462777778], {icon: redIcon}, {title: "ANTONIO RODRIGUEZ GONZALEZ",draggable:true,opacity:1}).bindPopup("<b>ID: 27</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: ANTONIO RODRIGUEZ GONZALEZ<br>UTM: X=291875, Y=4721490, HUSO: 30<br>ETRS89: 42.6177513111111,-5.53767462777778<br>42\u00B0 37\u0027  3.90472\u0022  3.90472, 5\u00B0 32\u0027  15.62866\u0022 W<br>ED50: 42.6188762805556, -5.53627199444444<br>42\u00B0 37\u0027  7.95461\u0022 N, 5\u00B0 32\u0027  10.57918\u0022 W").addTo(club163);
+var popup28 = L.marker([42.8085418027778, -5.50821256944445], {icon: redIcon}, {title: "TANDEM FERNANDO Y  DAVID",draggable:true,opacity:1}).bindPopup("<b>ID: 28,71</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: TANDEM FERNANDO Y  DAVID<br>UTM: X=294921, Y=4742605.45, HUSO: 30<br>ETRS89: 42.8085418027778,-5.50821256944445<br>42\u00B0 48\u0027  30.75049\u0022  30.75049, 5\u00B0 30\u0027  29.56525\u0022 W<br>ED50: 42.8096566555556, -5.50680978611111<br>42\u00B0 48\u0027  34.76396\u0022 N, 5\u00B0 30\u0027  24.51523\u0022 W").addTo(club163);
+var popup30 = L.marker([42.6263255944444, -5.60891903888889], {icon: orangeIcon}, {title: "JOSE M. ALONSO LLAMAZARES",draggable:true,opacity:1}).bindPopup("<b>ID: 30</b>, CLUB: 162, PROVINCIA: LEON<br>PALOMAR: JOSE M. ALONSO LLAMAZARES<br>UTM: X=286061, Y=4722620, HUSO: 30<br>ETRS89: 42.6263255944444,-5.60891903888889<br>42\u00B0 37\u0027  34.77214\u0022  34.77214, 5\u00B0 36\u0027  32.10854\u0022 W<br>ED50: 42.62745105, -5.60751384166667<br>42\u00B0 37\u0027  38.82378\u0022 N, 5\u00B0 36\u0027  27.04983\u0022 W").addTo(club162);
+var popup31 = L.marker([42.8042940138889, -5.62808100833333], {icon: redIcon}, {title: "RICARDO SAHELICES GUTIERREZ",draggable:true,opacity:1}).bindPopup("<b>ID: 31</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: RICARDO SAHELICES GUTIERREZ<br>UTM: X=285104.96, Y=4742432.46, HUSO: 30<br>ETRS89: 42.8042940138889,-5.62808100833333<br>42\u00B0 48\u0027  15.45845\u0022  15.45845, 5\u00B0 37\u0027  41.09163\u0022 W<br>ED50: 42.8054100416667, -5.62667389166667<br>42\u00B0 48\u0027  19.47615\u0022 N, 5\u00B0 37\u0027  36.02601\u0022 W").addTo(club163);
+var popup32 = L.marker([42.5357561444444, -5.44597494444445], {icon: redIcon}, {title: "TANDEM RAMOS Y LEO",draggable:true,opacity:1}).bindPopup("<b>ID: 32,39</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: TANDEM RAMOS Y LEO<br>UTM: X=299132.9, Y=4712162.92, HUSO: 30<br>ETRS89: 42.5357561444444,-5.44597494444445<br>42\u00B0 32\u0027  8.72212\u0022  8.72212, 5\u00B0 26\u0027  45.50980\u0022 W<br>ED50: 42.5368836083333, -5.44457559444444<br>42\u00B0 32\u0027  12.78099\u0022 N, 5\u00B0 26\u0027  40.47214\u0022 W").addTo(club163);
+var popup33 = L.marker([42.5471450777778, -5.64348638888889], {icon: redIcon}, {title: "JESUS R. GARCIA GARCIA",draggable:true,opacity:1}).bindPopup("<b>ID: 33</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: JESUS R. GARCIA GARCIA<br>UTM: X=282951.48, Y=4713915.03, HUSO: 30<br>ETRS89: 42.5471450777778,-5.64348638888889<br>42\u00B0 32\u0027  49.72228\u0022  49.72228, 5\u00B0 38\u0027  36.55100\u0022 W<br>ED50: 42.5482746472222, -5.64208081388889<br>42\u00B0 32\u0027  53.78873\u0022 N, 5\u00B0 38\u0027  31.49093\u0022 W").addTo(club163);
+var popup34 = L.marker([42.7902082083333, -5.50542356666667], {icon: redIcon}, {title: "JUAN CARLO GUTIERREZ RODRIGUEZ",draggable:true,opacity:1}).bindPopup("<b>ID: 34</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: JUAN CARLO GUTIERREZ RODRIGUEZ<br>UTM: X=295088.52, Y=4740562.67, HUSO: 30<br>ETRS89: 42.7902082083333,-5.50542356666667<br>42\u00B0 47\u0027  24.74955\u0022  24.74955, 5\u00B0 30\u0027  19.52484\u0022 W<br>ED50: 42.7913240722222, -5.50402095555556<br>42\u00B0 47\u0027  28.76666\u0022 N, 5\u00B0 30\u0027  14.47544\u0022 W").addTo(club163);
+var popup37 = L.marker([41.7499672138889, -6.35342213888889], {icon: blueIcon}, {title: "DANIEL F. MARTINS FALCAO SEBAS",draggable:true,opacity:1}).bindPopup("<b>ID: 37</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: DANIEL F. MARTINS FALCAO SEBAS<br>UTM: X=221174.74, Y=4627452.59, HUSO: 30<br>ETRS89: 41.7499672138889,-6.35342213888889<br>41\u00B0 44\u0027  59.88197\u0022  59.88197, 6\u00B0 21\u0027  12.31970\u0022 W<br>ED50: 41.751134125, -6.35200400555556<br>41\u00B0 45\u0027  4.08285\u0022 N, 6\u00B0 21\u0027  7.21442\u0022 W").addTo(club164);
+var popup38 = L.marker([42.6157179583333, -6.41702901111111], {icon: orangeIcon}, {title: "GUSTAVO VILORIA",draggable:true,opacity:1}).bindPopup("<b>ID: 38</b>, CLUB: 162, PROVINCIA: LEON<br>PALOMAR: GUSTAVO VILORIA<br>UTM: X=219740.17, Y=4723804.31, HUSO: 30<br>ETRS89: 42.6157179583333,-6.41702901111111<br>42\u00B0 36\u0027  56.58465\u0022  56.58465, 6\u00B0 25\u0027  1.30444\u0022 W<br>ED50: 42.6168532305556, -6.415590125<br>42\u00B0 37\u0027  0.67163\u0022 N, 6\u00B0 24\u0027  56.12445\u0022 W").addTo(club162);
+var popup40 = L.marker([42.5930133138889, -5.58845568333333], {icon: redIcon}, {title: "MIGUEL A. CASADO ALONSO",draggable:true,opacity:1}).bindPopup("<b>ID: 40</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: MIGUEL A. CASADO ALONSO<br>UTM: X=287625.93, Y=4718869.08, HUSO: 30<br>ETRS89: 42.5930133138889,-5.58845568333333<br>42\u00B0 35\u0027  34.84793\u0022  34.84793, 5\u00B0 35\u0027  18.44046\u0022 W<br>ED50: 42.5941401055556, -5.58705157222222<br>42\u00B0 35\u0027  38.90438\u0022 N, 5\u00B0 35\u0027  13.38566\u0022 W").addTo(club163);
+var popup41 = L.marker([42.3257737777778, -6.02167138888889], {icon: redIcon}, {title: "ALBERTO SIMON ABAJO",draggable:true,opacity:1}).bindPopup("<b>ID: 41</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: ALBERTO SIMON ABAJO<br>UTM: X=251021.88, Y=4690370.43, HUSO: 30<br>ETRS89: 42.3257737777778,-6.02167138888889<br>42\u00B0 19\u0027  32.78560\u0022  32.78560, 6\u00B0 1\u0027  18.01700\u0022 W<br>ED50: 42.3269164444445, -6.02025293888889<br>42\u00B0 19\u0027  36.89920\u0022 N, 6\u00B0 1\u0027  12.91058\u0022 W").addTo(club163);
+var popup43 = L.marker([42.7701668, -5.33224958611111], {icon: redIcon}, {title: "IGNACIO LUENGO FERNANDEZ",draggable:true,opacity:1}).bindPopup("<b>ID: 43</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: IGNACIO LUENGO FERNANDEZ<br>UTM: X=309191, Y=4737930.6, HUSO: 30<br>ETRS89: 42.7701668,-5.33224958611111<br>42\u00B0 46\u0027  12.60048\u0022  12.60048, 5\u00B0 19\u0027  56.09851\u0022 W<br>ED50: 42.7712830444444, -5.330853425<br>42\u00B0 46\u0027  16.61896\u0022 N, 5\u00B0 19\u0027  51.07233\u0022 W").addTo(club163);
+var popup45 = L.marker([41.5082889805556, -5.79032604722222], {icon: blueIcon}, {title: "CARLOS Y MERCEDES",draggable:true,opacity:1}).bindPopup("<b>ID: 45,46</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: CARLOS Y MERCEDES<br>UTM: X=267130, Y=4598944, HUSO: 30<br>ETRS89: 41.5082889805556,-5.79032604722222<br>41\u00B0 30\u0027  29.84033\u0022  29.84033, 5\u00B0 47\u0027  25.17377\u0022 W<br>ED50: 41.5094554555556, -5.78893525555556<br>41\u00B0 30\u0027  34.03964\u0022 N, 5\u00B0 47\u0027  20.16692\u0022 W").addTo(club164);
+var popup48 = L.marker([41.7159321222222, -5.69157503888889], {icon: blueIcon}, {title: "JOSÉ HERNÁNDEZ MIGUEL",draggable:true,opacity:1}).bindPopup("<b>ID: 48</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: JOSÉ HERNÁNDEZ MIGUEL<br>UTM: X=276091.94, Y=4621738.35, HUSO: 30<br>ETRS89: 41.7159321222222,-5.69157503888889<br>41\u00B0 42\u0027  57.35564\u0022  57.35564, 5\u00B0 41\u0027  29.67014\u0022 W<br>ED50: 41.7170901861111, -5.69018343333333<br>41\u00B0 43\u0027  1.52467\u0022 N, 5\u00B0 41\u0027  24.66036\u0022 W").addTo(club164);
+var popup49 = L.marker([41.728237375, -4.70012243888889], {icon: violetIcon}, {title: "JOSE LUIS GUTIERREZ CONDE",draggable:true,opacity:1}).bindPopup("<b>ID: 49</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: JOSE LUIS GUTIERREZ CONDE<br>UTM: X=358600, Y=4621000, HUSO: 30<br>ETRS89: 41.728237375,-4.70012243888889<br>41\u00B0 43\u0027  41.65455\u0022  41.65455, 4\u00B0 42\u0027  0.44078\u0022 W<br>ED50: 41.7293845083333, -4.69877251666667<br>41\u00B0 43\u0027  45.78423\u0022 N, 4\u00B0 41\u0027  55.58106\u0022 W").addTo(club160);
+var popup51 = L.marker([41.4320098333333, -4.66573926944445], {icon: violetIcon}, {title: "CARLOS RODIL",draggable:true,opacity:1}).bindPopup("<b>ID: 51</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: CARLOS RODIL<br>UTM: X=360825, Y=4588055, HUSO: 30<br>ETRS89: 41.4320098333333,-4.66573926944445<br>41\u00B0 25\u0027  55.23540\u0022  55.23540, 4\u00B0 39\u0027  56.66137\u0022 W<br>ED50: 41.4331679444444, -4.66439125555556<br>41\u00B0 25\u0027  59.40460\u0022 N, 4\u00B0 39\u0027  51.80852\u0022 W").addTo(club160);
+var popup52 = L.marker([41.5608333305556, -4.71527798611111], {icon: violetIcon}, {title: "ANDRES BERNAL",draggable:true,opacity:1}).bindPopup("<b>ID: 52</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: ANDRES BERNAL<br>UTM: X=356969.6, Y=4602438.5, HUSO: 30<br>ETRS89: 41.5608333305556,-4.71527798611111<br>41\u00B0 33\u0027  38.99999\u0022  38.99999, 4\u00B0 42\u0027  55.00075\u0022 W<br>ED50: 41.5619859972222, -4.71392781944445<br>41\u00B0 33\u0027  43.14959\u0022 N, 4\u00B0 42\u0027  50.14015\u0022 W").addTo(club160);
+var popup54 = L.marker([41.6776204, -4.73275338333333], {icon: violetIcon}, {title: "FAMILIA MIRANDA",draggable:true,opacity:1}).bindPopup("<b>ID: 54</b>, CLUB: 160, PROVINCIA: VALLADOLID<br>PALOMAR: FAMILIA MIRANDA<br>UTM: X=355772.87, Y=4615434.18, HUSO: 30<br>ETRS89: 41.6776204,-4.73275338333333<br>41\u00B0 40\u0027  39.43344\u0022  39.43344, 4\u00B0 43\u0027  57.91218\u0022 W<br>ED50: 41.6787694805556, -4.73140236111111<br>41\u00B0 40\u0027  43.57013\u0022 N, 4\u00B0 43\u0027  53.04850\u0022 W").addTo(club160);
+var popup56 = L.marker([42.0807938861111, -4.78121163611111], {icon: violetIcon}, {title: "FILIBERTO ANTOLIN",draggable:true,opacity:1}).bindPopup("<b>ID: 56</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: FILIBERTO ANTOLIN<br>UTM: X=352668.58, Y=4660281.79, HUSO: 30<br>ETRS89: 42.0807938861111,-4.78121163611111<br>42\u00B0 4\u0027  50.85799\u0022  50.85799, 4\u00B0 46\u0027  52.36189\u0022 W<br>ED50: 42.081928325, -4.77984985555556<br>42\u00B0 4\u0027  54.94197\u0022 N, 4\u00B0 46\u0027  47.45948\u0022 W").addTo(club160);
+var popup57 = L.marker([42.2246625583333, -3.84718253611111], {icon: violetIcon}, {title: "FCO JAVIER MIGUEZ MERINO",draggable:true,opacity:1}).bindPopup("<b>ID: 57</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: FCO JAVIER MIGUEZ MERINO<br>UTM: X=430085.44, Y=4675068.12, HUSO: 30<br>ETRS89: 42.2246625583333,-3.84718253611111<br>42\u00B0 13\u0027  28.78521\u0022  28.78521, 3\u00B0 50\u0027  49.85713\u0022 W<br>ED50: 42.2257890222222, -3.84585288055556<br>42\u00B0 13\u0027  32.84048\u0022 N, 3\u00B0 50\u0027  45.07037\u0022 W").addTo(club160);
+var popup58 = L.marker([43.0123702166667, -3.51672630833333], {icon: violetIcon}, {title: "JAVIER LOPEZ REVUELTA",draggable:true,opacity:1}).bindPopup("<b>ID: 58</b>, CLUB: 160, PROVINCIA: BURGOS<br>PALOMAR: JAVIER LOPEZ REVUELTA<br>UTM: X=457890.9, Y=4762318.02, HUSO: 30<br>ETRS89: 43.0123702166667,-3.51672630833333<br>43\u00B0 0\u0027  44.53278\u0022  44.53278, 3\u00B0 31\u0027  0.21471\u0022 W<br>ED50: 43.0134704916667, -3.51540430555556<br>43\u00B0 0\u0027  48.49377\u0022 N, 3\u00B0 30\u0027  55.45550\u0022 W").addTo(club160);
+var popup59 = L.marker([41.5688626833333, -5.44285210277778], {icon: blueIcon}, {title: "ÁNGEL GONZÁLEZ PÉREZ",draggable:true,opacity:1}).bindPopup("<b>ID: 59</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: ÁNGEL GONZÁLEZ PÉREZ<br>UTM: X=296321.44, Y=4604791.28, HUSO: 30<br>ETRS89: 41.5688626833333,-5.44285210277778<br>41\u00B0 34\u0027  7.90566\u0022  7.90566, 5\u00B0 26\u0027  34.26757\u0022 W<br>ED50: 41.5700231444445, -5.44147076388889<br>41\u00B0 34\u0027  12.08332\u0022 N, 5\u00B0 26\u0027  29.29475\u0022 W").addTo(club164);
+var popup60 = L.marker([41.7400590944444, -6.27778585833333], {icon: blueIcon}, {title: "TANDEM MANOLIN&GENO",draggable:true,opacity:1}).bindPopup("<b>ID: 60</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: TANDEM MANOLIN&GENO<br>UTM: X=227422.47, Y=4626109.71, HUSO: 30<br>ETRS89: 41.7400590944444,-6.27778585833333<br>41\u00B0 44\u0027  24.21274\u0022  24.21274, 6\u00B0 16\u0027  40.02909\u0022 W<br>ED50: 41.7412253583333, -6.27636993055556<br>41\u00B0 44\u0027  28.41129\u0022 N, 6\u00B0 16\u0027  34.93175\u0022 W").addTo(club164);
+var popup61 = L.marker([41.60689115, -4.678583275], {icon: violetIcon}, {title: "SANTIAGO REVUELTA",draggable:true,opacity:1}).bindPopup("<b>ID: 61</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: SANTIAGO REVUELTA<br>UTM: X=360129, Y=4607492, HUSO: 30<br>ETRS89: 41.60689115,-4.678583275<br>41\u00B0 36\u0027  24.80814\u0022  24.80814, 4\u00B0 40\u0027  42.89979\u0022 W<br>ED50: 41.6080419388889, -4.6772349<br>41\u00B0 36\u0027  28.95098\u0022 N, 4\u00B0 40\u0027  38.04564\u0022 W").addTo(club160);
+var popup62 = L.marker([41.9896810222222, -5.67546994722222], {icon: blueIcon}, {title: "ÁLVARO ARIAS SAN MAURO",draggable:true,opacity:1}).bindPopup("<b>ID: 62</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: ÁLVARO ARIAS SAN MAURO<br>UTM: X=278379.56, Y=4652093.49, HUSO: 30<br>ETRS89: 41.9896810222222,-5.67546994722222<br>41\u00B0 59\u0027  22.85168\u0022  22.85168, 5\u00B0 40\u0027  31.69181\u0022 W<br>ED50: 41.9908318583333, -5.67407416944444<br>41\u00B0 59\u0027  26.99469\u0022 N, 5\u00B0 40\u0027  26.66701\u0022 W").addTo(club164);
+var popup64 = L.marker([41.7603194222222, -4.70220556111111], {icon: violetIcon}, {title: "MIGUEL LOPEZ",draggable:true,opacity:1}).bindPopup("<b>ID: 64</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: MIGUEL LOPEZ<br>UTM: X=358497.22, Y=4624565.48, HUSO: 30<br>ETRS89: 41.7603194222222,-4.70220556111111<br>41\u00B0 45\u0027  37.14992\u0022  37.14992, 4\u00B0 42\u0027  7.94002\u0022 W<br>ED50: 41.7614652805556, -4.70085524166667<br>41\u00B0 45\u0027  41.27501\u0022 N, 4\u00B0 42\u0027  3.07887\u0022 W").addTo(club160);
+var popup65 = L.marker([40.8553009194444, -5.65132536388889], {icon: greenIcon}, {title: "TANDEM HNOS. ARMENTEROS",draggable:true,opacity:1}).bindPopup("<b>ID: 65</b>, CLUB: 165, PROVINCIA: SALAMANCA<br>PALOMAR: TANDEM HNOS. ARMENTEROS<br>UTM: X=276520.89, Y=4526078, HUSO: 30<br>ETRS89: 40.8553009194444,-5.65132536388889<br>40\u00B0 51\u0027  19.08331\u0022  19.08331, 5\u00B0 39\u0027  4.77131\u0022 W<br>ED50: 40.8564850861111, -5.64995228888889<br>40\u00B0 51\u0027  23.34631\u0022 N, 5\u00B0 38\u0027  59.82824\u0022 W").addTo(club165);
+var popup66 = L.marker([41.3839444694444, -5.85768179444444], {icon: blueIcon}, {title: "JESÚS Á. RAMOS RIVERA",draggable:true,opacity:1}).bindPopup("<b>ID: 66</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: JESÚS Á. RAMOS RIVERA<br>UTM: X=261051.99, Y=4585321.14, HUSO: 30<br>ETRS89: 41.3839444694444,-5.85768179444444<br>41\u00B0 23\u0027  2.20009\u0022  2.20009, 5\u00B0 51\u0027  27.65446\u0022 W<br>ED50: 41.3851157166667, -5.856292125<br>41\u00B0 23\u0027  6.41658\u0022 N, 5\u00B0 51\u0027  22.65165\u0022 W").addTo(club164);
+var popup67 = L.marker([40.3790703, -6.75350961944444], {icon: yellowIcon}, {title: "CRISTIAN LANCHAS LANCHAS",draggable:true,opacity:1}).bindPopup("<b>ID: 67</b>, CLUB: 161, PROVINCIA: SALAMANCA<br>PALOMAR: CRISTIAN LANCHAS LANCHAS<br>UTM: X=181343.27, Y=4476598.99, HUSO: 30<br>ETRS89: 40.3790703,-6.75350961944444<br>40\u00B0 22\u0027  44.65308\u0022  44.65308, 6\u00B0 45\u0027  12.63463\u0022 W<br>ED50: 40.3802839444444, -6.75213119722222<br>40\u00B0 22\u0027  49.02220\u0022 N, 6\u00B0 45\u0027  7.67231\u0022 W").addTo(club161);
+var popup68 = L.marker([41.6032163888889, -4.56599040277778], {icon: violetIcon}, {title: "JOSE ANT. SANCHEZ ALONSO",draggable:true,opacity:1}).bindPopup("<b>ID: 68</b>, CLUB: 160, PROVINCIA: <br>PALOMAR: JOSE ANT. SANCHEZ ALONSO<br>UTM: X=369503.89, Y=4606907.56, HUSO: 30<br>ETRS89: 41.6032163888889,-4.56599040277778<br>41\u00B0 36\u0027  11.57900\u0022  11.57900, 4\u00B0 33\u0027  57.56545\u0022 W<br>ED50: 41.6043667944444, -4.56464758888889<br>41\u00B0 36\u0027  15.72046\u0022 N, 4\u00B0 33\u0027  52.73132\u0022 W").addTo(club160);
+var popup72 = L.marker([42.8402096833333, -5.50681273611111], {icon: redIcon}, {title: "DAVID CASTRO CASTRO",draggable:true,opacity:1}).bindPopup("<b>ID: 72</b>, CLUB: 163, PROVINCIA: LEON<br>PALOMAR: DAVID CASTRO CASTRO<br>UTM: X=295140.12, Y=4746118.86, HUSO: 30<br>ETRS89: 42.8402096833333,-5.50681273611111<br>42\u00B0 50\u0027  24.75486\u0022  24.75486, 5\u00B0 30\u0027  24.52585\u0022 W<br>ED50: 42.8413227527778, -5.50540985555556<br>42\u00B0 50\u0027  28.76191\u0022 N, 5\u00B0 30\u0027  19.47548\u0022 W").addTo(club163);
+var popup76 = L.marker([42.2027776416667, -4.39472266666667], {icon: violetIcon}, {title: "JESUS MANRIQUE GONZALEZ",draggable:true,opacity:1}).bindPopup("<b>ID: 76</b>, CLUB: 160, PROVINCIA: PALENCIA<br>PALOMAR: JESUS MANRIQUE GONZALEZ<br>UTM: X=384858.7, Y=4673232.3, HUSO: 30<br>ETRS89: 42.2027776416667,-4.39472266666667<br>42\u00B0 12\u0027  9.99951\u0022  9.99951, 4\u00B0 23\u0027  41.00160\u0022 W<br>ED50: 42.2039056527778, -4.39337319722222<br>42\u00B0 12\u0027  14.06035\u0022 N, 4\u00B0 23\u0027  36.14351\u0022 W").addTo(club160);
+var popup78 = L.marker([41.5690893805556, -5.442750075], {icon: blueIcon}, {title: "SERGIO GONZÁLEZ DEL CAMPO",draggable:true,opacity:1}).bindPopup("<b>ID: 78</b>, CLUB: 164, PROVINCIA: ZAMORA<br>PALOMAR: SERGIO GONZÁLEZ DEL CAMPO<br>UTM: X=296330.66, Y=4604816.21, HUSO: 30<br>ETRS89: 41.5690893805556,-5.442750075<br>41\u00B0 34\u0027  8.72177\u0022  8.72177, 5\u00B0 26\u0027  33.90027\u0022 W<br>ED50: 41.5702498333333, -5.44136873611111<br>41\u00B0 34\u0027  12.89940\u0022 N, 5\u00B0 26\u0027  28.92745\u0022 W").addTo(club164);
+
+
+		</script>
+
+</body>
+</html>
