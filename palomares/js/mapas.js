@@ -5,6 +5,7 @@ var arrCentrosProv=[];
 var arrPalomares=[];
 var arrSocios=[];
 var arrAllSocios=[];
+var arrAllClubes=[];
 var arrSueltas=[];
 var arrPSuelta=[];
 var layerLE;
@@ -99,8 +100,7 @@ function Procesa() {
 			var req1 = $.getJSON('data/palomares.txt', function(datosPalomares){
 				req1.done(function(response1){
 					for (var j=0; j<datosPalomares.length; j++){
-						var nuevo1 = {anio:datosPalomares[j].anio,latgr:datosPalomares[j].latgr,longr:datosPalomares[j].longr,
-						codprov:datosPalomares[j].codprov,provclub:datosPalomares[j].provclub,numclub:datosPalomares[j].numclub,nomclub:datosPalomares[j].nomclub,socio:datosPalomares[j].socio,loc:datosPalomares[j].loc,prov:datosPalomares[j].prov,utmx:datosPalomares[j].utmx,utmy:datosPalomares[j].utmy,huso:datosPalomares[j].huso,utmx2:datosPalomares[j].utmx2,utmy2:datosPalomares[j].utmy2,huso2:datosPalomares[j].huso2,activo:datosPalomares[j].activo}
+						var nuevo1 = {anio:datosPalomares[j].anio,latgr:datosPalomares[j].latgr,longr:datosPalomares[j].longr,codprov:datosPalomares[j].codprov,provclub:datosPalomares[j].provclub,codclub:datosPalomares[j].codclub,nomclub:datosPalomares[j].nomclub,socio:datosPalomares[j].socio,loc:datosPalomares[j].loc,codloc:datosPalomares[j].codloc,prov:datosPalomares[j].prov,utmx:datosPalomares[j].utmx,utmy:datosPalomares[j].utmy,huso:datosPalomares[j].huso,utmx2:datosPalomares[j].utmx2,utmy2:datosPalomares[j].utmy2,huso2:datosPalomares[j].huso2,activo:datosPalomares[j].activo}
 						arrPalomares.push(nuevo1);
 					}
 					var req2 = $.getJSON('data/sueltas.txt', function(datosSueltas){
@@ -333,12 +333,12 @@ function CargarClubes(anio, codProvincia){
 		if ((arrPalomares[i].activo==true)&&(arrPalomares[i].codprov==codProvincia)&&(arrPalomares[i].anio==anio)){
 			var encontrado=false;
 			for (var j=0; j<arrClubes.length; j++){
-				if (arrClubes[j].numclub==arrPalomares[i].numclub){
+				if (arrClubes[j].codclub==arrPalomares[i].codclub){
 					encontrado=true;
 				}
 			}
 			if (!encontrado){
-				var nuevo={numclub:arrPalomares[i].numclub,nomclub:arrPalomares[i].nomclub};
+				var nuevo={codclub:arrPalomares[i].codclub,nomclub:arrPalomares[i].nomclub};
 				arrClubes.push(nuevo);
 			}
 		}
@@ -352,9 +352,9 @@ function CargarClubes(anio, codProvincia){
 	miSelect.appendChild(aTag);
 	for (var i=0; i<arrClubes.length; i++){
 		aTag = document.createElement('option');
-		aTag.value = arrClubes[i].numclub;
+		aTag.value = arrClubes[i].codclub;
 		aTag.text = arrClubes[i].nomclub;
-		//aTag.setAttribute('club',arrClubes[i].numclub);
+		//aTag.setAttribute('club',arrClubes[i].codclub);
 		//aTag.innerHTML = arrClubes[i].nomclub;
 		miSelect.appendChild(aTag);
 	}
@@ -374,13 +374,13 @@ function CargarSocios(anio, codProv, codClub){
 	for (var i=0; i<arrPalomares.length; i++){
 		if (codClub == 999){
 			if ((arrPalomares[i].activo==true)&&(arrPalomares[i].codprov==codProv)&&(arrPalomares[i].anio==anio)){
-				var nuevo={codsocio:i,socio:'('+arrPalomares[i].numclub+') '+arrPalomares[i].socio,latgr:arrPalomares[i].latgr,longr:arrPalomares[i].longr,codprov:arrPalomares[i].codprov,provclub:arrPalomares[i].provclub,numclub:arrPalomares[i].numclub,nomclub:arrPalomares[i].nomclub,socio:arrPalomares[i].socio,loc:arrPalomares[i].loc,prov:arrPalomares[i].prov,utmx:arrPalomares[i].utmx,utmy:arrPalomares[i].utmy,huso:arrPalomares[i].huso};
+				var nuevo={codsocio:i,socio:'('+arrPalomares[i].codclub+') '+arrPalomares[i].socio,latgr:arrPalomares[i].latgr,longr:arrPalomares[i].longr,codprov:arrPalomares[i].codprov,provclub:arrPalomares[i].provclub,codclub:arrPalomares[i].codclub,nomclub:arrPalomares[i].nomclub,socio:arrPalomares[i].socio,loc:arrPalomares[i].loc,prov:arrPalomares[i].prov,utmx:arrPalomares[i].utmx,utmy:arrPalomares[i].utmy,huso:arrPalomares[i].huso};
 				arrSocios.push(nuevo);
 			}
 		}
 		else{
-			if ((arrPalomares[i].activo==true)&&(arrPalomares[i].codprov==codProv)&&(arrPalomares[i].anio==anio)&&(arrPalomares[i].numclub==codClub)){
-				var nuevo={codsocio:i,socio:'('+arrPalomares[i].numclub+') '+arrPalomares[i].socio,latgr:arrPalomares[i].latgr,longr:arrPalomares[i].longr,codprov:arrPalomares[i].codprov,provclub:arrPalomares[i].provclub,numclub:arrPalomares[i].numclub,nomclub:arrPalomares[i].nomclub,socio:arrPalomares[i].socio,loc:arrPalomares[i].loc,prov:arrPalomares[i].prov,utmx:arrPalomares[i].utmx,utmy:arrPalomares[i].utmy,huso:arrPalomares[i].huso};
+			if ((arrPalomares[i].activo==true)&&(arrPalomares[i].codprov==codProv)&&(arrPalomares[i].anio==anio)&&(arrPalomares[i].codclub==codClub)){
+				var nuevo={codsocio:i,socio:'('+arrPalomares[i].codclub+') '+arrPalomares[i].socio,latgr:arrPalomares[i].latgr,longr:arrPalomares[i].longr,codprov:arrPalomares[i].codprov,provclub:arrPalomares[i].provclub,codclub:arrPalomares[i].codclub,nomclub:arrPalomares[i].nomclub,socio:arrPalomares[i].socio,loc:arrPalomares[i].loc,prov:arrPalomares[i].prov,utmx:arrPalomares[i].utmx,utmy:arrPalomares[i].utmy,huso:arrPalomares[i].huso};
 				arrSocios.push(nuevo);
 			}
 		}
@@ -396,7 +396,7 @@ function CargarSocios(anio, codProv, codClub){
 		aTag = document.createElement('option');
 		aTag.value = arrSocios[i].codsocio;
 		if (codClub == 999){
-			aTag.text = "(" + arrSocios[i].numclub + ") "+ arrSocios[i].socio;
+			aTag.text = "(" + arrSocios[i].codclub + ") "+ arrSocios[i].socio;
 		}
 		else{
 			aTag.text = arrSocios[i].socio;
@@ -424,7 +424,7 @@ function CentraSocio(codSocio, codProv){
 
 function CargarPalomar(socio){
 	var color;
-	switch(arrPalomares[socio].numclub){
+	switch(arrPalomares[socio].codclub){
 		case 160: //Castilla
 			color=violetIcon;
 			break;
@@ -455,7 +455,7 @@ function CargarPalomar(socio){
 	}else{
 		var txtUTM = "UTM: X="+round(arrPalomares[socio].utmx.replace(",","."))+", Y="+round(arrPalomares[socio].utmy.replace(",","."))+", HUSO: "+arrPalomares[socio].huso+"<br>UTM: X="+round(arrPalomares[socio].utmx2.replace(",","."))+", Y="+round(arrPalomares[socio].utmy2.replace(",","."))+", HUSO: "+arrPalomares[socio].huso2;
 		}
-	var marker = new L.marker([arrPalomares[socio].latgr.replace(",","."),arrPalomares[socio].longr.replace(",",".")], {icon: color}, {title: arrPalomares[socio].socio,draggable:true,opacity:1}).bindPopup("CLUB: "+arrPalomares[socio].numclub+" - "+arrPalomares[socio].nomclub+" ("+arrPalomares[socio].provclub+")<br>PALOMAR: "+arrPalomares[socio].socio+"<br>LOCALIDAD: "+arrPalomares[socio].loc+" ("+arrPalomares[socio].prov+")<br><br>"+txtUTM+"<br>GEO: LAT="+parseFloat(arrPalomares[socio].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrPalomares[socio].longr.replace(",",".")).toFixed(12)+"<br>GEO: LAT="+DegToDMS(arrPalomares[socio].latgr,5)+", LON="+DegToDMS(arrPalomares[socio].longr,5));
+	var marker = new L.marker([arrPalomares[socio].latgr.replace(",","."),arrPalomares[socio].longr.replace(",",".")], {icon: color}, {title: arrPalomares[socio].socio,draggable:true,opacity:1}).bindPopup("CLUB: "+arrPalomares[socio].codclub+" - "+arrPalomares[socio].nomclub+" ("+arrPalomares[socio].provclub+")<br>PALOMAR: "+arrPalomares[socio].socio+"<br>LOCALIDAD: "+arrPalomares[socio].loc+" ("+arrPalomares[socio].prov+")<br><br>"+txtUTM+"<br>GEO: LAT="+parseFloat(arrPalomares[socio].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrPalomares[socio].longr.replace(",",".")).toFixed(12)+"<br>GEO: LAT="+DegToDMS(arrPalomares[socio].latgr,5)+", LON="+DegToDMS(arrPalomares[socio].longr,5));
 	map.addLayer(marker);
 	//arrMarkers[marker._leaflet_id] = marker;
 	arrMarkers.push(marker);
@@ -638,20 +638,20 @@ function TrataPuntoSuelta(anio, codProv, codClub, psuelta){
 }
 
 function CalcularDistancia(anio, codProv, codClub, nsocio, psuelta){
-	var distanciaPitagoras = $('#sortPitagoras').DataTable();
+	var distanciaEuclides = $('#sortEuclides').DataTable();
 	var distanciaHaversine = $('#sortHaversine').DataTable();
-	$('#datosdistancia_pitagoras').empty();
+	$('#datosdistancia_euclides').empty();
 	$('#datosdistancia_haversine').empty();
-	$('#title_table_Pitagoras').empty();
+	$('#title_table_Euclides').empty();
 	$('#title_table_Haversine').empty();
-	distanciaPitagoras.clear();
+	distanciaEuclides.clear();
 	distanciaHaversine.clear();
 	switch(parseInt(psuelta)){
 		case -1:
 			break;
 		case 999:
 			if ((nsocio != 999) && (nsocio != -1)){ // 1 socio n puntos de suelta
-				AddTextPitagoras('Distancia desde el palomar de<br><b>'+arrPalomares[nsocio].socio+'</b><br>hasta ');
+				AddTextEuclides('Distancia desde el palomar de<br><b>'+arrPalomares[nsocio].socio+'</b><br>hasta ');
 				AddTextHaversine('Distancia desde el palomar de<br><b>'+arrPalomares[nsocio].socio+'</b><br>hasta ');
 				for (var i=0; i<arrPSuelta.length; i++){
 					var from = turf.point([arrPalomares[nsocio].latgr.replace(",","."), arrPalomares[nsocio].longr.replace(",",".")]);
@@ -666,18 +666,18 @@ function CalcularDistancia(anio, codProv, codClub, nsocio, psuelta){
 						weight: 5,
 						opacity: 0.5,
 						smoothFactor: 1
-					}).bindPopup('Distancia desde el palomar de<br><b>'+arrPalomares[nsocio].socio+'</b><br>hasta<br><b>'+arrPSuelta[i].suelta+' ('+arrPSuelta[i].provsuelta+'):</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Pitágoras</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
+					}).bindPopup('Distancia desde el palomar de<br><b>'+arrPalomares[nsocio].socio+'</b><br>hasta<br><b>'+arrPSuelta[i].suelta+' ('+arrPSuelta[i].provsuelta+'):</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Euclides</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
 					milinea.addTo(map);
 					polylines.push(milinea);
-					AddTextPitagoras('<b><a href="javascript:CentraPuntoSuelta('+arrPSuelta[i].codsuelta+', '+nsocio+');">'+arrPSuelta[i].suelta+' ('+arrPSuelta[i].provsuelta+'):</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
+					AddTextEuclides('<b><a href="javascript:CentraPuntoSuelta('+arrPSuelta[i].codsuelta+', '+nsocio+');">'+arrPSuelta[i].suelta+' ('+arrPSuelta[i].provsuelta+'):</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
 					AddTextHaversine('<b><a href="javascript:CentraPuntoSuelta('+arrPSuelta[i].codsuelta+', '+nsocio+');">'+arrPSuelta[i].suelta+' ('+arrPSuelta[i].provsuelta+'):</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
-					distanciaPitagoras.row.add([arrPSuelta[i].suelta+' ('+arrPSuelta[i].provsuelta+')', parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
+					distanciaEuclides.row.add([arrPSuelta[i].suelta+' ('+arrPSuelta[i].provsuelta+')', parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
 					distanciaHaversine.row.add([arrPSuelta[i].suelta+' ('+arrPSuelta[i].provsuelta+')', parseFloat(distance).toFixed(4), parseFloat(distance/1000).toFixed(4)]);
 				}
-				$("#title_table_Pitagoras").append('Distancias desde el palomar de '+arrPalomares[nsocio].socio+', año '+anio);
-				distanciaPitagoras.columns(0).header().to$().text('Suelta');
-				distanciaPitagoras.columns.adjust().draw();
-				//distanciaPitagoras.draw();
+				$("#title_table_Euclides").append('Distancias desde el palomar de '+arrPalomares[nsocio].socio+', año '+anio);
+				distanciaEuclides.columns(0).header().to$().text('Suelta');
+				distanciaEuclides.columns.adjust().draw();
+				//distanciaEuclides.draw();
 				$("#title_table_Haversine").append('Distancias desde el palomar de '+arrPalomares[nsocio].socio+', año '+anio);
 				distanciaHaversine.columns(0).header().to$().text('Suelta');
 				distanciaHaversine.columns.adjust().draw();
@@ -685,7 +685,7 @@ function CalcularDistancia(anio, codProv, codClub, nsocio, psuelta){
  			break;
 		default:
 			if ((nsocio == 999)&&(nsocio != -1)&&(psuelta != 888)){ // 1 punto de suelta n socios
-				AddTextPitagoras('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+'</b><br>hasta el palomar de');
+				AddTextEuclides('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+'</b><br>hasta el palomar de');
 				AddTextHaversine('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+'</b><br>hasta el palomar de');
 				for (var i=0; i<arrSocios.length; i++){
 					var from = turf.point([arrSueltas[psuelta].latgr.replace(",","."), arrSueltas[psuelta].longr.replace(",",".")]);
@@ -700,25 +700,25 @@ function CalcularDistancia(anio, codProv, codClub, nsocio, psuelta){
 						weight: 5,
 						opacity: 0.5,
 						smoothFactor: 1
-					}).bindPopup('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')</b><br>hasta el palomar de<br><b>'+arrSocios[i].socio+':</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Pitágoras</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
+					}).bindPopup('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')</b><br>hasta el palomar de<br><b>'+arrSocios[i].socio+':</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Euclides</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
 					milinea.addTo(map);
 					polylines.push(milinea);
-					AddTextPitagoras('<b><a href="javascript:CentraSocio('+arrSocios[i].codsocio+', '+codProv+');">'+arrSocios[i].socio+':</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
+					AddTextEuclides('<b><a href="javascript:CentraSocio('+arrSocios[i].codsocio+', '+codProv+');">'+arrSocios[i].socio+':</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
 					AddTextHaversine('<b><a href="javascript:CentraSocio('+arrSocios[i].codsocio+', '+codProv+');">'+arrSocios[i].socio+':</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
-					distanciaPitagoras.row.add([arrSocios[i].socio, parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
+					distanciaEuclides.row.add([arrSocios[i].socio, parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
 					distanciaHaversine.row.add([arrSocios[i].socio, parseFloat(distance).toFixed(4), parseFloat(distance/1000).toFixed(4)]);
 				}
-				$("#title_table_Pitagoras").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
-				distanciaPitagoras.columns(0).header().to$().text('Palomar');
-				distanciaPitagoras.columns.adjust().draw();
-				//distanciaPitagoras.draw();
+				$("#title_table_Euclides").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
+				distanciaEuclides.columns(0).header().to$().text('Palomar');
+				distanciaEuclides.columns.adjust().draw();
+				//distanciaEuclides.draw();
 				$("#title_table_Haversine").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
 				distanciaHaversine.columns(0).header().to$().text('Palomar');
 				distanciaHaversine.columns.adjust().draw();
 			}
 			else if ((nsocio == 999)&&(psuelta == 888)){ // 1 punto de suelta creado por el usuario n socios
-alert ("El cálculo de la distancia por Pitágoras desde un punto creado por el usuario no está implementado. Revise las distancias por Haversine");
-				AddTextPitagoras('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de');
+alert ("El cálculo de la distancia euclidiana desde un punto creado por el usuario no está implementado. Revise las distancias por Haversine");
+				AddTextEuclides('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de');
 				AddTextHaversine('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de');
 				for (var i=0; i<arrSocios.length; i++){
 					var from = turf.point([theMarker._latlng.lat, theMarker._latlng.lng]);
@@ -733,18 +733,18 @@ var distance_utm = 0//Math.sqrt(Math.pow(arrSueltas[psuelta].utmx.replace(",",".
 						weight: 5,
 						opacity: 0.5,
 						smoothFactor: 1
-					}).bindPopup('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de<br><b>'+arrSocios[i].socio+':</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Pitágoras</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
+					}).bindPopup('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de<br><b>'+arrSocios[i].socio+':</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Euclides</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
 					milinea.addTo(map);
 					polylines.push(milinea);
-					AddTextPitagoras('<b><a href="javascript:CentraSocio('+arrSocios[i].codsocio+', '+codProv+');">'+arrSocios[i].socio+':</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
+					AddTextEuclides('<b><a href="javascript:CentraSocio('+arrSocios[i].codsocio+', '+codProv+');">'+arrSocios[i].socio+':</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
 					AddTextHaversine('<b><a href="javascript:CentraSocio('+arrSocios[i].codsocio+', '+codProv+');">'+arrSocios[i].socio+':</a></b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
-					distanciaPitagoras.row.add([arrSocios[i].socio, parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
+					distanciaEuclides.row.add([arrSocios[i].socio, parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
 					distanciaHaversine.row.add([arrSocios[i].socio, parseFloat(distance).toFixed(4), parseFloat(distance/1000).toFixed(4)]);
 				}
-				$("#title_table_Pitagoras").append('Distancias desde Punto usuario, año '+anio);
-				distanciaPitagoras.columns(0).header().to$().text('Palomar');
-				distanciaPitagoras.columns.adjust().draw();
-				//distanciaPitagoras.draw();
+				$("#title_table_Euclides").append('Distancias desde Punto usuario, año '+anio);
+				distanciaEuclides.columns(0).header().to$().text('Palomar');
+				distanciaEuclides.columns.adjust().draw();
+				//distanciaEuclides.draw();
 				$("#title_table_Haversine").append('Distancias desde Punto usuario, año '+anio);
 				distanciaHaversine.columns(0).header().to$().text('Palomar');
 				distanciaHaversine.columns.adjust().draw();				
@@ -763,22 +763,22 @@ var distance_utm = 0//Math.sqrt(Math.pow(arrSueltas[psuelta].utmx.replace(",",".
 						weight: 5,
 						opacity: 0.5,
 						smoothFactor: 1
-					}).bindPopup('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Pitágoras:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
+					}).bindPopup('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Euclides:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
 					milinea.addTo(map);
 					polylines.push(milinea);
-					AddTextPitagoras('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
+					AddTextEuclides('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
 					AddTextHaversine('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
-					distanciaPitagoras.row.add([arrPalomares[nsocio].socio, parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
+					distanciaEuclides.row.add([arrPalomares[nsocio].socio, parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
 					distanciaHaversine.row.add([arrPalomares[nsocio].socio, parseFloat(distance).toFixed(4), parseFloat(distance/1000).toFixed(4)]);
-					$("#title_table_Pitagoras").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
-					distanciaPitagoras.columns(0).header().to$().text('Palomar');
-					distanciaPitagoras.columns.adjust().draw();
+					$("#title_table_Euclides").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
+					distanciaEuclides.columns(0).header().to$().text('Palomar');
+					distanciaEuclides.columns.adjust().draw();
 					$("#title_table_Haversine").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
 					distanciaHaversine.columns(0).header().to$().text('Palomar');
 					distanciaHaversine.columns.adjust().draw();
 				}
 				else { //punto de suelta creado por el usuario 1 socio
-alert ("El cálculo de la distancia por Pitágoras desde un punto creado por el usuario no está implementado. Revise las distancias por Haversine");
+alert ("El cálculo de la distancia euclidiana desde un punto creado por el usuario no está implementado. Revise las distancias por Haversine");
 					var from = turf.point([theMarker._latlng.lat, theMarker._latlng.lng]);
 					var to = turf.point([arrPalomares[nsocio].latgr.replace(",","."), arrPalomares[nsocio].longr.replace(",",".")]);
 					//var options = {units: 'metres'};
@@ -791,16 +791,16 @@ var distance_utm = 0; //Math.sqrt(Math.pow(arrSueltas[psuelta].utmx.replace(",",
 						weight: 5,
 						opacity: 0.5,
 						smoothFactor: 1
-					}).bindPopup('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Pitágoras:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
+					}).bindPopup('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><br><a href="https://es.wikipedia.org/wiki/Distancia_euclidiana" target="_blank">Euclides:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul><a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_del_semiverseno" target="_blank">Haversine:</a><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
 					milinea.addTo(map);
 					polylines.push(milinea);
-					AddTextPitagoras('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
+					AddTextEuclides('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance_utm).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance_utm/1000).toFixed(4)+'</b> km</li></ul>');
 					AddTextHaversine('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de<br><b>'+arrPalomares[nsocio].socio+':</b><br><ul style="list-style-position: inside;padding-left: 0;"><li><b>'+parseFloat(distance).toFixed(4)+'</b> metros</li><li><b>'+parseFloat(distance/1000).toFixed(4)+'</b> km</li></ul>');
-					distanciaPitagoras.row.add([arrPalomares[nsocio].socio, parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
+					distanciaEuclides.row.add([arrPalomares[nsocio].socio, parseFloat(distance_utm).toFixed(4), parseFloat(distance_utm/1000).toFixed(4)]);
 					distanciaHaversine.row.add([arrPalomares[nsocio].socio, parseFloat(distance).toFixed(4), parseFloat(distance/1000).toFixed(4)]);
-					$("#title_table_Pitagoras").append('Distancias desde Punto usuario, año '+anio);
-					distanciaPitagoras.columns(0).header().to$().text('Palomar');
-					distanciaPitagoras.columns.adjust().draw();
+					$("#title_table_Euclides").append('Distancias desde Punto usuario, año '+anio);
+					distanciaEuclides.columns(0).header().to$().text('Palomar');
+					distanciaEuclides.columns.adjust().draw();
 					$("#title_table_Haversine").append('Distancias desde Punto usuario, año '+anio);
 					distanciaHaversine.columns(0).header().to$().text('Palomar');
 					distanciaHaversine.columns.adjust().draw();
@@ -809,8 +809,8 @@ var distance_utm = 0; //Math.sqrt(Math.pow(arrSueltas[psuelta].utmx.replace(",",
 	}
 }
 
-function AddTextPitagoras(texto){
-	$('<p>' +texto+'</p>').appendTo('#datosdistancia_pitagoras');
+function AddTextEuclides(texto){
+	$('<p>' +texto+'</p>').appendTo('#datosdistancia_euclides');
 }
 function AddTextHaversine(texto){
 	$('<p>' +texto+'</p>').appendTo('#datosdistancia_haversine');
@@ -866,7 +866,7 @@ function CargarTodosSocios(anio){
 	arrAllSocios=[];
 	for (var i=0; i<arrPalomares.length; i++){
 		if ((arrPalomares[i].activo==true)&&(arrPalomares[i].anio==anio)){
-			var nuevo={codsocio:i,socio:'('+arrPalomares[i].numclub+') '+arrPalomares[i].socio,latgr:arrPalomares[i].latgr,longr:arrPalomares[i].longr,codprov:arrPalomares[i].codprov,provclub:arrPalomares[i].provclub,numclub:arrPalomares[i].numclub,nomclub:arrPalomares[i].nomclub,socio:arrPalomares[i].socio,loc:arrPalomares[i].loc,prov:arrPalomares[i].prov,utmx:arrPalomares[i].utmx,utmy:arrPalomares[i].utmy,huso:arrPalomares[i].huso};
+			var nuevo={codsocio:i,socio:'('+arrPalomares[i].codclub+') '+arrPalomares[i].socio,latgr:arrPalomares[i].latgr,longr:arrPalomares[i].longr,codprov:arrPalomares[i].codprov,provclub:arrPalomares[i].provclub,codclub:arrPalomares[i].codclub,nomclub:arrPalomares[i].nomclub,socio:arrPalomares[i].socio,loc:arrPalomares[i].loc,prov:arrPalomares[i].prov,utmx:arrPalomares[i].utmx,utmy:arrPalomares[i].utmy,huso:arrPalomares[i].huso};
 			arrAllSocios.push(nuevo);
 		}
 	}
@@ -875,42 +875,31 @@ function CargarTodosSocios(anio){
 	return arrAllSocios.length;
 }
 
-function squared(x) { return x * x; }
+function CargarTodosClubes(anio){
+	arrAllClubes=[];
+	for (var i=0; i<arrPalomares.length; i++){
+		if ((arrPalomares[i].activo==true)&&(arrPalomares[i].anio==anio)){
+			var encontrado=false;
+			for (var j=0; j<arrAllClubes.length; j++){
+				if (arrAllClubes[j].codclub==arrPalomares[i].codclub){
+					encontrado=true;
+				}
+			}
+			if (!encontrado){
+				var nuevo={codclub:arrPalomares[i].codclub,nomclub:arrPalomares[i].nomclub};
+				arrAllClubes.push(nuevo);
+			}
+		}
+	}	
+	//arrAllClubes.sort((a, b) => (a.socio > b.socio) ? 1 : -1);
+	arrAllClubes.sort((a, b) => (a.nomclub).localeCompare(b.nomclub));
+	return arrAllClubes.length;
+}
+
 function toRad(x) { return x * Math.PI / 180.0; }
-function hav(x) {
-	return squared(Math.sin(x / 2));
-}
-
-// hav(theta) = hav(bLat - aLat) + Math.cos(aLat) * Math.cos(bLat) * hav(bLon - aLon)
-function HaversineDistance1(a, b){
-	var aLat = toRad(Array.isArray(a) ? a[0] : a.latitude || a.lat);
-	var bLat = toRad(Array.isArray(b) ? b[1] : b.latitude || b.lat);
-	var aLng = toRad(Array.isArray(a) ? a[0] : a.longitude || a.lng || a.lon);
-	var bLng = toRad(Array.isArray(b) ? b[1] : b.longitude || b.lng || b.lon);
-	var ht = hav(bLat - aLat) + Math.cos(aLat) * Math.cos(bLat) * hav(bLng - aLng);
-	return 2 * 6371000 * Math.asin(Math.sqrt(ht)); // equatorial mean radius of Earth (in meters) R = 6378137
-}
-
-function HaversineDistance2(a, b){
-	var lat1 = Array.isArray(a) ? a[0] : a.latitude || a.lat;
-	var lon1 = Array.isArray(a) ? a[0] : a.longitude || a.lng || a.lon;
-	var lat2 = Array.isArray(b) ? b[1] : b.latitude || b.lat;
-	var lon2 = Array.isArray(b) ? b[1] : b.longitude || b.lng || b.lon;
-	var R = 6371000; //6371000; 6378137;
-	var x1 = lat2-lat1;
-	var dLat = toRad(x1);
-	var x2 = lon2-lon1;
-	var dLon = toRad(x2);
-	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
-				Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
-				Math.sin(dLon/2) * Math.sin(dLon/2);
-	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-	var d = R * c;
-	return d;
-}
 
 function HaversineDistance(pos1, pos2){
-	var selectradio = $('#radio').val(); //var earthRadius = 6371000; //6371000; 6378137;
+	var selectradio = $('#radiotierra').val(); //var earthRadius = 6371000; //6371000; 6378137;
 	switch(parseInt(selectradio)) {
 		case -1: //Devuelve la distancia Leaflet
 			return map.distance(pos1, pos2); 
@@ -924,11 +913,57 @@ function HaversineDistance(pos1, pos2){
 	}
 	var deltaLat = pos2[0] - pos1[0];
 	var deltaLng = pos2[1] - pos1[1];
-	var alpha = deltaLat/2;
-	var beta = deltaLng/2;
+	var alpha = deltaLat / 2;
+	var beta = deltaLng / 2;
 	var a = Math.sin(toRad(alpha)) * Math.sin(toRad(alpha)) + Math.cos(toRad(pos1[0])) * Math.cos(toRad(pos2[0])) * Math.sin(toRad(beta)) * Math.sin(toRad(beta)) ;
 	c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 	distance = earthRadius * c;
 	return distance;
 }
   
+function PalomarMasCercano(anio, clave, provoclub, direccion){
+	var arrCercano=[];
+	switch (clave){
+		case 0: //provincia
+			for (var i=0; i<arrPalomares.length; i++){
+				if ((arrPalomares[i].activo==true)&&(arrPalomares[i].anio==anio)&&(arrPalomares[i].codprov==provoclub)){
+					var nuevo={latgr:parseFloat(arrPalomares[i].latgr.replace(",",".")),longr:parseFloat(arrPalomares[i].longr.replace(",","."))};
+					arrCercano.push(nuevo);
+				}
+			}
+			break;
+		case 1: //club
+			for (var i=0; i<arrPalomares.length; i++){
+				if ((arrPalomares[i].activo==true)&&(arrPalomares[i].anio==anio)&&(arrPalomares[i].codclub==provoclub)){
+					var nuevo={latgr:parseFloat(arrPalomares[i].latgr.replace(",",".")),longr:parseFloat(arrPalomares[i].longr.replace(",","."))};
+					arrCercano.push(nuevo);
+				}
+			}
+	}
+	if ((direccion==1) || (direccion==2)){
+		arrCercano.sort((a, b) => (a.latgr > b.latgr) ? 1 : -1);
+		if (direccion==1){ //norte
+			return [arrCercano[arrCercano.length-1].latgr,arrCercano[arrCercano.length-1].longr];
+		}
+		else { //sur
+			return [arrCercano[0].latgr,arrCercano[0].longr];
+		}
+	}
+	if ((direccion==3) || (direccion==4)){
+		arrCercano.sort((a, b) => (a.longr > b.longr) ? 1 : -1);
+		if (direccion==3){ //este
+			return [arrCercano[arrCercano.length-1].latgr,arrCercano[arrCercano.length-1].longr];
+		}
+		else { //oeste
+			return [arrCercano[0].latgr,arrCercano[0].longr];
+		}
+	}
+}
+
+function ProvinciaClub(anio, codClub){
+	for (var i=0; i<arrPalomares.length; i++){
+		if ((arrPalomares[i].activo==true)&&(arrPalomares[i].anio==anio)&&(arrPalomares[i].codclub==codClub)){
+			return (arrPalomares[i].codprov);
+		}
+	}
+}
