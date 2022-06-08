@@ -12,13 +12,16 @@ var layerLE;
 var layerSA;
 var layerVA;
 var layerZA;
-var arrMarkers = new Array();
-var arrPuntoSuelta =  new Array();
-var theMarker = [];
-var polylines = [];
-var centers = [];
-var circles = [];
+var arrMarkers=[];
+var arrPuntoSuelta=[];
+var theMarker=[];
+var polylines=[];
+var centers=[];
+var circles=[];
+var polys=[];
+var CentroPoligono;
 var geocodeService = L.esri.Geocoding.geocodeService();
+var chkoptions=[];
 
 var baselayers = {
 	"Calles": L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3']}), 
@@ -106,7 +109,7 @@ function Procesa() {
 					var req2 = $.getJSON('data/sueltas.txt', function(datosSueltas){
 						req2.done(function(response2){
 							for (var k=0; k<datosSueltas.length; k++){
-								var nuevo2 = {anio:datosSueltas[k].anio,codprov:datosSueltas[k].codprov,suelta:datosSueltas[k].suelta,provsuelta:datosSueltas[k].provsuelta,abrprovsuelta:datosSueltas[k].abrprovsuelta,comunidad:datosSueltas[k].comunidad,latgr:datosSueltas[k].latgr,longr:datosSueltas[k].longr,utmx:datosSueltas[k].utmx,utmy:datosSueltas[k].utmy,huso:datosSueltas[k].huso,utmx2:datosSueltas[k].utmx2,utmy2:datosSueltas[k].utmy2,huso2:datosSueltas[k].huso2,activo:datosSueltas[k].activo}
+								var nuevo2 = {anio:datosSueltas[k].anio,codprov:datosSueltas[k].codprov,suelta:datosSueltas[k].suelta,provsuelta:datosSueltas[k].provsuelta,abrprovsuelta:datosSueltas[k].abrprovsuelta,fenceste:datosSueltas[k].fenceste,fsuelta:datosSueltas[k].fsuelta,hsuelta:datosSueltas[k].hsuelta,comunidad:datosSueltas[k].comunidad,latgr:datosSueltas[k].latgr,longr:datosSueltas[k].longr,utmx:datosSueltas[k].utmx,utmy:datosSueltas[k].utmy,huso:datosSueltas[k].huso,utmx2:datosSueltas[k].utmx2,utmy2:datosSueltas[k].utmy2,huso2:datosSueltas[k].huso2,activo:datosSueltas[k].activo}
 								arrSueltas.push(nuevo2);
 							}
 						});
@@ -119,7 +122,7 @@ function Procesa() {
 	});
 }
 
-function MuestraProvincia(prov){
+function MuestraProvincia(prov, visible){
 	switch(parseInt(prov)) {
 		case 0:
 			map.setView([41.66, -4.72], 8, { animation: true }); //centro CyL
@@ -134,7 +137,7 @@ function MuestraProvincia(prov){
 			if (layerSA){layerSA.remove(map);}
 			if (layerVA){layerVA.remove(map);}
 			if (layerZA){layerZA.remove(map);}
-			layerLE = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getLeon}).addTo(map);
+			if (visible){layerLE = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getLeon}).addTo(map);}
 			break;
 		case 37: //Salamanca
 			//map.setView([40.759726, -6.002500], 9, { animation: true }); //centro provincia
@@ -142,7 +145,7 @@ function MuestraProvincia(prov){
 			if (layerLE){layerLE.remove(map);}
 			if (layerVA){layerVA.remove(map);}
 			if (layerZA){layerZA.remove(map);}
-			layerSA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getSalamanca}).addTo(map);
+			if (visible){layerSA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getSalamanca}).addTo(map);}
 			break;
 		case 47: //Valladolid
 			//map.setView([41.705383, -4.754363], 9, { animation: true }); //centro provincia
@@ -150,7 +153,7 @@ function MuestraProvincia(prov){
 			if (layerLE){layerLE.remove(map);}
 			if (layerSA){layerSA.remove(map);}
 			if (layerZA){layerZA.remove(map);}
-			layerVA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getValladolid}).addTo(map);
+			if (visible){layerVA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getValladolid}).addTo(map);}
 			break;
 		case 49: //Zamora
 			//map.setView([41.673123, -6.131398], 9, { animation: true }); //centro provincia
@@ -158,7 +161,7 @@ function MuestraProvincia(prov){
 			if (layerLE){layerLE.remove(map);}
 			if (layerSA){layerSA.remove(map);}
 			if (layerVA){layerVA.remove(map);}
-			layerZA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getZamora}).addTo(map);
+			if (visible){layerZA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getZamora}).addTo(map);}
 			break;
 	}  
 }
@@ -377,8 +380,7 @@ function CargarSocios(anio, codProv, codClub){
 				var nuevo={codsocio:i,socio:'('+arrPalomares[i].codclub+') '+arrPalomares[i].socio,latgr:arrPalomares[i].latgr,longr:arrPalomares[i].longr,codprov:arrPalomares[i].codprov,provclub:arrPalomares[i].provclub,codclub:arrPalomares[i].codclub,nomclub:arrPalomares[i].nomclub,socio:arrPalomares[i].socio,loc:arrPalomares[i].loc,prov:arrPalomares[i].prov,utmx:arrPalomares[i].utmx,utmy:arrPalomares[i].utmy,huso:arrPalomares[i].huso};
 				arrSocios.push(nuevo);
 			}
-		}
-		else{
+		} else {
 			if ((arrPalomares[i].activo==true)&&(arrPalomares[i].codprov==codProv)&&(arrPalomares[i].anio==anio)&&(arrPalomares[i].codclub==codClub)){
 				var nuevo={codsocio:i,socio:'('+arrPalomares[i].codclub+') '+arrPalomares[i].socio,latgr:arrPalomares[i].latgr,longr:arrPalomares[i].longr,codprov:arrPalomares[i].codprov,provclub:arrPalomares[i].provclub,codclub:arrPalomares[i].codclub,nomclub:arrPalomares[i].nomclub,socio:arrPalomares[i].socio,loc:arrPalomares[i].loc,prov:arrPalomares[i].prov,utmx:arrPalomares[i].utmx,utmy:arrPalomares[i].utmy,huso:arrPalomares[i].huso};
 				arrSocios.push(nuevo);
@@ -397,8 +399,7 @@ function CargarSocios(anio, codProv, codClub){
 		aTag.value = arrSocios[i].codsocio;
 		if (codClub == 999){
 			aTag.text = "(" + arrSocios[i].codclub + ") "+ arrSocios[i].socio;
-		}
-		else{
+		} else {
 			aTag.text = arrSocios[i].socio;
 		}
 		miSelect.appendChild(aTag);
@@ -450,11 +451,11 @@ function CargarPalomar(socio){
 			color=redIcon;
 	}
 	//var marker = new L.Marker(e.latlng, {draggable:true});
-	if(arrPalomares[socio].huso==arrPalomares[socio].huso2){
-		var txtUTM="UTM: X="+round(arrPalomares[socio].utmx.replace(",","."))+", Y="+round(arrPalomares[socio].utmy.replace(",","."))+", HUSO: "+arrPalomares[socio].huso;
-	}else{
-		var txtUTM = "UTM: X="+round(arrPalomares[socio].utmx.replace(",","."))+", Y="+round(arrPalomares[socio].utmy.replace(",","."))+", HUSO: "+arrPalomares[socio].huso+"<br>UTM: X="+round(arrPalomares[socio].utmx2.replace(",","."))+", Y="+round(arrPalomares[socio].utmy2.replace(",","."))+", HUSO: "+arrPalomares[socio].huso2;
-		}
+	if (arrPalomares[socio].huso==arrPalomares[socio].huso2){
+		var txtUTM="UTM: X="+parseFloat(arrPalomares[socio].utmx.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrPalomares[socio].utmy.replace(",",".")).toFixed(2)+", HUSO: "+arrPalomares[socio].huso;
+	} else {
+		var txtUTM = "UTM: X="+parseFloat(arrPalomares[socio].utmx.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrPalomares[socio].utmy.replace(",",".")).toFixed(2)+", HUSO: "+arrPalomares[socio].huso+"<br>UTM: X="+parseFloat(arrPalomares[socio].utmx2.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrPalomares[socio].utmy2.replace(",",".")).toFixed(2)+", HUSO: "+arrPalomares[socio].huso2;
+	}
 	var marker = new L.marker([arrPalomares[socio].latgr.replace(",","."),arrPalomares[socio].longr.replace(",",".")], {icon: color}, {title: arrPalomares[socio].socio,draggable:true,opacity:1}).bindPopup("CLUB: "+arrPalomares[socio].codclub+" - "+arrPalomares[socio].nomclub+" ("+arrPalomares[socio].provclub+")<br>PALOMAR: "+arrPalomares[socio].socio+"<br>LOCALIDAD: "+arrPalomares[socio].loc+" ("+arrPalomares[socio].prov+")<br><br>"+txtUTM+"<br>GEO: LAT="+parseFloat(arrPalomares[socio].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrPalomares[socio].longr.replace(",",".")).toFixed(12)+"<br>GEO: LAT="+DegToDMS(arrPalomares[socio].latgr,5)+", LON="+DegToDMS(arrPalomares[socio].longr,5));
 	map.addLayer(marker);
 	//arrMarkers[marker._leaflet_id] = marker;
@@ -465,8 +466,7 @@ function TrataSocio(socio, psuelta, codProv){
 	if (socio != 999){
 		CargarPalomar(socio);
 		CentraSocio(socio, codProv);
-	}
-	else{
+	} else {
 		for (var i=0; i<arrSocios.length; i++){
 			CargarPalomar(arrSocios[i].codsocio);
 		}
@@ -479,8 +479,7 @@ function DegToDMS (deg, dplaces=0){
 		var m = Math.trunc(((Math.abs(parseFloat(deg)) - d) * 60)); //minutos
 		var s = (Math.abs(parseFloat(deg)) - d - (m / 60)) * 3600; //segundos
 		return (parseFloat(deg) < 0) ? (-d + "° " + m + "' " + s.toFixed(dplaces) + '"') : (d + "° " + m + "' " + s.toFixed(dplaces) + '"'); //salida en formato º ' "
-	}
-	else{ //el separador decimal es la coma
+	} else { //el separador decimal es la coma
 		var d = Math.abs(Math.trunc(parseFloat(deg.replace(',','.')))); //grados
 		var m = Math.trunc(((Math.abs(parseFloat(deg.replace(',','.'))) - d) * 60)); //minutos
 		var s = (Math.abs(parseFloat(deg.replace(',','.'))) - d - (m / 60)) * 3600; //segundos
@@ -491,8 +490,7 @@ function DegToDMS (deg, dplaces=0){
 function DMSToDeg(degrees, minutes, seconds, direction){
 	if (!isNaN(deg) && String(deg).includes('.')) {
 		var neseconds=parseFloat(seconds);
-	}
-	else{ //el separador decimal es la coma
+	} else { //el separador decimal es la coma
 		var neseconds=parseFloat(seconds.replace(',','.'));
 	}
 	let dd = degrees + minutes / 60 + nseconds / (60 * 60);
@@ -523,7 +521,7 @@ function cargarSueltas_old(anio, codprov, codsuelta){
 	var miSelect = document.getElementById("psuelta");
 	for (var i=0; i<arrSueltas.length; i++){
 		if ((arrSueltas[i].activo==true)&&(arrSueltas[i].anio==anio)&&(arrSueltas[i].codprov==codprov)){
-			var nuevo={codsuelta:i,suelta:arrSueltas[i].suelta,provsuelta:arrSueltas[i].provsuelta,abrprovsuelta:arrSueltas[i].abrprovsuelta,comunidad:arrSueltas[i].comunidad,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr};
+			var nuevo={codsuelta:i,suelta:arrSueltas[i].suelta,provsuelta:arrSueltas[i].provsuelta,abrprovsuelta:arrSueltas[i].abrprovsuelta,fsuelta:arrSueltas[i].fsuelta,hsuelta:arrSueltas[i].hsuelta,comunidad:arrSueltas[i].comunidad,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr};
 			arrPSuelta.push(nuevo);
 		}
 	}
@@ -536,6 +534,7 @@ function cargarSueltas_old(anio, codprov, codsuelta){
 	miSelect.appendChild(aTag);
 	for (var i=0; i<arrPSuelta.length; i++){
 		aTag = document.createElement('option');
+		aTag.title = arrPSuelta[i].fsuelta;
 		aTag.value = arrPSuelta[i].codsuelta;
 		aTag.text = arrPSuelta[i].suelta+" ["+arrPSuelta[i].abrprovsuelta+"]";
 		miSelect.appendChild(aTag);
@@ -556,18 +555,27 @@ function cargarSueltas(anio, codprov, codsuelta){
 	var miSelect = document.getElementById("psuelta");
 	for (var i=0; i<arrSueltas.length; i++){
 		if ((arrSueltas[i].activo==true)&&(arrSueltas[i].anio==anio)&&(arrSueltas[i].codprov==codprov)){
-			var nuevo={codsuelta:i,suelta:arrSueltas[i].suelta,provsuelta:arrSueltas[i].provsuelta,abrprovsuelta:arrSueltas[i].abrprovsuelta,comunidad:arrSueltas[i].comunidad,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr};
+			var nuevo={codsuelta:i,suelta:arrSueltas[i].suelta,provsuelta:arrSueltas[i].provsuelta,abrprovsuelta:arrSueltas[i].abrprovsuelta,fsuelta:arrSueltas[i].fsuelta,comunidad:arrSueltas[i].comunidad,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr};
 			arrPSuelta.push(nuevo);
 		}
 	}
-	//arrPSuelta.sort((a, b) => (a.suelta > b.suelta) ? 1 : -1);
-	arrPSuelta.sort((a, b) => (a.suelta).localeCompare(b.suelta));
+	//arrPSuelta.sort((a, b) => (a.fsuelta > b.fsuelta) ? 1 : -1);
+	//arrPSuelta.sort((a, b) => (a.fsuelta).localeCompare(b.fsuelta));
+	arrPSuelta.sort(function (a, b) {
+		a = a.fsuelta.split('/');
+		b = b.fsuelta.split('/');
+		return a[2] - b[2] || a[1] - b[1] || a[0] - b[0];
+	});
 	document.querySelector('#psuelta').innerHTML = '';
 	miSelect.appendChild(new Option("Seleccione opción", -1));
 	var optGroup = document.createElement('optgroup');
 	optGroup.setAttribute('label', 'Sueltas activas');
 	for (var i=0; i<arrPSuelta.length; i++){
-		optGroup.appendChild(new Option("["+arrPSuelta[i].abrprovsuelta+"] "+arrPSuelta[i].suelta, arrPSuelta[i].codsuelta));
+		//var myOption = new Option(arrPSuelta[i].fsuelta+" "+"["+arrPSuelta[i].abrprovsuelta+"] "+arrPSuelta[i].suelta, arrPSuelta[i].codsuelta);
+		var myOption = new Option(arrPSuelta[i].fsuelta+" "+arrPSuelta[i].suelta, arrPSuelta[i].codsuelta);
+		myOption.setAttribute('title',arrPSuelta[i].provsuelta);
+		//optGroup.appendChild(new Option("["+arrPSuelta[i].abrprovsuelta+"] "+arrPSuelta[i].suelta, arrPSuelta[i].codsuelta));
+		optGroup.appendChild(myOption);
 	}
 	optGroup.appendChild(new Option("Todos los puntos suelta", 999));
 	miSelect.appendChild(optGroup);
@@ -606,11 +614,11 @@ function marcarPuntoSuelta(psuelta, codClub){
 			color=redIcon;
 	}
 	if(arrSueltas[psuelta].huso==arrSueltas[psuelta].huso2){
-		var txtUTM = "UTM: X="+round(arrSueltas[psuelta].utmx.replace(",","."))+", Y="+round(arrSueltas[psuelta].utmy.replace(",","."))+", HUSO: "+arrSueltas[psuelta].huso;
-	}else{
-		txtUTM = "UTM: X="+round(arrSueltas[psuelta].utmx.replace(",","."))+", Y="+round(arrSueltas[psuelta].utmy.replace(",","."))+", HUSO: "+arrSueltas[psuelta].huso+"<br>UTM: X="+round(arrSueltas[psuelta].utmx2.replace(",","."))+", Y="+round(arrSueltas[psuelta].utmy2.replace(",","."))+", HUSO: "+arrSueltas[psuelta].huso2;
+		var txtUTM = "UTM: X="+parseFloat(arrSueltas[psuelta].utmx.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrSueltas[psuelta].utmy.replace(",",".")).toFixed(2)+", HUSO: "+arrSueltas[psuelta].huso;
+	} else {
+		txtUTM = "UTM: X="+parseFloat(arrSueltas[psuelta].utmx.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrSueltas[psuelta].utmy.replace(",",".")).toFixed(2)+", HUSO: "+arrSueltas[psuelta].huso+"<br>UTM: X="+parseFloat(arrSueltas[psuelta].utmx2.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrSueltas[psuelta].utmy2.replace(",",".")).toFixed(2)+", HUSO: "+arrSueltas[psuelta].huso2;
 	}
-	var marker = new L.marker([arrSueltas[psuelta].latgr.replace(",","."),arrSueltas[psuelta].longr.replace(",",".")], {icon: color}, {title: arrSueltas[psuelta].suelta,draggable:true,opacity:1}).bindPopup("SUELTA: "+arrSueltas[psuelta].suelta+"<br>PROVINCIA: "+arrSueltas[psuelta].provsuelta+" ("+arrSueltas[psuelta].comunidad+")<br><br>"+txtUTM+"<br>GEO: LAT="+parseFloat(arrSueltas[psuelta].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrSueltas[psuelta].longr.replace(",",".")).toFixed(12)+"<br>GEO: LAT="+DegToDMS(arrSueltas[psuelta].latgr,5)+", LON="+DegToDMS(arrSueltas[psuelta].longr,5));
+	var marker = new L.marker([arrSueltas[psuelta].latgr.replace(",","."),arrSueltas[psuelta].longr.replace(",",".")], {icon: color}, {title: arrSueltas[psuelta].suelta,draggable:true,opacity:1}).bindPopup("SUELTA: "+arrSueltas[psuelta].suelta+"<br>PROVINCIA: "+arrSueltas[psuelta].provsuelta+" ("+arrSueltas[psuelta].comunidad+")<br>FECHA: "+arrSueltas[psuelta].fsuelta+", HORA: "+arrSueltas[psuelta].hsuelta+"<br><br>"+txtUTM+"<br>GEO: LAT="+parseFloat(arrSueltas[psuelta].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrSueltas[psuelta].longr.replace(",",".")).toFixed(12)+"<br>GEO: LAT="+DegToDMS(arrSueltas[psuelta].latgr,5)+", LON="+DegToDMS(arrSueltas[psuelta].longr,5));
 	map.addLayer(marker);
 	arrPuntoSuelta.push(marker);
 	map.setView([arrSueltas[psuelta].latgr.replace(",","."), arrSueltas[psuelta].longr.replace(",",".")], 20, { animation: true });
@@ -628,8 +636,7 @@ function TrataPuntoSuelta(anio, codProv, codClub, psuelta){
 	if (psuelta != 999){
 		marcarPuntoSuelta(psuelta, codClub);
 		CentraPuntoSuelta(psuelta);
-	}
-	else{
+	} else{
 		for (var i=0; i<arrPSuelta.length; i++){
 			marcarPuntoSuelta(arrPSuelta[i].codsuelta, codClub);
 		}
@@ -715,8 +722,7 @@ function CalcularDistancia(anio, codProv, codClub, nsocio, psuelta){
 				$("#title_table_Haversine").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
 				distanciaHaversine.columns(0).header().to$().text('Palomar');
 				distanciaHaversine.columns.adjust().draw();
-			}
-			else if ((nsocio == 999)&&(psuelta == 888)){ // 1 punto de suelta creado por el usuario n socios
+			} else if ((nsocio == 999)&&(psuelta == 888)){ // 1 punto de suelta creado por el usuario n socios
 alert ("El cálculo de la distancia euclidiana desde un punto creado por el usuario no está implementado. Revise las distancias por Haversine");
 				AddTextEuclides('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de');
 				AddTextHaversine('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de');
@@ -748,8 +754,7 @@ var distance_utm = 0//Math.sqrt(Math.pow(arrSueltas[psuelta].utmx.replace(",",".
 				$("#title_table_Haversine").append('Distancias desde Punto usuario, año '+anio);
 				distanciaHaversine.columns(0).header().to$().text('Palomar');
 				distanciaHaversine.columns.adjust().draw();				
-			}
-			else{ // 1 punto de suelta 1 socio
+			} else { // 1 punto de suelta 1 socio
 				if (psuelta != 888){ //punto de suelta fijo
 					var from = turf.point([arrSueltas[psuelta].latgr.replace(",","."), arrSueltas[psuelta].longr.replace(",",".")]);
 					var to = turf.point([arrPalomares[nsocio].latgr.replace(",","."), arrPalomares[nsocio].longr.replace(",",".")]);
@@ -776,8 +781,7 @@ var distance_utm = 0//Math.sqrt(Math.pow(arrSueltas[psuelta].utmx.replace(",",".
 					$("#title_table_Haversine").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
 					distanciaHaversine.columns(0).header().to$().text('Palomar');
 					distanciaHaversine.columns.adjust().draw();
-				}
-				else { //punto de suelta creado por el usuario 1 socio
+				} else { //punto de suelta creado por el usuario 1 socio
 alert ("El cálculo de la distancia euclidiana desde un punto creado por el usuario no está implementado. Revise las distancias por Haversine");
 					var from = turf.point([theMarker._latlng.lat, theMarker._latlng.lng]);
 					var to = turf.point([arrPalomares[nsocio].latgr.replace(",","."), arrPalomares[nsocio].longr.replace(",",".")]);
@@ -944,8 +948,7 @@ function PalomarMasCercano(anio, clave, provoclub, direccion){
 		arrCercano.sort((a, b) => (a.latgr > b.latgr) ? 1 : -1);
 		if (direccion==1){ //norte
 			return [arrCercano[arrCercano.length-1].latgr,arrCercano[arrCercano.length-1].longr];
-		}
-		else { //sur
+		} else { //sur
 			return [arrCercano[0].latgr,arrCercano[0].longr];
 		}
 	}
@@ -953,8 +956,7 @@ function PalomarMasCercano(anio, clave, provoclub, direccion){
 		arrCercano.sort((a, b) => (a.longr > b.longr) ? 1 : -1);
 		if (direccion==3){ //este
 			return [arrCercano[arrCercano.length-1].latgr,arrCercano[arrCercano.length-1].longr];
-		}
-		else { //oeste
+		} else { //oeste
 			return [arrCercano[0].latgr,arrCercano[0].longr];
 		}
 	}
