@@ -7,14 +7,19 @@
 		<link rel="icon" href="img/favicon.png" type="image/png">
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
-		<link rel="stylesheet" href="css/bootstrap.min.css">
+<!--		<link rel="stylesheet" href="css/bootstrap.min.css">-->
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://kit.fontawesome.com/a91a27e46f.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="css/templatemo-style.css">
+		<link rel="stylesheet" href="css/mystyle.css">
 
 		<script>
 			var renderPage = true;
 			if(navigator.userAgent.indexOf('MSIE')!==-1 || navigator.appVersion.indexOf('Trident/') > 0){
 				/* Microsoft Internet Explorer detected in. */
-				alert("Por favor utilice un navcegador moderno como Chrome o Microsoft Edge.");
+				alert("Por favor utilice un navegador moderno como Chrome, Edge o Firefox.");
 				renderPage = false;
 			}
 		</script>
@@ -49,24 +54,25 @@
 					<div class="tm-flex-center p-5">
 						<div class="tm-max-w-400 tm-flex-center tm-flex-col">
 							<img src="img/podium.jpg" alt="Podium"><br />
-							<a href="#clasificaciones" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2021</a>
+							<a href="#clasificaciones21" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2021</a><br />
+							<a href="#clasificaciones22" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2022</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 p-0">
 					<div class="tm-flex-center p-5 tm-bg-color-primary">
 						<div class="tm-max-w-400 tm-flex-center tm-flex-col">
-							<a href="palomares/index.html" target="_blank">
+							<!--<a href="palomares/index.html" target="_blank">-->
 								<img src="img/palomar.jpg" alt="Palomares" class="img-thumbnail" width="393" height="299">
-							</a>
-							<p class="tm-text-color-white medium tm-font-thin mb-0"><br />Palomares</p>
+							<!--</a>-->
+							<!--<p class="tm-text-color-white medium tm-font-thin mb-0"><br />Palomares</p>-->
 						</div>
 					</div>
 				</div>
 			</section>
 			<br />
 
-			<div id="clasificaciones" class="collapse">
+			<div id="clasificaciones21" class="collapse">
 				<section class="row tm-section tm-mb-30">
 					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="tm-flex-center pl-5 pr-5 pt-5 pb-5">
@@ -86,10 +92,127 @@
 					</div>
 				</section>
 			</div>
+			
+			<div id="clasificaciones22" class="collapse">
+				<section class="row tm-section tm-mb-30">
+					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="tm-flex-center pl-5 pr-5 pt-5 pb-5">
+							<div class="tm-max-w-400 tm-flex-center tm-flex-col">
+								<h2 class="mb-4 tm-text-color-primary">Clasificaciones 2022</h2>
+								<a href="data/2022/AS Paloma Regional Absoluta.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Absoluta</a><br />
+								<a href="data/2022/AS Paloma Regional de Fondo.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Fondo</a><br />
+								<a href="data/2022/AS Paloma Regional de Velocidad-Medio Fondo.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Velocidad y Medio Fondo</a><br />
+								<a href="data/2022/Campeonato Regional Absoluto.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Absoluto</a><br />
+								<a href="data/2022/Campeonato Regional Absoluto_Detalle.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Absoluto-REV</a><br />
+								<a href="data/2022/Campeonato Regional Fondo.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Fondo</a><br />
+								<a href="data/2022/Campeonato Regional Fondo_Detalle.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Fondo-REV</a><br />
+								<a href="data/2022/Campeonato Regional Infantil-Juvenil.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Infantil-Juvenil</a><br />
+								<a href="data/2022/Campeonato Regional Infantil-Juvenil_Detalle.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Infantil-Juvenil-REV</a><br />
+								<a href="data/2022/Campeonato Regional Por Club.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Por Club</a><br />
+								<a href="data/2022/Campeonato Regional Prestigio 2 Años.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Prestigio 2 Años</a><br />
+								<a href="data/2022/Campeonato Regional Seguridad.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Seguridad</a><br />
+								<a href="data/2022/Campeonato Regional Velocidad-Medio Fondo.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Velocidad-Medio Fondo</a><br />
+								<a href="data/2022/Campeonato Regional Velocidad-Medio Fondo_Detalle.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Velocidad-Medio Fondo-REV</a>
+								<br />
+								<a href="#carreras22" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Carreras</a>
+								
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<div id="carreras22" class="collapse">
+				<section class="row tm-section tm-mb-30">
+					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="tm-flex-center pl-5 pr-5 pt-5 pb-5">
+							<div class="tm-flex-center tm-flex-col"><!--<div class="tm-max-w-400 tm-flex-center tm-flex-col">-->
+								<h2 class="mb-4 tm-text-color-primary">Carreras 2022</h2>
+								
+								<div class="mycontainer">
+								
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseLeon" aria-expanded="false" aria-controls="collapseLeon">
+											<span class="title">LE&Oacute;N</span>
+											<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+										</div>
+										<div id="collapseLeon" class="collapse" data-parent="#accordionExample">
+											<div class="card-body">
+												<a href="data/2022/carreras/LE-01-Fuentes de Oñoro.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">01-Fuentes de O&ntilde;oro</a><br /><br />
+												<a href="data/2022/carreras/LE-02-Cañaveral.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">02-Cañaveral</a><br /><br />
+												<a href="data/2022/carreras/LE-03-San Vicente de Alcántara.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">03-San Vicente de Alc&aacute;ntara</a><br /><br />
+												<a href="data/2022/carreras/LE-04-Badajoz.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">04-Badajoz</a><br /><br />
+												<a href="data/2022/carreras/LE-05-Villafranca de los Barros.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">05-Villafranca de los Barros</a><br /><br />
+												<a href="data/2022/carreras/LE-06-El Ronquillo.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">06-El Ronquillo</a><br /><br />
+												<a href="data/2022/carreras/LE-07-Alcalá del Río.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">07-Alcal&aacute; del R&iacute;o</a>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseSalamanca" aria-expanded="false" aria-controls="collapseSalamanca">
+											<span class="title">SALAMANCA</span>
+											<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+										</div>
+										<div id="collapseSalamanca" class="collapse" data-parent="#accordionExample">
+											<div class="card-body">
+												<a href="data/2022/carreras/SA-01-Badajoz.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">01-Badajoz</a><br /><br />
+												<a href="data/2022/carreras/SA-02-Villafranca de los Barros.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">02-Villafranca de los Barros</a><br /><br />
+												<a href="data/2022/carreras/SA-03-El Ronquillo.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">03-El Ronquillo</a><br /><br />
+												<a href="data/2022/carreras/SA-04-Alcalá del Río.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">04-Alcal&aacute; del R&iacute;o</a><br /><br />
+												<a href="data/2022/carreras/SA-05-Arcos de la Frontera.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">05-Arcos de la Frontera</a><br /><br />
+												<a href="data/2022/carreras/SA-06-Casas de Porro I.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">06-Casas de Porro I</a><br /><br />
+												<a href="data/2022/carreras/SA-07-Casas de Porro II.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">07-Casas de Porro II</a><br /><br />
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseValladolid" aria-expanded="false" aria-controls="collapseValladolid">
+											<span class="title">VALLADOLID</span>
+											<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+										</div>
+										<div id="collapseValladolid" class="collapse" data-parent="#accordionExample">
+											<div class="card-body">
+												<a href="data/2022/carreras/VA-01-Fuentes de O¤oro.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">01-Fuentes de O&ntilde;oro</a><br /><br />
+												<a href="data/2022/carreras/VA-02-Cañaveral.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">02-Ca&ntilde;averal</a><br /><br />
+												<a href="data/2022/carreras/VA-03-San Vicente de Alcántara.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">03-San Vicente de Alc&aacute;ntara</a><br /><br />
+												<a href="data/2022/carreras/VA-04-Badajoz.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">04-Badajoz</a><br /><br />
+												<a href="data/2022/carreras/VA-05-El Ronquillo.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">05-El Ronquillo</a><br /><br />
+												<a href="data/2022/carreras/VA-06-Arcos de la Frontera I.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">06-Arcos de la Frontera I</a><br /><br />
+												<a href="data/2022/carreras/VA-07-Arcos de la Frontera II.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">07-Arcos de la Frontera II</a><br /><br />
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseZamora" aria-expanded="false" aria-controls="collapseZamora">
+											<span class="title">ZAMORA</span>
+											<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+										</div>
+										<div id="collapseZamora" class="collapse" data-parent="#accordionExample">
+											<div class="card-body">
+												<a href="data/2022/carreras/ZA-01-Casar de Cáceres.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">01-Casar de C&aacute;ceres</a><br /><br />
+												<a href="data/2022/carreras/ZA-02-San Vicente de Alcántara.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">02-San Vicente de Alc&aacute;ntara</a><br /><br />
+												<a href="data/2022/carreras/ZA-03-Badajoz.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">03-Badajoz</a><br /><br />
+												<a href="data/2022/carreras/ZA-04-Puebla de Argeme.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">04-Puebla de Argeme</a><br /><br />
+												<a href="data/2022/carreras/ZA-05-El Ronquillo.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">05-El Ronquillo</a><br /><br />
+												<a href="data/2022/carreras/ZA-06-Arcos de la Frontera I.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">06-Arcos de la Frontera I</a><br /><br />
+												<a href="data/2022/carreras/ZA-07-Arcos de la Frontera II.pdf" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">07-Arcos de la Frontera II</a><br /><br />
+											</div>
+										</div>
+									</div>
+								</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+
 
 			<div class="row">
 				<div class="col-lg-12">
-					<p class="text-center small tm-copyright-text mb-0">Copyright &copy; <span class="tm-current-year">2021</span> - Federaci&oacute;n Colomb&oacute;fila de Castilla y Le&oacute;n<br /><a href="#legal" data-toggle="collapse">Aviso legal</a></p>
+					<p class="text-center small tm-copyright-text mb-0">Copyright &copy; <span class="tm-current-year"></span> - Federaci&oacute;n Colomb&oacute;fila de Castilla y Le&oacute;n<br /><a href="#legal" data-toggle="collapse">Aviso legal</a></p>
 					<div id="legal" class="collapse">
 						<br/><h3>LEY DE LOS SERVICIOS DE LA SOCIEDAD DE LA INFORMACIÓN (LSSI)</h3>
 						<p>La Federaci&oacute;n Colomb&oacute;fila de Castilla y Le&oacute;n, responsable del sitio web, en adelante RESPONSABLE, pone a disposición de los usuarios el presente documento, con el que pretende dar cumplimiento a las obligaciones dispuestas en la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSICE), BOE Nº 166, así como informar a todos los usuarios del sitio web respecto a cuáles son las condiciones de uso.</p>
@@ -112,7 +235,7 @@
 						<h4>3. EXENCIÓN DE RESPONSABILIDADES</h4>
 						<p>El RESPONSABLE se exime de cualquier tipo de responsabilidad derivada de la información publicada en su sitio web siempre que esta información haya sido manipulada o introducida por un tercero ajeno al mismo.</p>
 						<h5>Uso de Cookies</h5>
-						<p>Este sitio web de puede utilizar cookies técnicas y analíticas (pequeños archivos de información que el servidor envía al ordenador de quien accede a la página) para llevar a cabo determinadas funciones que son consideradas imprescindibles para el correcto funcionamiento y visualización del sitio. Las cookies utilizadas tienen, en todo caso, carácter temporal, con la única finalidad de hacer más eficaz la navegación, y desaparecen al terminar la sesión del usuario. En ningún caso, estas cookies proporcionan por sí mismas datos de carácter personal y no se utilizarán para la recogida de los mismos.</p>
+						<p>Este sitio web puede utilizar cookies técnicas y analíticas (pequeños archivos de información que el servidor envía al ordenador de quien accede a la página) para llevar a cabo determinadas funciones que son consideradas imprescindibles para el correcto funcionamiento y visualización del sitio. Las cookies utilizadas tienen, en todo caso, carácter temporal, con la única finalidad de hacer más eficaz la navegación, y desaparecen al terminar la sesión del usuario. En ningún caso, estas cookies proporcionan por sí mismas datos de carácter personal y no se utilizarán para la recogida de los mismos.</p>
 						<p>Mediante el uso de cookies también es posible que el servidor donde se encuentra la web reconozca el navegador utilizado por el usuario con la finalidad de que la navegación sea más sencilla, permitiendo, por ejemplo, el acceso de los usuarios que se hayan registrado previamente a las áreas, servicios, promociones o concursos reservados exclusivamente a ellos sin tener que registrarse en cada visita. También se pueden utilizar para medir la audiencia, parámetros de tráfico, controlar el progreso y número de entradas, etc, siendo en estos casos cookies prescindibles técnicamente pero beneficiosas para el usuario. Este sitio web no instalará cookies prescindibles sin el consentimiento previo del usuario.</p>
 						<p>El usuario tiene la posibilidad de configurar su navegador para ser alertado de la recepción de cookies y para impedir su instalación en su equipo. Por favor, consulte las instrucciones de su navegador para ampliar esta información.</p>
 						<h5>Política de enlaces</h5>
