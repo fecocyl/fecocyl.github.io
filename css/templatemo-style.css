@@ -71,6 +71,11 @@ h2 { font-size: 1.8rem; }
     border-color: #993333;
 }
 
+.btn-outline-primary {
+    background: #ffffff;
+    border-color: #993333;
+}
+
 .btn-secondary {
     background: #009999;
     border-color: #009999;
@@ -83,7 +88,9 @@ h2 { font-size: 1.8rem; }
 }
 
 .btn-primary:focus,
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:hover {
     background: #ec4949;
     border-color: #ec4949;
 }
