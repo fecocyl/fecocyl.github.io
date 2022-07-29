@@ -7,7 +7,7 @@
 		<link rel="icon" href="img/favicon.png" type="image/png">
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
-<!--		<link rel="stylesheet" href="css/bootstrap.min.css">-->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -26,6 +26,7 @@
 	</head>
 	
 	<body>
+		<a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
 		<div id="loader-wrapper">
 			<div id="loader"></div>
 			<div class="loader-section section-left"></div>
@@ -38,7 +39,7 @@
 					<div class="tm-flex-center p-5 tm-bg-color-primary tm-section-min-h">
 						<div class="tm-max-w-400 tm-flex-center tm-flex-col">
 							<img src="img/logo.jpg" alt="Logo" class="rounded">
-							<p class="tm-text-color-white medium tm-font-thin mb-0"><br />Federaci&oacute;n Colomb&oacute;fila de Castilla y Le&oacute;n</p>
+							<p class="tm-text-color-white medium tm-font-thin mb-0 centrado"><br />Federaci&oacute;n Colomb&oacute;fila de Castilla y Le&oacute;n</p>
 						</div>
 					</div>
 				</div>
@@ -54,8 +55,12 @@
 					<div class="tm-flex-center p-5">
 						<div class="tm-max-w-400 tm-flex-center tm-flex-col">
 							<img src="img/podium.jpg" alt="Podium"><br />
-							<a href="#clasificaciones21" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2021</a><br />
-							<a href="#clasificaciones22" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2022</a>
+							<div class="podium">
+								<a href="#clasificaciones21" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2021</a>
+								<a href="#clasificaciones22" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2022</a>
+								<!--<a href="#clasificaciones23" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2023</a>
+								<a href="#clasificaciones24" class="btn btn-primary float-lg-center tm-md-align-center" data-toggle="collapse">Clasificaciones 2024</a>-->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -76,17 +81,17 @@
 				<section class="row tm-section tm-mb-30">
 					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="tm-flex-center pl-5 pr-5 pt-5 pb-5">
-							<div class="tm-max-w-400 tm-flex-center tm-flex-col">
-								<h2 class="mb-4 tm-text-color-primary">Clasificaciones 2021</h2>
-								<a href="https://drive.google.com/file/d/1Qiuvoj3UUNk9uGW49gILc1U6xPwBR6C3/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Absoluta</a><br />
-								<a href="https://drive.google.com/file/d/1z-9qFUFy6tx1YXKVCeFHh4pi1-wRC0V1/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Fondo</a><br />
-								<a href="https://drive.google.com/file/d/1VO1j-2plIy34CHtIFkA8BX57bD3qcYT8/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Velocidad y Medio Fondo</a><br />
-								<a href="https://drive.google.com/file/d/19cx8xSQIFaQvXUmZsA67tVpsk3-tJiFG/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Fondo</a><br />
-								<a href="https://drive.google.com/file/d/1J8fZCm_nabTmYRtbJnlACFvgP1UxxD6x/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Fondo-REV</a><br />
-								<a href="https://drive.google.com/file/d/1bVroZu6MXNed6qXfOsmEelazJnzP4UgZ/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional General</a><br />
-								<a href="https://drive.google.com/file/d/1HoaWbkNBrrDXlMCBlBBamzkyo7Cou7xb/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional General-REV</a><br />
-								<a href="https://drive.google.com/file/d/1ekpU-fwz9D4E_nTFOQXq--uZCOzUMUUn/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Velocidad y Medio Fondo</a><br />
-								<a href="https://drive.google.com/file/d/1q8OQFZSbR99l3Fr_25-24Gy5pYFMuz9U/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Velocidad y Medio Fondo-REV</a><br />
+							<div class="tm-max-w-400 tm-flex-center tm-flex-col" id="clasif">
+								<h2 class="mb-4 tm-text-color-primary">Clasificaciones Regionales 2021</h2>
+								<a href="https://drive.google.com/file/d/1Qiuvoj3UUNk9uGW49gILc1U6xPwBR6C3/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Absoluta</a><br />
+								<a href="https://drive.google.com/file/d/1z-9qFUFy6tx1YXKVCeFHh4pi1-wRC0V1/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Fondo</a><br />
+								<a href="https://drive.google.com/file/d/1VO1j-2plIy34CHtIFkA8BX57bD3qcYT8/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Velocidad y Medio Fondo</a><br />
+								<a href="https://drive.google.com/file/d/19cx8xSQIFaQvXUmZsA67tVpsk3-tJiFG/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Fondo</a><br />
+								<a href="https://drive.google.com/file/d/1J8fZCm_nabTmYRtbJnlACFvgP1UxxD6x/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Fondo-REV</a><br />
+								<a href="https://drive.google.com/file/d/1bVroZu6MXNed6qXfOsmEelazJnzP4UgZ/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato General</a><br />
+								<a href="https://drive.google.com/file/d/1HoaWbkNBrrDXlMCBlBBamzkyo7Cou7xb/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato General-REV</a><br />
+								<a href="https://drive.google.com/file/d/1ekpU-fwz9D4E_nTFOQXq--uZCOzUMUUn/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Velocidad y Medio Fondo</a><br />
+								<a href="https://drive.google.com/file/d/1q8OQFZSbR99l3Fr_25-24Gy5pYFMuz9U/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Velocidad y Medio Fondo-REV</a><br />
 							</div>
 						</div>
 					</div>
@@ -97,117 +102,112 @@
 				<section class="row tm-section tm-mb-30">
 					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="tm-flex-center pl-5 pr-5 pt-5 pb-5">
-							<div class="tm-max-w-400 tm-flex-center tm-flex-col">
-								<h2 class="mb-4 tm-text-color-primary">Clasificaciones 2022</h2>
-								<a href="https://drive.google.com/file/d/1ENp7yD6qCGUBkbR0autnSrajEw4qOtuW/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Absoluta</a><br />
-								<a href="https://drive.google.com/file/d/1jnt23qDCLVbu0iD7Iu8T0MA1VZmldK54/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Fondo</a><br />
-								<a href="https://drive.google.com/file/d/1LhkVmJhBlnb1f9psQRcwo0oyCWanLClE/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Regional Velocidad y Medio Fondo</a><br />
-								<a href="https://drive.google.com/file/d/1oiAXCvDr_UCii9ILnbqyn6ZbYGZgcEWn/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Absoluto</a><br />
-								<a href="https://drive.google.com/file/d/1tNUHFidN5lt7Ikoev7iCyihuKfuBEF-R/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Absoluto-REV</a><br />
-								<a href="https://drive.google.com/file/d/125hVsispVNQVDzixuhogXPrYTLCQpgo0/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Fondo</a><br />
-								<a href="https://drive.google.com/file/d/1e376uTTF7VL73Pzq8W2DXI9-e4Vf-8vx/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Fondo-REV</a><br />
-								<a href="https://drive.google.com/file/d/1n6JW_jeCxuxwDgkz_WJS2e20JMmQmWNe/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Infantil-Juvenil</a><br />
-								<a href="https://drive.google.com/file/d/1XNa0-YHUia50x0ih2WoyOR0ko1oiXnEl/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Infantil-Juvenil-REV</a><br />
-								<a href="https://drive.google.com/file/d/1rUv7TYTRAamIDiG6jpgZN3iHp_fVF-tN/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Por Club</a><br />
-								<a href="https://drive.google.com/file/d/1JkusW8bOPSv2frCeZ-Ft3Iab4z1acbq9/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Por Club-REV</a><br />
-								<a href="https://drive.google.com/file/d/1GGy3BwPZ_5fWRdM6QkFSpzb_FLOv0cM8/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Prestigio 2 Años</a><br />
-								<a href="https://drive.google.com/file/d/1y-2uy541yY8J18dFyYMBSHG5V0IaFcZC/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Seguridad</a><br />
-								<a href="https://drive.google.com/file/d/1SuzRmvT4p3KeKrU5uHdjBf8DX0e6zCgL/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Velocidad-Medio Fondo</a><br />
-								<a href="https://drive.google.com/file/d/1gizl2__k3UtG_fubCxBZtfhjaJIp-WJC/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Regional Velocidad-Medio Fondo-REV</a><br />
+							<div class="tm-max-w-400 tm-flex-center tm-flex-col" id="clasif">
+								<h2 class="mb-4 tm-text-color-primary">Clasificaciones Regionales 2022</h2>
+								<a href="https://drive.google.com/file/d/1ENp7yD6qCGUBkbR0autnSrajEw4qOtuW/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Absoluta</a><br />
+								<a href="https://drive.google.com/file/d/1jnt23qDCLVbu0iD7Iu8T0MA1VZmldK54/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Fondo</a><br />
+								<a href="https://drive.google.com/file/d/1LhkVmJhBlnb1f9psQRcwo0oyCWanLClE/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">As Paloma Velocidad y Medio Fondo</a><br />
+								<a href="https://drive.google.com/file/d/1oiAXCvDr_UCii9ILnbqyn6ZbYGZgcEWn/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Absoluto</a><br />
+								<a href="https://drive.google.com/file/d/1tNUHFidN5lt7Ikoev7iCyihuKfuBEF-R/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Absoluto-REV</a><br />
+								<a href="https://drive.google.com/file/d/125hVsispVNQVDzixuhogXPrYTLCQpgo0/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Fondo</a><br />
+								<a href="https://drive.google.com/file/d/1e376uTTF7VL73Pzq8W2DXI9-e4Vf-8vx/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Fondo-REV</a><br />
+								<a href="https://drive.google.com/file/d/1n6JW_jeCxuxwDgkz_WJS2e20JMmQmWNe/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Infantil-Juvenil</a><br />
+								<a href="https://drive.google.com/file/d/1XNa0-YHUia50x0ih2WoyOR0ko1oiXnEl/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Infantil-Juvenil-REV</a><br />
+								<a href="https://drive.google.com/file/d/1rUv7TYTRAamIDiG6jpgZN3iHp_fVF-tN/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Por Club</a><br />
+								<a href="https://drive.google.com/file/d/1JkusW8bOPSv2frCeZ-Ft3Iab4z1acbq9/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Por Club-REV</a><br />
+								<a href="https://drive.google.com/file/d/1GGy3BwPZ_5fWRdM6QkFSpzb_FLOv0cM8/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Prestigio 2 Años</a><br />
+								<a href="https://drive.google.com/file/d/1y-2uy541yY8J18dFyYMBSHG5V0IaFcZC/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Seguridad</a><br />
+								<a href="https://drive.google.com/file/d/1SuzRmvT4p3KeKrU5uHdjBf8DX0e6zCgL/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Velocidad-Medio Fondo</a><br />
+								<a href="https://drive.google.com/file/d/1gizl2__k3UtG_fubCxBZtfhjaJIp-WJC/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">Campeonato Velocidad-Medio Fondo-REV</a><br />
 								<a href="#carreras22" class="btn btn-outline-primary float-lg-center tm-md-align-center" data-toggle="collapse">Carreras</a>
 								
+								<div id="carreras22" class="collapse">
+
+									<h2 class="mb-4 tm-text-color-primary">Carreras 2022</h2>
+									
+									<div class="mycontainer">
+									
+										<div class="accordion" id="accordionExample">
+											<div class="card">
+												<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseLeon" aria-expanded="false" aria-controls="collapseLeon">
+													<span class="title">LE&Oacute;N</span>
+													<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+												</div>
+												<div id="collapseLeon" class="collapse" data-parent="#accordionExample">
+													<div class="card-body">
+														<a href="https://drive.google.com/file/d/1e-BUR3TNlBTk8yjYgMEK1r8R-XtLRrt4/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">1-Fuentes de O&ntilde;oro</a><br /><br />
+														<a href="https://drive.google.com/file/d/1Qf4lkYz5oiPXu5SF3v5_DwzDxpuBxoek/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">2-Cañaveral</a><br /><br />
+														<a href="https://drive.google.com/file/d/1eb3oVf_6tDBEmmfCfKNV_QvgEO0qkpdl/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">3-San Vicente de Alc&aacute;ntara</a><br /><br />
+														<a href="https://drive.google.com/file/d/1lpph152ybQ_L8YmKTcIAw_BUBLnrphqo/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">4-Badajoz</a><br /><br />
+														<a href="https://drive.google.com/file/d/1lqn-PrzEEJxlgNYlae7on8mL8XujLF9g/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">5-Villafranca de los Barros</a><br /><br />
+														<a href="https://drive.google.com/file/d/1w39AhQtpW-Xjg5YuF0aNX2uNF9J9vYsm/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">6-El Ronquillo</a><br /><br />
+														<a href="https://drive.google.com/file/d/1u2ZOyEAVwY3Y_rlcf8t1R9Lt_nexE-oD/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">7-Alcal&aacute; del R&iacute;o</a>
+													</div>
+												</div>
+											</div>
+											<div class="card">
+												<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseSalamanca" aria-expanded="false" aria-controls="collapseSalamanca">
+													<span class="title">SALAMANCA</span>
+													<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+												</div>
+												<div id="collapseSalamanca" class="collapse" data-parent="#accordionExample">
+													<div class="card-body">
+														<a href="https://drive.google.com/file/d/13-kRyjM2UnIRUN2-uxtGT5bJayZ2Du8U/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">1-Badajoz</a><br /><br />
+														<a href="https://drive.google.com/file/d/1knQFma_B-v24Jzis4qNiUpcnook0o4On/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">2-Villafranca de los Barros</a><br /><br />
+														<a href="https://drive.google.com/file/d/1G25vItZfVbzcfDMKx9mbexrDkcjiG7NV/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">3-El Ronquillo</a><br /><br />
+														<a href="https://drive.google.com/file/d/1c9SA7D0e-k1X6fcOPW92yTKF4Dl9IKo_/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">4-Alcal&aacute; del R&iacute;o</a><br /><br />
+														<a href="https://drive.google.com/file/d/1n8kyzjMlFb6jPKbLsplH93aSjdjlsVPM/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">5-Arcos de la Frontera</a><br /><br />
+														<a href="https://drive.google.com/file/d/1wDADHjfcq00Qs5UWwq_Ax2pmjlUMWTGq/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">6-Casas de Porro I</a><br /><br />
+														<a href="https://drive.google.com/file/d/1Opeq-STuiMsJz6kk9fc1rMOu_RlRwtoT/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">7-Casas de Porro II</a><br /><br />
+													</div>
+												</div>
+											</div>
+											<div class="card">
+												<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseValladolid" aria-expanded="false" aria-controls="collapseValladolid">
+													<span class="title">VALLADOLID</span>
+													<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+												</div>
+												<div id="collapseValladolid" class="collapse" data-parent="#accordionExample">
+													<div class="card-body">
+														<a href="https://drive.google.com/file/d/17r9Hlw1G1DC96lDuDtrv2iw0mkCjKCH9/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">1-Fuentes de O&ntilde;oro</a><br /><br />
+														<a href="https://drive.google.com/file/d/1CMF7yWgsqzv26mQfMu8IAClaxhtzNRVI/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">2-Ca&ntilde;averal</a><br /><br />
+														<a href="https://drive.google.com/file/d/16-tt9tgPZry8ZBqNAdoZfFpwmes2PsAb/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">3-San Vicente de Alc&aacute;ntara</a><br /><br />
+														<a href="https://drive.google.com/file/d/1az5QHBdAmFh-IPmI1jBf_F_x1ii-rGb8/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">4-Badajoz</a><br /><br />
+														<a href="https://drive.google.com/file/d/1S2Gf5hHAoJ_QUElU4sPGupprAgA1kjMu/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">5-El Ronquillo</a><br /><br />
+														<a href="https://drive.google.com/file/d/1i5cqmPlKrc4k_jkRS0XyIjsv2whw3hiG/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">6-Arcos de la Frontera I</a><br /><br />
+														<a href="https://drive.google.com/file/d/1KN0e_QPkQuxaQJjlDF8XKe8DJlSHgjq2/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">7-Arcos de la Frontera II</a><br /><br />
+													</div>
+												</div>
+											</div>
+											<div class="card">
+												<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseZamora" aria-expanded="false" aria-controls="collapseZamora">
+													<span class="title">ZAMORA</span>
+													<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
+												</div>
+												<div id="collapseZamora" class="collapse" data-parent="#accordionExample">
+													<div class="card-body">
+														<a href="https://drive.google.com/file/d/1w310dLuHQiusT8_bqtZXU-piDTGlck7j/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">1-Casar de C&aacute;ceres</a><br /><br />
+														<a href="https://drive.google.com/file/d/18odM512CnhHZ90xNbYfEMVFOOsJQxv1i/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">2-San Vicente de Alc&aacute;ntara</a><br /><br />
+														<a href="https://drive.google.com/file/d/1xG61rKgAK3mJKbT2kC6ZNrXkwLC3GgtH/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">3-Badajoz</a><br /><br />
+														<a href="https://drive.google.com/file/d/1XY_gp-YWJkvbEnnZgvZk51VseaJgHKmY/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">4-Puebla de Argeme</a><br /><br />
+														<a href="https://drive.google.com/file/d/1cBwQl2gxa87iZlliye0s0989iH5Wt9iZ/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">5-El Ronquillo</a><br /><br />
+														<a href="https://drive.google.com/file/d/12PKdMO_B8JBLw3HjmTOKz12JStlkNaH8/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">6-Arcos de la Frontera I</a><br /><br />
+														<a href="https://drive.google.com/file/d/1UX2SqfFQeINpJ8Eiu1ABJHdOtdBETjF4/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">7-Arcos de la Frontera II</a><br /><br />
+													</div>
+												</div>
+											</div>
+										</div>
+										
+									</div>
+									
+								</div>
+							
 							</div>
 						</div>
 					</div>
 				</section>
 			</div>
 
-			<div id="carreras22" class="collapse">
-				<section class="row tm-section tm-mb-30">
-					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-						<div class="tm-flex-center pl-5 pr-5 pt-5 pb-5">
-							<div class="tm-flex-center tm-flex-col"><!--<div class="tm-max-w-400 tm-flex-center tm-flex-col">-->
-								<h2 class="mb-4 tm-text-color-primary">Carreras 2022</h2>
-								
-								<div class="mycontainer">
-								
-								<div class="accordion" id="accordionExample">
-									<div class="card">
-										<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseLeon" aria-expanded="false" aria-controls="collapseLeon">
-											<span class="title">LE&Oacute;N</span>
-											<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
-										</div>
-										<div id="collapseLeon" class="collapse" data-parent="#accordionExample">
-											<div class="card-body">
-												<a href="https://drive.google.com/file/d/1e-BUR3TNlBTk8yjYgMEK1r8R-XtLRrt4/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">01-Fuentes de O&ntilde;oro</a><br /><br />
-												<a href="https://drive.google.com/file/d/1Qf4lkYz5oiPXu5SF3v5_DwzDxpuBxoek/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">02-Cañaveral</a><br /><br />
-												<a href="https://drive.google.com/file/d/1eb3oVf_6tDBEmmfCfKNV_QvgEO0qkpdl/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">03-San Vicente de Alc&aacute;ntara</a><br /><br />
-												<a href="https://drive.google.com/file/d/1lpph152ybQ_L8YmKTcIAw_BUBLnrphqo/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">04-Badajoz</a><br /><br />
-												<a href="https://drive.google.com/file/d/1lqn-PrzEEJxlgNYlae7on8mL8XujLF9g/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">05-Villafranca de los Barros</a><br /><br />
-												<a href="https://drive.google.com/file/d/1w39AhQtpW-Xjg5YuF0aNX2uNF9J9vYsm/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">06-El Ronquillo</a><br /><br />
-												<a href="https://drive.google.com/file/d/1u2ZOyEAVwY3Y_rlcf8t1R9Lt_nexE-oD/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">07-Alcal&aacute; del R&iacute;o</a>
-											</div>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseSalamanca" aria-expanded="false" aria-controls="collapseSalamanca">
-											<span class="title">SALAMANCA</span>
-											<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
-										</div>
-										<div id="collapseSalamanca" class="collapse" data-parent="#accordionExample">
-											<div class="card-body">
-												<a href="https://drive.google.com/file/d/13-kRyjM2UnIRUN2-uxtGT5bJayZ2Du8U/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">01-Badajoz</a><br /><br />
-												<a href="https://drive.google.com/file/d/1knQFma_B-v24Jzis4qNiUpcnook0o4On/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">02-Villafranca de los Barros</a><br /><br />
-												<a href="https://drive.google.com/file/d/1G25vItZfVbzcfDMKx9mbexrDkcjiG7NV/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">03-El Ronquillo</a><br /><br />
-												<a href="https://drive.google.com/file/d/1c9SA7D0e-k1X6fcOPW92yTKF4Dl9IKo_/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">04-Alcal&aacute; del R&iacute;o</a><br /><br />
-												<a href="https://drive.google.com/file/d/1n8kyzjMlFb6jPKbLsplH93aSjdjlsVPM/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">05-Arcos de la Frontera</a><br /><br />
-												<a href="https://drive.google.com/file/d/1wDADHjfcq00Qs5UWwq_Ax2pmjlUMWTGq/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">06-Casas de Porro I</a><br /><br />
-												<a href="https://drive.google.com/file/d/1Opeq-STuiMsJz6kk9fc1rMOu_RlRwtoT/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">07-Casas de Porro II</a><br /><br />
-											</div>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseValladolid" aria-expanded="false" aria-controls="collapseValladolid">
-											<span class="title">VALLADOLID</span>
-											<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
-										</div>
-										<div id="collapseValladolid" class="collapse" data-parent="#accordionExample">
-											<div class="card-body">
-												<a href="https://drive.google.com/file/d/17r9Hlw1G1DC96lDuDtrv2iw0mkCjKCH9/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">01-Fuentes de O&ntilde;oro</a><br /><br />
-												<a href="https://drive.google.com/file/d/1CMF7yWgsqzv26mQfMu8IAClaxhtzNRVI/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">02-Ca&ntilde;averal</a><br /><br />
-												<a href="https://drive.google.com/file/d/16-tt9tgPZry8ZBqNAdoZfFpwmes2PsAb/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">03-San Vicente de Alc&aacute;ntara</a><br /><br />
-												<a href="https://drive.google.com/file/d/1az5QHBdAmFh-IPmI1jBf_F_x1ii-rGb8/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">04-Badajoz</a><br /><br />
-												<a href="https://drive.google.com/file/d/1S2Gf5hHAoJ_QUElU4sPGupprAgA1kjMu/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">05-El Ronquillo</a><br /><br />
-												<a href="https://drive.google.com/file/d/1i5cqmPlKrc4k_jkRS0XyIjsv2whw3hiG/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">06-Arcos de la Frontera I</a><br /><br />
-												<a href="https://drive.google.com/file/d/1KN0e_QPkQuxaQJjlDF8XKe8DJlSHgjq2/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">07-Arcos de la Frontera II</a><br /><br />
-											</div>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-header collapsed btn btn-primary" data-toggle="collapse" data-target="#collapseZamora" aria-expanded="false" aria-controls="collapseZamora">
-											<span class="title">ZAMORA</span>
-											<span class="accicon"><i class="fas fa-angle-down rotate-icon"></i></span>
-										</div>
-										<div id="collapseZamora" class="collapse" data-parent="#accordionExample">
-											<div class="card-body">
-												<a href="https://drive.google.com/file/d/1w310dLuHQiusT8_bqtZXU-piDTGlck7j/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">01-Casar de C&aacute;ceres</a><br /><br />
-												<a href="https://drive.google.com/file/d/18odM512CnhHZ90xNbYfEMVFOOsJQxv1i/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">02-San Vicente de Alc&aacute;ntara</a><br /><br />
-												<a href="https://drive.google.com/file/d/1xG61rKgAK3mJKbT2kC6ZNrXkwLC3GgtH/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">03-Badajoz</a><br /><br />
-												<a href="https://drive.google.com/file/d/1XY_gp-YWJkvbEnnZgvZk51VseaJgHKmY/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">04-Puebla de Argeme</a><br /><br />
-												<a href="https://drive.google.com/file/d/1cBwQl2gxa87iZlliye0s0989iH5Wt9iZ/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">05-El Ronquillo</a><br /><br />
-												<a href="https://drive.google.com/file/d/12PKdMO_B8JBLw3HjmTOKz12JStlkNaH8/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">06-Arcos de la Frontera I</a><br /><br />
-												<a href="https://drive.google.com/file/d/1UX2SqfFQeINpJ8Eiu1ABJHdOtdBETjF4/view?usp=sharing" class="btn btn-primary float-lg-center tm-md-align-center" target="_blank">07-Arcos de la Frontera II</a><br /><br />
-											</div>
-										</div>
-									</div>
-								</div>
-								</div>
-								
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
 
 
 			<div class="row">
@@ -267,3 +267,21 @@
 
 	</body>
 </html>
+<script>
+$(document).ready(function(){
+	$('#return-to-top').click(function(){
+	  $('body,html').animate({
+		scrollTop : 0
+	  }, 500);
+	});
+
+});
+
+$(window).scroll(function(){
+  if ($(this).scrollTop() >= 50){
+	$('#return-to-top').fadeIn(200);
+  }else{
+	$('#return-to-top').fadeOut(200);
+  }
+});
+</script>
