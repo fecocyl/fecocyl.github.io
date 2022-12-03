@@ -1,3 +1,4 @@
+//ver 1.6 03/12/2022
 var map;
 var arrAniosPalomares=[];
 var arrProvincias=[];
@@ -109,7 +110,8 @@ function Procesa() {
 					var req2 = $.getJSON('data/sueltas.txt', function(datosSueltas){
 						req2.done(function(response2){
 							for (var k=0; k<datosSueltas.length; k++){
-								var nuevo2 = {anio:datosSueltas[k].anio,codprov:datosSueltas[k].codprov,suelta:datosSueltas[k].suelta,provsuelta:datosSueltas[k].provsuelta,abrprovsuelta:datosSueltas[k].abrprovsuelta,fenceste:datosSueltas[k].fenceste,fsuelta:datosSueltas[k].fsuelta,hsuelta:datosSueltas[k].hsuelta,comunidad:datosSueltas[k].comunidad,latgr:datosSueltas[k].latgr,longr:datosSueltas[k].longr,utmx:datosSueltas[k].utmx,utmy:datosSueltas[k].utmy,huso:datosSueltas[k].huso,utmx2:datosSueltas[k].utmx2,utmy2:datosSueltas[k].utmy2,huso2:datosSueltas[k].huso2,activo:datosSueltas[k].activo}
+								//var nuevo2 = {anio:datosSueltas[k].anio,codprov:datosSueltas[k].codprov,suelta:datosSueltas[k].suelta,provsuelta:datosSueltas[k].provsuelta,abrprovsuelta:datosSueltas[k].abrprovsuelta,fenceste:datosSueltas[k].fenceste,fsuelta:datosSueltas[k].fsuelta,hsuelta:datosSueltas[k].hsuelta,comunidad:datosSueltas[k].comunidad,latgr:datosSueltas[k].latgr,longr:datosSueltas[k].longr,utmx:datosSueltas[k].utmx,utmy:datosSueltas[k].utmy,huso:datosSueltas[k].huso,utmx2:datosSueltas[k].utmx2,utmy2:datosSueltas[k].utmy2,huso2:datosSueltas[k].huso2,activo:datosSueltas[k].activo}
+								var nuevo2 = {anio:datosSueltas[k].anio,codprov:datosSueltas[k].codprov,concurso:datosSueltas[k].concurso,suelta:datosSueltas[k].suelta,codprovsuelta:datosSueltas[k].codprovsuelta,provsuelta:datosSueltas[k].provsuelta,comunidad:datosSueltas[k].comunidad,fenceste:datosSueltas[k].fenceste,fsuelta:datosSueltas[k].fsuelta,hsuelta:datosSueltas[k].hsuelta,hamanece:datosSueltas[k].hamanece,hoscurece:datosSueltas[k].hoscurece,latgr:datosSueltas[k].latgr,longr:datosSueltas[k].longr,utmx:datosSueltas[k].utmx,utmy:datosSueltas[k].utmy,huso:datosSueltas[k].huso,utmx2:datosSueltas[k].utmx2,utmy2:datosSueltas[k].utmy2,huso2:datosSueltas[k].huso2,provisional:datosSueltas[k].provisional,activo:datosSueltas[k].activo}
 								arrSueltas.push(nuevo2);
 							}
 						});
@@ -456,7 +458,7 @@ function CargarPalomar(socio){
 	} else {
 		var txtUTM = "UTM: X="+parseFloat(arrPalomares[socio].utmx.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrPalomares[socio].utmy.replace(",",".")).toFixed(2)+", HUSO: "+arrPalomares[socio].huso+"<br>UTM: X="+parseFloat(arrPalomares[socio].utmx2.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrPalomares[socio].utmy2.replace(",",".")).toFixed(2)+", HUSO: "+arrPalomares[socio].huso2;
 	}
-	var marker = new L.marker([arrPalomares[socio].latgr.replace(",","."),arrPalomares[socio].longr.replace(",",".")], {icon: color}, {title: arrPalomares[socio].socio,draggable:true,opacity:1}).bindPopup("CLUB: "+arrPalomares[socio].codclub+" - "+arrPalomares[socio].nomclub+" ("+arrPalomares[socio].provclub+")<br>PALOMAR: "+arrPalomares[socio].socio+"<br>LOCALIDAD: "+arrPalomares[socio].loc+" ("+arrPalomares[socio].prov+")<br><br>"+txtUTM+"<br>GEO: LAT="+parseFloat(arrPalomares[socio].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrPalomares[socio].longr.replace(",",".")).toFixed(12)+"<br>GEO: LAT="+DegToDMS(arrPalomares[socio].latgr,5)+", LON="+DegToDMS(arrPalomares[socio].longr,5));
+	var marker = new L.marker([arrPalomares[socio].latgr.replace(",","."),arrPalomares[socio].longr.replace(",",".")], {icon: color}, {title: arrPalomares[socio].socio,draggable:true,opacity:1}).bindPopup("CLUB: "+arrPalomares[socio].codclub+" - "+arrPalomares[socio].nomclub+" ("+arrPalomares[socio].provclub+")<br>PALOMAR: "+arrPalomares[socio].socio+"<br>LOCALIDAD: "+arrPalomares[socio].loc+" ("+arrPalomares[socio].prov+")<br><br>"+txtUTM+"<br>"+"<a id=\"copySocio1\" title=\"Copiar coordenadas geográficas al portapapeles\" onclick=\"javascript:copyToClipboard(\'"+parseFloat(arrPalomares[socio].latgr.replace(",","."))+","+parseFloat(arrPalomares[socio].longr.replace(",","."))+"\');return false;\">"+"GEO: LAT="+parseFloat(arrPalomares[socio].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrPalomares[socio].longr.replace(",",".")).toFixed(12)+"<br>"+"<a id=\"copySocio2\" title=\"Copiar coordenadas geográficas al portapapeles\" onclick=\"javascript:copyToClipboard(\'"+DegToDMS(arrPalomares[socio].latgr,5,true)+","+DegToDMS(arrPalomares[socio].longr,5,true)+"\');return false;\">"+"GEO: LAT="+DegToDMS(arrPalomares[socio].latgr,5)+", LON="+DegToDMS(arrPalomares[socio].longr,5));
 	map.addLayer(marker);
 	//arrMarkers[marker._leaflet_id] = marker;
 	arrMarkers.push(marker);
@@ -473,17 +475,31 @@ function TrataSocio(socio, psuelta, codProv){
 	}
 }
 
-function DegToDMS (deg, dplaces=0){
-	if (!isNaN(deg) && String(deg).includes('.')) {
+function DegToDMS (deg, dplaces=0, clave=false){
+	if (!isNaN(deg)) {
 		var d = Math.abs(Math.trunc(parseFloat(deg))); //grados
 		var m = Math.trunc(((Math.abs(parseFloat(deg)) - d) * 60)); //minutos
 		var s = (Math.abs(parseFloat(deg)) - d - (m / 60)) * 3600; //segundos
-		return (parseFloat(deg) < 0) ? (-d + "° " + m + "' " + s.toFixed(dplaces) + '"') : (d + "° " + m + "' " + s.toFixed(dplaces) + '"'); //salida en formato º ' "
-	} else { //el separador decimal es la coma
+		if (clave==true){
+			return (parseFloat(deg) < 0) ? (-d + "&deg; " + m + "\\&apos; " + s.toFixed(dplaces) + '\\&#34;') : (d + "&deg; " + m + "\\&apos; " + s.toFixed(dplaces) + '\\&#34;'); //salida en formato º ' "
+		}
+		else {
+			return (parseFloat(deg) < 0) ? (-d + "&deg; " + m + "\&apos; " + s.toFixed(dplaces) + '\&#34;') : (d + "&deg; " + m + "\&apos; " + s.toFixed(dplaces) + '\&#34;'); //salida en formato º ' "
+		}
+	}
+	else if (isNaN(deg) && String(deg).includes(',')) { //el separador decimal es la coma
 		var d = Math.abs(Math.trunc(parseFloat(deg.replace(',','.')))); //grados
 		var m = Math.trunc(((Math.abs(parseFloat(deg.replace(',','.'))) - d) * 60)); //minutos
 		var s = (Math.abs(parseFloat(deg.replace(',','.'))) - d - (m / 60)) * 3600; //segundos
-		return (parseFloat(deg.replace(',','.')) < 0) ? (-d + "° " + m + "' " + s.toFixed(dplaces) + '"') : (d + "° " + m + "' " + s.toFixed(dplaces) + '"'); //salida en formato º ' "
+		if (clave==true){
+			return (parseFloat(deg.replace(',','.')) < 0) ? (-d + "&deg; " + m + "\\&apos; " + s.toFixed(dplaces) + '\\&#34;') : (d + "&deg; " + m + "\\&apos; " + s.toFixed(dplaces) + '\\&#34;'); //salida en formato º ' "
+		}
+		else {
+			return (parseFloat(deg.replace(',','.')) < 0) ? (-d + "&deg; " + m + "\&apos; " + s.toFixed(dplaces) + '\&#34;') : (d + "&deg; " + m + "\&apos; " + s.toFixed(dplaces) + '\&#34;'); //salida en formato º ' "
+		}
+	}
+	else {
+		return "ERROR";
 	}
 }
 
@@ -521,7 +537,8 @@ function cargarSueltas_old(anio, codprov, codsuelta){
 	var miSelect = document.getElementById("psuelta");
 	for (var i=0; i<arrSueltas.length; i++){
 		if ((arrSueltas[i].activo==true)&&(arrSueltas[i].anio==anio)&&(arrSueltas[i].codprov==codprov)){
-			var nuevo={codsuelta:i,suelta:arrSueltas[i].suelta,provsuelta:arrSueltas[i].provsuelta,abrprovsuelta:arrSueltas[i].abrprovsuelta,fsuelta:arrSueltas[i].fsuelta,hsuelta:arrSueltas[i].hsuelta,comunidad:arrSueltas[i].comunidad,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr};
+			//var nuevo={codsuelta:i,suelta:arrSueltas[i].suelta,provsuelta:arrSueltas[i].provsuelta,abrprovsuelta:arrSueltas[i].abrprovsuelta,fsuelta:arrSueltas[i].fsuelta,hsuelta:arrSueltas[i].hsuelta,comunidad:arrSueltas[i].comunidad,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr};
+			var nuevo={codsuelta:i,concurso:arrSueltas[i].concurso,suelta:arrSueltas[i].suelta,codprovsuelta:arrSueltas[i].codprovsuelta,provsuelta:arrSueltas[i].provsuelta,comunidad:arrSueltas[i].comunidad,fenceste:arrSueltas[i].fenceste,fsuelta:arrSueltas[i].fsuelta,hsuelta:arrSueltas[i].hsuelta,hamanece:arrSueltas[i].hamanece,hoscurece:arrSueltas[i].hoscurece,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,utmx2:arrSueltas[i].utmx2,utmy2:arrSueltas[i].utmy2,huso2:arrSueltas[i].huso2,provisional:arrSueltas[i].provisional};
 			arrPSuelta.push(nuevo);
 		}
 	}
@@ -547,6 +564,10 @@ function cargarSueltas_old(anio, codprov, codsuelta){
 	aTag.value = 888;
 	aTag.text = "Crear un punto suelta";
 	miSelect.appendChild(aTag);
+	aTag = document.createElement('option');
+	aTag.value = 887;
+	aTag.text = "Crear un punto suelta (coordenadas)";
+	miSelect.appendChild(aTag);
 	return arrPSuelta.length;
 }
 
@@ -555,7 +576,8 @@ function cargarSueltas(anio, codprov, codsuelta){
 	var miSelect = document.getElementById("psuelta");
 	for (var i=0; i<arrSueltas.length; i++){
 		if ((arrSueltas[i].activo==true)&&(arrSueltas[i].anio==anio)&&(arrSueltas[i].codprov==codprov)){
-			var nuevo={codsuelta:i,suelta:arrSueltas[i].suelta,provsuelta:arrSueltas[i].provsuelta,abrprovsuelta:arrSueltas[i].abrprovsuelta,fsuelta:arrSueltas[i].fsuelta,comunidad:arrSueltas[i].comunidad,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr};
+			//var nuevo={codsuelta:i,suelta:arrSueltas[i].suelta,provsuelta:arrSueltas[i].provsuelta,abrprovsuelta:arrSueltas[i].abrprovsuelta,fsuelta:arrSueltas[i].fsuelta,comunidad:arrSueltas[i].comunidad,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr};
+			var nuevo={codsuelta:i,concurso:arrSueltas[i].concurso,suelta:arrSueltas[i].suelta,codprovsuelta:arrSueltas[i].codprovsuelta,provsuelta:arrSueltas[i].provsuelta,comunidad:arrSueltas[i].comunidad,fenceste:arrSueltas[i].fenceste,fsuelta:arrSueltas[i].fsuelta,hsuelta:arrSueltas[i].hsuelta,hamanece:arrSueltas[i].hamanece,hoscurece:arrSueltas[i].hoscurece,latgr:arrSueltas[i].latgr,longr:arrSueltas[i].longr,utmx:arrSueltas[i].utmx,utmy:arrSueltas[i].utmy,huso:arrSueltas[i].huso,utmx2:arrSueltas[i].utmx2,utmy2:arrSueltas[i].utmy2,huso2:arrSueltas[i].huso2,provisional:arrSueltas[i].provisional};
 			arrPSuelta.push(nuevo);
 		}
 	}
@@ -582,6 +604,7 @@ function cargarSueltas(anio, codprov, codsuelta){
 	optGroup = document.createElement('optgroup');
 	optGroup.setAttribute('label', 'Nueva suelta');
 	optGroup.appendChild(new Option("Crear un punto de suelta", 888));
+	optGroup.appendChild(new Option("Crear un punto de suelta (coordenadas)", 887));
 	miSelect.appendChild(optGroup);
 	return arrPSuelta.length;
 }
@@ -618,7 +641,11 @@ function marcarPuntoSuelta(psuelta, codClub){
 	} else {
 		txtUTM = "UTM: X="+parseFloat(arrSueltas[psuelta].utmx.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrSueltas[psuelta].utmy.replace(",",".")).toFixed(2)+", HUSO: "+arrSueltas[psuelta].huso+"<br>UTM: X="+parseFloat(arrSueltas[psuelta].utmx2.replace(",",".")).toFixed(2)+", Y="+parseFloat(arrSueltas[psuelta].utmy2.replace(",",".")).toFixed(2)+", HUSO: "+arrSueltas[psuelta].huso2;
 	}
-	var marker = new L.marker([arrSueltas[psuelta].latgr.replace(",","."),arrSueltas[psuelta].longr.replace(",",".")], {icon: color}, {title: arrSueltas[psuelta].suelta,draggable:true,opacity:1}).bindPopup("SUELTA: "+arrSueltas[psuelta].suelta+"<br>PROVINCIA: "+arrSueltas[psuelta].provsuelta+" ("+arrSueltas[psuelta].comunidad+")<br>FECHA: "+arrSueltas[psuelta].fsuelta+", HORA: "+arrSueltas[psuelta].hsuelta+"<br><br>"+txtUTM+"<br>GEO: LAT="+parseFloat(arrSueltas[psuelta].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrSueltas[psuelta].longr.replace(",",".")).toFixed(12)+"<br>GEO: LAT="+DegToDMS(arrSueltas[psuelta].latgr,5)+", LON="+DegToDMS(arrSueltas[psuelta].longr,5));
+	var txtProvisional="";
+	if(arrSueltas[psuelta].provisional=="SI"){
+		txtProvisional="<br>PROVISIONAL"
+	}
+	var marker = new L.marker([arrSueltas[psuelta].latgr.replace(",","."),arrSueltas[psuelta].longr.replace(",",".")], {icon: color}, {title: arrSueltas[psuelta].suelta,draggable:true,opacity:1}).bindPopup("SUELTA: "+arrSueltas[psuelta].suelta+"<br>PROVINCIA: "+arrSueltas[psuelta].provsuelta+" ("+arrSueltas[psuelta].comunidad+")<br>CONCURSO: "+arrSueltas[psuelta].concurso+"<br>FECHA: "+arrSueltas[psuelta].fsuelta+", HORA: "+arrSueltas[psuelta].hsuelta+txtProvisional+"<br><br>"+txtUTM+"<br>"+"<a id=\"copySuelta1\" title=\"Copiar coordenadas geográficas al portapapeles\" onclick=\"javascript:copyToClipboard(\'"+parseFloat(arrSueltas[psuelta].latgr.replace(",","."))+","+parseFloat(arrSueltas[psuelta].longr.replace(",","."))+"\');return false;\">"+"GEO: LAT= "+parseFloat(arrSueltas[psuelta].latgr.replace(",",".")).toFixed(12)+", LON="+parseFloat(arrSueltas[psuelta].longr.replace(",",".")).toFixed(12)+"</a>"+"<br>"+"<a id=\"copySuelta2\" title=\"Copiar coordenadas geográficas al portapapeles\" onclick=\"javascript:copyToClipboard(\'"+DegToDMS(arrSueltas[psuelta].latgr,5,true)+","+DegToDMS(arrSueltas[psuelta].longr,5,true)+"\');return false;\">"+"GEO: LAT="+DegToDMS(arrSueltas[psuelta].latgr,5)+", LON="+DegToDMS(arrSueltas[psuelta].longr,5)+"</a>");
 	map.addLayer(marker);
 	arrPuntoSuelta.push(marker);
 	map.setView([arrSueltas[psuelta].latgr.replace(",","."), arrSueltas[psuelta].longr.replace(",",".")], 20, { animation: true });
@@ -691,7 +718,7 @@ function CalcularDistancia(anio, codProv, codClub, nsocio, psuelta){
 			}
  			break;
 		default:
-			if ((nsocio == 999)&&(nsocio != -1)&&(psuelta != 888)){ // 1 punto de suelta n socios
+			if ((nsocio == 999)&&(nsocio != -1)&&(psuelta != 888)&&(psuelta != 887)){ // 1 punto de suelta n socios
 				AddTextEuclides('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+'</b><br>hasta el palomar de');
 				AddTextHaversine('Distancia desde<br><b>'+arrSueltas[psuelta].suelta+'</b><br>hasta el palomar de');
 				for (var i=0; i<arrSocios.length; i++){
@@ -722,7 +749,7 @@ function CalcularDistancia(anio, codProv, codClub, nsocio, psuelta){
 				$("#title_table_Haversine").append('Distancias desde '+arrSueltas[psuelta].suelta+' ('+arrSueltas[psuelta].provsuelta+')'+', año '+anio);
 				distanciaHaversine.columns(0).header().to$().text('Palomar');
 				distanciaHaversine.columns.adjust().draw();
-			} else if ((nsocio == 999)&&(psuelta == 888)){ // 1 punto de suelta creado por el usuario n socios
+			} else if ((nsocio == 999)&&((psuelta == 888)||(psuelta == 887))){ // 1 punto de suelta creado por el usuario n socios
 alert ("El cálculo de la distancia euclidiana desde un punto creado por el usuario no está implementado. Revise las distancias por Haversine");
 				AddTextEuclides('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de');
 				AddTextHaversine('Distancia desde<br><b>Punto usuario</b><br>hasta el palomar de');
@@ -755,7 +782,7 @@ var distance_utm = 0//Math.sqrt(Math.pow(arrSueltas[psuelta].utmx.replace(",",".
 				distanciaHaversine.columns(0).header().to$().text('Palomar');
 				distanciaHaversine.columns.adjust().draw();				
 			} else { // 1 punto de suelta 1 socio
-				if (psuelta != 888){ //punto de suelta fijo
+				if ((psuelta != 888) && (psuelta != 887)){ //punto de suelta fijo
 					var from = turf.point([arrSueltas[psuelta].latgr.replace(",","."), arrSueltas[psuelta].longr.replace(",",".")]);
 					var to = turf.point([arrPalomares[nsocio].latgr.replace(",","."), arrPalomares[nsocio].longr.replace(",",".")]);
 					//var options = {units: 'metres'};
@@ -827,8 +854,10 @@ function round(num) {
 	return (Math.round(m) / 100 * Math.sign(num)).toString().replace('.',',');
 }
 
-function marcarPuntoSueltaManual(latgr, longr, codClub){
+function marcarPuntoSueltaManual(latgr, longr, codClub, clave=false){
 	var color;
+	latgr=parseFloat(latgr);
+	longr=parseFloat(longr);
 	switch(parseInt(codClub)) {
 		case 160: //Castilla
 			color=violetIcon;
@@ -856,13 +885,19 @@ function marcarPuntoSueltaManual(latgr, longr, codClub){
 	}
 	var marker = new L.marker([latgr, longr], {icon: color}, {title: "Punto usuario",draggable:true,opacity:1});
 	var arrUTM = marker.getLatLng().utm().toString().split(',');
+	var direccion;
 	geocodeService.reverse().latlng([latgr, longr]).run(function(error, result){
-		var direccion = result.address.Match_addr;
-		marker.bindPopup("Punto usuario<br>"+direccion+"<br><br>UTM: X="+parseFloat(arrUTM[0]).toFixed(2)+", Y="+parseFloat(arrUTM[1]).toFixed(2)+", HUSO: "+arrUTM[2]+"<br>GEO: LAT="+latgr.toFixed(12)+", LON="+longr.toFixed(12)+"<br>GEO: LAT="+DegToDMS(latgr,5)+", LON="+DegToDMS(longr,5));
-		map.addLayer(marker);
-		arrPuntoSuelta.push(marker);
-		map.setView([latgr, longr], 20, { animation: true });
+		direccion = result.address.Match_addr;
+		if (clave){
+			marker.bindPopup("Punto usuario<br><br>UTM: X="+parseFloat(arrUTM[0]).toFixed(2)+", Y="+parseFloat(arrUTM[1]).toFixed(2)+", HUSO: "+arrUTM[2]+"<br>"+"<a id=\"copySueltaUser1\" title=\"Copiar coordenadas geográficas al portapapeles\" onclick=\"javascript:copyToClipboard(\'"+latgr+","+longr+"\');return false;\">"+"GEO: LAT="+latgr.toFixed(12)+", LON="+longr.toFixed(12)+"<br>"+"<a id=\"copySueltaUser2\" title=\"Copiar coordenadas geográficas al portapapeles\" onclick=\"javascript:copyToClipboard(\'"+DegToDMS(latgr,5,true)+","+DegToDMS(longr,5,true)+"\');return false;\">"+"GEO: LAT="+DegToDMS(latgr,5)+", LON="+DegToDMS(longr,5));
+		}
+		else{
+			marker.bindPopup("Punto usuario<br>"+direccion+"<br><br>UTM: X="+parseFloat(arrUTM[0]).toFixed(2)+", Y="+parseFloat(arrUTM[1]).toFixed(2)+", HUSO: "+arrUTM[2]+"<br>"+"<a id=\"copySueltaUser1\" title=\"Copiar coordenadas geográficas al portapapeles\" onclick=\"javascript:copyToClipboard(\'"+latgr+","+longr+"\');return false;\">"+"GEO: LAT="+latgr.toFixed(12)+", LON="+longr.toFixed(12)+"<br>"+"<a id=\"copySueltaUser2\" title=\"Copiar coordenadas geográficas al portapapeles\" onclick=\"javascript:copyToClipboard(\'"+DegToDMS(latgr,5,true)+","+DegToDMS(longr,5,true)+"\');return false;\">"+"GEO: LAT="+DegToDMS(latgr,5)+", LON="+DegToDMS(longr,5));
+		}
 	});
+	map.addLayer(marker);
+	arrPuntoSuelta.push(marker);
+	map.setView([latgr, longr], 20, { animation: true });
 	return marker;
 }
 
@@ -967,5 +1002,27 @@ function ProvinciaClub(anio, codClub){
 		if ((arrPalomares[i].activo==true)&&(arrPalomares[i].anio==anio)&&(arrPalomares[i].codclub==codClub)){
 			return (arrPalomares[i].codprov);
 		}
+	}
+}
+
+function copyToClipboard(text) {
+	if (window.clipboardData && window.clipboardData.setData) {
+		// IE specific code path to prevent textarea being shown while dialog is visible.
+		return clipboardData.setData("Text", text); 
+	}
+	else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+		var textarea = document.createElement("textarea");
+			textarea.textContent = text;
+			textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+			document.body.appendChild(textarea);
+			textarea.select();
+			try {
+				return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+			} catch (ex) {
+				console.warn("Copy to clipboard failed.", ex);
+				return false;
+				} finally {
+					document.body.removeChild(textarea);
+					}
 	}
 }
