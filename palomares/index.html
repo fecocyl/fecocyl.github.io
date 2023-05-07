@@ -9,8 +9,10 @@
 		<link rel="icon" href="img/favicon.png" type="image/png">
 		
 		<!--Leaflet-->
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+		<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>-->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+		<!--<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>-->
+		<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 		
 		<!--Leaflet UTM-->
 		<script src="js/L.LatLng.UTM.js"></script>
@@ -23,7 +25,8 @@
 		<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js" integrity="sha512-zdT4Pc2tIrc6uoYly2Wp8jh6EPEWaveqqD3sT0lf5yei19BC1WulGuh5CesB0ldBKZieKGD7Qyf/G0jdSe016A==" crossorigin=""></script>
 				
 		<!--jQuery-->
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 		<!--Bootstrap-->
 		<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -42,7 +45,7 @@
 		
 		<!--Font-awesome-->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		
+
 		<!--Datatables-->
 		<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
@@ -59,8 +62,12 @@
 		<script type="text/javascript" src="js/mapas.js"></script>
 		
 		<!--Turf-->
-		<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+		<!--<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>-->
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/Turf.js/0.0.124/turf.min.js'></script>
 
+		<!--Jarvis-->
+		<script type="text/javascript" src="js/jarvis.js"></script>
+		
 		<!-- Core theme CSS (includes Bootstrap)-->
 		<link rel="stylesheet" href="css/styles.css" />
 
@@ -122,13 +129,26 @@
 							<br />
 							<div id="selectsuelta">
 								<div class="header"><h5> Puntos de suelta</h5></div>
-									<div class="form-group" style="margin:10px 10px;">
-										<div class="input-group w-100">
+								<div class="form-group" style="margin:10px 10px;">
+									<div class="input-group w-100">
 										<select id="psuelta" class="form-select w-75" name="psuelta" aria-label="">
 											<!--option value="">Seleccione punto de suelta</option>-->
 										</select>
 										<!--<span>&nbsp;<button id="centrarsuelta" class="btn btn-primary" aria-label="Centrar suelta"><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i></button></span>-->
 										<span>&nbsp;<button id="centrarsuelta" class="btn btn-outline-dark" aria-label="Centrar suelta" data-bs-placement="bottom" title="Centrar suelta"><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i></button></span>
+									</div>
+								</div>
+								<div id="divcoordenadas">
+									<div class="header"><h6> Coordenadas <span id='clickableAwesomeFont'><i class="fa fa-info-circle fa-1x" title="Introducir las coordenadas como grados, minutos y segundos (GG MM SS.SSSS)&#013O como grados decmales (GG.GGGG)&#013Para longitudes Oeste y latitudes Sur, poner un signo negativo"></i></h6></span></div>
+									<div class="form-group" style="margin:10px 10px;">
+										<div class="input-group w-100">
+											<input type="text" class="form-control" id="latitudsuelta" placeholder="Latitud">
+											&nbsp;
+											<input type="text" class="form-control" id="longitudsuelta" placeholder="Longitud">
+											<div class="input-group-append">
+												<span>&nbsp;<button id="puntocoordenada" class="btn btn-outline-dark" aria-label="Marcar en el mapa la coordenada" data-bs-placement="bottom" title="Marcar en el mapa la coordenada"><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></button> <button id="delpuntocoordenada" class="btn btn-outline-dark" aria-label="Borrar del mapa la coordenada" data-bs-placement="bottom" title="Borrar del mapa la coordenada"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></span>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -145,7 +165,7 @@
 								<div class="accordion" id="datosdistanciaacordeon">
 									<div class="accordion-item">
 										<h2 class="accordion-header" id="panelsStayOpen-headingOne">
-											<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne" data-bs-placement="bottom" title="C&aacute;lculo de distancias por Pit&6acute;goras (distancia euclidiana)">
+											<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne" data-bs-placement="bottom" title="C&aacute;lculo de distancias por Pit&aacute;goras (distancia euclidiana)">
 												Euclides
 											</button>
 										</h2>
@@ -203,6 +223,24 @@
 									<input id="aniosettings" data-slider-id='ex1Slider' type="text" data-slider-step="1" style="width:272px;" disabled />
 								</div>
 							</div>
+							<div id="switches">
+								<div class="header"><h5> Ver</div>
+								<div class="form-group" style="margin:10px 10px;">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="checkbox" role="switch" id="swverprovincia" checked title="Activar para visualizar la silueta de la provincia" />
+										<label class="form-check-label" for="swverprovincia">Provincia</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="checkbox" role="switch" id="swvercentro" checked title="Activar para visualizar el centro" />
+										<label class="form-check-label" for="swvercentro">Centro</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="checkbox" role="switch" id="swverpoligono" checked title="Activar para visualizar el pol&iacute;gono" />
+										<label class="form-check-label" for="swverpoligono">Pol&iacute;gono</label>
+									</div>
+								</div>
+								</div>
+							</div>
 							<div id="selectradio">
 								<!--<br /><div class="header"><h5> Radio Tierra <i class="fa fa-info-circle fa-1x" aria-hidden="true" title="Seleccionar el radio de la tierra para el c&aacute;lculo de distancias por Haversine"></i></h5></div>-->
 								<br /><div class="header"><h5> Radio Tierra <span id='clickableAwesomeFont'><a href="https://en.wikipedia.org/wiki/Earth_radius" target="_blank"><i class="fa fa-info-circle fa-1x" title="Seleccionar el radio de la tierra para el c&aacute;lculo de distancias por Haversine"></i></a></h5></span></div>
@@ -221,7 +259,7 @@
 										<option value="-1">Seleccione centro</option>
 										<option value="0">Centro de la provincia</option>
 										<option value="1">Elegir palomar como centro</option>
-										<option value="2">Centro de todos los palomares de la provincia</option>
+										<option value="2">Centro de todos los palomares de los clubes</option>
 										<option value="3">Centro de todos los palomares del club</option>
 										<option value="4">Centro en el palomar m&aacute;s cercano de la provincia</option>
 										<option value="5">Centro en el palomar m&aacute;s cercano del club</option>
@@ -259,11 +297,27 @@
 										<span class="input-group-text">Km</span>
 									</div>
 									<div class="input-group-append">
-										<span>&nbsp;<button id="circlemap" class="btn btn-outline-dark" aria-label="Marcar en el mapa" data-bs-placement="bottom" title="Marcar en el mapa"><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></button> <button id="delcirclemap" class="btn btn-outline-dark" aria-label="Borrar del mapa" data-bs-placement="bottom" title="Borrar del mapa"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></span>
+										<span>&nbsp;<button id="circlemap" class="btn btn-outline-dark" aria-label="Marcar en el mapa la distancia" data-bs-placement="bottom" title="Marcar en el mapa la distancia"><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></button> <button id="delcirclemap" class="btn btn-outline-dark" aria-label="Borrar del mapa la distancia" data-bs-placement="bottom" title="Borrar del mapa la distancia"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></span>
 									</div>
 								</div>
 							</div>
-							
+
+							<div id="toleranciadiv">
+								<div class="input-group" style="margin:10px 10px;">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">Tolerancia</span>
+									</div>
+									<div style="width: 118px;"> <!--sin boton 234px, con 1 186-->
+										<input id="tolerancia" type="number" class="form-control" min="0" max="100" step="1" value="5">
+									</div>
+									<div class="input-group-append">
+										<span class="input-group-text">%</span>
+									</div>
+									<div class="input-group-append">
+										<span>&nbsp;<button id="toleranciamap" class="btn btn-outline-dark" aria-label="Marcar en el mapa la tolerancia" data-bs-placement="bottom" title="Marcar en el mapa la tolerancia"><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></button> <button id="deltoleranciamap" class="btn btn-outline-dark" aria-label="Borrar del mapa la tolerancia" data-bs-placement="bottom" title="Borrar del mapa la tolerancia"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></span>
+									</div>
+								</div>
+							</div>
 
 						</div>
 					</div>
@@ -281,7 +335,7 @@
 						<div>
 							<!--<button class="btn btn-primary" id="sidebarToggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Distancias <i class="fa fa-arrow-right" aria-hidden="true"></i></button>-->
 							<button class="btn btn-outline-light" id="sidebarToggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" data-bs-placement="bottom" title="C&aacute;lculo de distancias">Distancias <i class="fa fa-arrow-right" aria-hidden="true"></i></button>&nbsp;
--							<!--<button class="btn btn-outline-light" id="sidebarToggle1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling1" aria-controls="offcanvasScrolling" data-bs-placement="bottom" title="Opciones de distancias">&nbsp;Opciones <i class="fa fa-arrow-right" aria-hidden="true"></i></button>-->
+							<button class="btn btn-outline-light" id="sidebarToggle1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling1" aria-controls="offcanvasScrolling" data-bs-placement="bottom" title="Opciones de distancias">&nbsp;Opciones <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
 						</div>
 <!--ORIGINAL
 						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -398,13 +452,18 @@
 						document.getElementById('selectclub').style.display='none';
 						document.getElementById('selectsocio').style.display='none';
 						document.getElementById('selectsuelta').style.display='none';
+						document.getElementById('divcoordenadas').style.display='none';
 						document.getElementById('btn_distancia').style.display='none';
 						document.getElementById('datosdistancia').style.display='none';
 						document.getElementById('infopsuelta').style.display='none';
 						document.getElementById('selectmartir').style.display='none';
 						document.getElementById('selectmartir2').style.display='none';
+						chkoptions={prov:true,center:true,poly:true};
+						$("#delpuntocoordenada").prop("disabled", true);
 						$("#circlemap").prop("disabled", true);
 						$("#delcirclemap").prop("disabled", true);
+						$("#toleranciamap").prop("disabled", true);
+						$("#deltoleranciamap").prop("disabled", true);
 						Procesa();
 						
 						$('#sortEuclides').DataTable({
@@ -461,7 +520,7 @@
 
 					});
 				
-					$('#anio').on('change',function(){ 
+					$('#anio').on('change',function(){
 						anio = $(this).val();
 						document.getElementById('selectprovincia').style.display='none';
 						document.getElementById('selectclub').style.display='none';
@@ -471,9 +530,13 @@
 						document.getElementById('datosdistancia').style.display='none';
 						$("#radio").val("-1").change(); //Reset options
 						$("#centro").val("-1").change();
-						MuestraProvincia(0);
+						MuestraProvincia(0, false);
 						BorrarPalomares();
 						BorrarPuntoSuelta();
+						document.getElementById('latitudsuelta').value = '';
+						document.getElementById('longitudsuelta').value = '';
+						$("#delpuntocoordenada").prop("disabled", true);
+						document.getElementById('divcoordenadas').style.display='none';
 						//Remove lines from Map
 						polylines.forEach(function (item){
 							map.removeLayer(item)
@@ -482,8 +545,7 @@
 							$("#aniosettings").slider('setValue', anio);
 							if (CargarProvincias(anio) > 0){
 								document.getElementById('selectprovincia').style.display='block';
-							}
-							else{
+							} else {
 								document.getElementById('selectprovincia').style.display='none';
 							}
 						}
@@ -493,7 +555,7 @@
 						var codProv = $(this).val();
 						var anio = $('#anio').val();
 						if (codProv == -1){
-							MuestraProvincia(0);
+							MuestraProvincia(0, false);
 						}
 						document.getElementById('selectclub').style.display='none';
 						document.getElementById('selectsocio').style.display='none';
@@ -507,8 +569,8 @@
 						});
 						map.off('dblclick');
 						BorrarPuntoSuelta();
-						if (codProv!=-1){
-							MuestraProvincia(codProv);
+						if (codProv != -1){
+							(chkoptions.prov == true) ? MuestraProvincia(codProv, true) : MuestraProvincia(codProv, false);
 							if (CargarClubes(anio,codProv) > 0){
 								document.getElementById('selectclub').style.display='block';
 								if (cargarSueltas(anio, codProv) > 0){
@@ -585,7 +647,7 @@
 							default:
 								$("#centrarpalomar").prop("disabled", false);
 								Centrar(codProv, "1");
-								if (psuelta != -1){
+								if ((psuelta != -1) && (theMarker.length > 0)){
 									document.getElementById('btn_distancia').style.display='block'; //DISTANCIA
 									//$("#btn_distancia").prop("disabled", false);
 								}
@@ -613,6 +675,7 @@
 						document.getElementById('btn_distancia').style.display='none';
 						document.getElementById('datosdistancia').style.display='none';
 						document.getElementById('infopsuelta').style.display='none';
+						document.getElementById('divcoordenadas').style.display='none';
 						switch (parseInt(codSuelta)){
 							case -1:
 								//document.getElementById('btn_distancia').style.display='none';
@@ -655,9 +718,15 @@
 									}
 								});
 								break;
+							case 887:
+								document.getElementById('divcoordenadas').style.display='block';
+								$('#latitudsuelta').val('');
+								$('#longitudsuelta').val('');
+								document.getElementById("latitudsuelta").focus();
+								break;
 							default:
 								$("#centrarsuelta").prop("disabled", false);
-								if ((codClub > 0)&&(codSocio > 0)) {
+								if ((codClub > 0)&&(codSocio >= 0)) {
 									document.getElementById('btn_distancia').style.display='block'; //DISTANCIA
 									//$("#btn_distancia").prop("disabled", false);
 								}
@@ -668,10 +737,9 @@
 					$('#centrarsuelta').on('click',function(){
 						var codSuelta = $('#psuelta').val();
 						var codSocio = $('#socio').val();
-						if(codSuelta == 888){
+						if ((codSuelta == 888) ||(codSuelta == 887)){
 							map.setView([theMarker._latlng.lat, theMarker._latlng.lng], 20, { animation: true });
-						}
-						else{
+						} else {
 							CentraPuntoSuelta(codSuelta, codSocio);
 						}
 					});
@@ -694,6 +762,7 @@
 					$("#aniosettings").slider({
 						tooltip: 'always'
 					});
+					
 					$('#centro').on('change',function(){
 						var codCentro = $(this).val();
 						var anio = $('#anio').val();
@@ -706,6 +775,9 @@
 							map.removeLayer(item)
 						});
 						circles.forEach(function (item){
+							map.removeLayer(item)
+						});
+						polys.forEach(function (item){
 							map.removeLayer(item)
 						});
 						switch (parseInt(codCentro)){
@@ -743,7 +815,7 @@
 									document.getElementById('selectmartir').style.display='block';
 								}
 								break;
-							case 2: //centro de todos los palomares de la provincia
+							case 2: //Centro de todos los palomares de los clubes
 								var miSelect = document.getElementById("martir");
 								document.querySelector('#martir').innerHTML = '';
 								var aTag = document.createElement('option');
@@ -808,6 +880,7 @@
 								}
 						}
 					});
+
 					$('#circlemap').on('click',function(){
 						var radio = $('#rad_distancia').val();
 						var codCentro = $('#centro').val();
@@ -827,24 +900,32 @@
 								break;
 							case 1: //palomar
 								var codSocio = $('#martir').val();
-								if (codSocio > 0){
+								if (codSocio >= 0){
 									var micircle = L.circle([arrPalomares[codSocio].latgr.replace(",","."),arrPalomares[codSocio].longr.replace(",",".")], {radius: radio*1000, color: 'red'}).addTo(map);
 									circles.push(micircle);
 									micircle.bindPopup("Centro: "+arrPalomares[codSocio].latgr.replace(",",".")+", "+arrPalomares[codSocio].longr.replace(",",".")+"<br />Radio: "+radio+" km");
 									$("#delcirclemap").prop("disabled", false);
 								}
 								break;
-							case 2: //centro de todos los palomares de la provincia
+							case 2: //Centro de todos los palomares de los clubes
+								var micircle = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio*1000, color: 'red'}).addTo(map);
+								circles.push(micircle);
+								micircle.bindPopup("Centro de todos los palomares de los clubes de "+$('#martir option:selected').text()+"<br />Radio: "+radio+" km");
+								$("#delcirclemap").prop("disabled", false);
 								break;
 							case 3: //centro de todos los palomares del club
+								var micircle = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio*1000, color: 'red'}).addTo(map);
+								circles.push(micircle);
+								micircle.bindPopup("Centro de todos los palomares del club "+$('#martir option:selected').text()+"<br />Radio: "+radio+" km");
+								$("#delcirclemap").prop("disabled", false);
+								break;
 								break;
 							case 4: //palomar más cercano de la provincia
 								var codProvinciaOClub = $('#martir').val();
 								var direccion = $('#martir2').val();
 								if (codCentro==4){
 									var coordenada=PalomarMasCercano(anio, 0, codProvinciaOClub, direccion);
-								}
-								else{
+								} else {
 									var coordenada=PalomarMasCercano(anio, 1, codProvinciaOClub, direccion);
 								}
 								var micircle = L.circle([coordenada[0],coordenada[1]], {radius: radio*1000, color: 'red'}).addTo(map);
@@ -857,8 +938,7 @@
 								var direccion = $('#martir2').val();
 								if (codCentro==4){
 									var coordenada=PalomarMasCercano(anio, 0, codProvinciaOClub, direccion);
-								}
-								else{
+								} else {
 									var coordenada=PalomarMasCercano(anio, 1, codProvinciaOClub, direccion);
 								}
 								var micircle = L.circle([coordenada[0],coordenada[1]], {radius: radio*1000, color: 'red'}).addTo(map);
@@ -868,6 +948,7 @@
 								break;
 						}
 					});
+					
 					$('#delcirclemap').on('click',function(){
 						//centers.forEach(function (item){
 						//	map.removeLayer(item)
@@ -877,11 +958,15 @@
 						});
 						$("#delcirclemap").prop("disabled", true);
 					});
+					
 					$('#martir').on('change',function(){
 						centers.forEach(function (item){
 							map.removeLayer(item)
 						});
 						circles.forEach(function (item){
+							map.removeLayer(item)
+						});
+						polys.forEach(function (item){
 							map.removeLayer(item)
 						});
 						document.getElementById('selectmartir2').style.display='none';
@@ -907,7 +992,7 @@
 								break;
 							case 1: //palomar
 								var codSocio = $('#martir').val();
-								if (codSocio > 0){
+								if (codSocio >= 0){
 									var micenter = L.circleMarker([arrPalomares[codSocio].latgr.replace(",","."),arrPalomares[codSocio].longr.replace(",",".")], {radius: 1}).addTo(map);
 									micenter.setStyle({color: 'red'});
 									micenter.bindPopup("Centro: palomar de "+$('#martir option:selected').text());
@@ -918,79 +1003,58 @@
 									$("#circlemap").prop("disabled", false);
 								}
 								break;
-							case 2: //centro de todos los palomares de la provincia
+							case 2: //Centro de todos los palomares de los clubes
 								var codProvincia = $('#martir').val();
+								var nombreProvinciaOClub = $('#martir option:selected').text();
+								var anio = $('#anio').val();
 								var arrPoligono=[];
+								//var codPalomar=0;
 								if (codProvincia > 0){
 									for (var i=0; i<arrPalomares.length; i++){
 										if ((arrPalomares[i].activo==true)&&(arrPalomares[i].codprov==codProvincia)&&(arrPalomares[i].anio==anio)){
-											//var nuevo={codpol:i,latgr:parseFloat(arrPalomares[i].latgr.replace(",",".")),longr:parseFloat(arrPalomares[i].longr.replace(",","."))};
-											var nuevo=[parseFloat(arrPalomares[i].latgr.replace(",",".")),parseFloat(arrPalomares[i].longr.replace(",","."))];
+											//var nuevo={codpal:codPalomar,socio:arrPalomares[i].socio,latgr:parseFloat(arrPalomares[i].latgr.replace(",",".")),longr:parseFloat(arrPalomares[i].longr.replace(",","."))};
+											var nuevo={latgr:parseFloat(arrPalomares[i].latgr.replace(",",".")),longr:parseFloat(arrPalomares[i].longr.replace(",","."))};
 											arrPoligono.push(nuevo);
+											//codPalomar=codPalomar+1;
 										}
 									}
 									
-/*									var result = Object.keys(arrPoligono).map((key) => [parseFloat(arrPoligono[key].latgr.replace(",",".")), parseFloat(arrPoligono[key].longr.replace(",","."))]);
-
-									polygon="[[";
-									for (var i=0; i<result.length; i++){
-										polygon = polygon + "[" + result[i] + "]";
-										if(i<result.length-1){polygon = polygon + ","};
-									}
-									polygon = polygon + ",[" + result[0]+"]";
-									polygon = polygon + "]]";
-*/
-									//leon
-									var polygon = turf.polygon([[
-										[-5.5078734812053,42.8384974337598],
-										[-5.35568531957014,42.7125257211866],
-										[-5.44616546876285,42.5356497541307],
-										[-6.0215010566647,42.3084305671422],
-										[-5.62807835872486,42.8042674804463],
-										[-5.5078734812053,42.8384974337598]
-									]]);
-									//sf
-/*									var polygon = turf.polygon([[
-										[-5.60891904,42.62632559],
-										[-5.58841781718545,42.5930931065886],
-										[-5.8589802,42.51346353],
-										[-6.41702901,42.61571796],
-										[-5.60891904,42.62632559]
-									]]);*/
-									//salmantino
-/*									var polygon = turf.polygon([[
-										[-5.642525,41.06802778],
-										[-5.61193056,41.02543889],
-										[-5.77875278,40.38829167],
-										[-5.83591944,40.35065],
-										[-6.75318056,40.37906944],
-										[-5.642525,41.06802778]
-									]]);*/
-									//bellota charra
-/*									var polygon = turf.polygon([[
-										[-4.76687697193765,41.3370513147402],
-										[-5.16289911334001,40.9036136821899],
-										[-5.65132851072148,40.8553148030538],
-										[-5.66996442390095,41.0209675228966],
-										[-5.1643018552372,41.3265757085167],
-										[-4.76687697193765,41.3370513147402]
-									]]);*/
-
-									L.geoJson(polygon, {color:"red"}).addTo(map);
-									var centroid = turf.centroid(polygon);
-									var center = turf.centerOfMass(polygon);
-									var marker = new L.marker([center.geometry.coordinates[1],center.geometry.coordinates[0]]).bindPopup("["+center.geometry.coordinates[1].toString()+", "+center.geometry.coordinates[0].toString()+"]");
-									map.addLayer(marker);
-									
-									var micenter = L.circleMarker([center.geometry.coordinates[1],center.geometry.coordinates[0]], {radius: 1}).addTo(map);
-									
+									CentroPoligono = DimeCentroPoligono(arrPoligono);
+									var micenter = L.circleMarker([CentroPoligono[0],CentroPoligono[1]], {radius: 1}).addTo(map);
 									micenter.setStyle({color: 'red'});
+									micenter.bindPopup("Centro: polígono exterior que engloba los palomares de todos los Clubes de "+nombreProvinciaOClub);
 									centers.push(micenter);
-									map.setView([center.geometry.coordinates[1],center.geometry.coordinates[0]], 20, { animation: true });
-
+									micenter.openPopup();
+									$("#centrarradio").prop("disabled", false);
+									$("#circlemap").prop("disabled", false);
+									map.setView([CentroPoligono[0],CentroPoligono[1]], 9, { animation: true });
 								}
 								break;
 							case 3: //centro de todos los palomares del club
+								var codClub = $('#martir').val();
+								var nombreProvinciaOClub = $('#martir option:selected').text();
+								var anio = $('#anio').val();
+								var arrPoligono=[];
+								//var codPalomar=0;
+								if (codClub > 0){
+									for (var i=0; i<arrPalomares.length; i++){
+										if ((arrPalomares[i].activo==true)&&(arrPalomares[i].codclub==codClub)&&(arrPalomares[i].anio==anio)){
+											//var nuevo={codpal:codPalomar,socio:arrPalomares[i].socio,latgr:parseFloat(arrPalomares[i].latgr.replace(",",".")),longr:parseFloat(arrPalomares[i].longr.replace(",","."))};
+											var nuevo={latgr:parseFloat(arrPalomares[i].latgr.replace(",",".")),longr:parseFloat(arrPalomares[i].longr.replace(",","."))};
+											arrPoligono.push(nuevo);
+											//codPalomar=codPalomar+1;
+										}
+									}
+									CentroPoligono = DimeCentroPoligono(arrPoligono);
+									var micenter = L.circleMarker([CentroPoligono[0],CentroPoligono[1]], {radius: 1}).addTo(map);
+									micenter.setStyle({color: 'red'});
+									micenter.bindPopup("Centro: polígono exterior que engloba los palomares del Club "+nombreProvinciaOClub);
+									centers.push(micenter);
+									micenter.openPopup();
+									$("#centrarradio").prop("disabled", false);
+									$("#circlemap").prop("disabled", false);
+									map.setView([CentroPoligono[0],CentroPoligono[1]], 9, { animation: true });
+								}	
 								break;
 							case 4: //centro del palomar más cercano de la provincia
 								var codProvincia = $('#martir').val();
@@ -1057,8 +1121,9 @@
 									$("#circlemap").prop("disabled", true);
 								}
 								break;
-						}						
+						}
 					});
+					
 					$('#martir2').on('change',function(){
 						var anio = $('#anio').val();
 						var centro = $('#centro').val();
@@ -1074,8 +1139,7 @@
 							});
 							if (centro == 4){
 								var coordenada=PalomarMasCercano(anio, 0, codProvinciaOClub, direccion);
-							}
-							else{
+							} else {
 								var coordenada=PalomarMasCercano(anio, 1, codProvinciaOClub, direccion);
 							}
 							var micenter = L.circleMarker([coordenada[0],coordenada[1]], {radius: 1,}).addTo(map);
@@ -1098,9 +1162,8 @@
 							map.setView([coordenada[0],coordenada[1]], 20, { animation: true });
 							$("#centrarcercano").prop("disabled", false);
 							$("#circlemap").prop("disabled", false);
-							micenter.openPopup()
-						}
-						else{
+							micenter.openPopup();
+						} else {
 							centers.forEach(function (item){
 								map.removeLayer(item)
 							});
@@ -1114,6 +1177,7 @@
 							$("#circlemap").prop("disabled", true);
 						}
 					});
+					
 					$('#centrarradio').on('click',function(){
 						var codCentro = $('#centro').val();
 						switch(parseInt(codCentro)){
@@ -1125,13 +1189,15 @@
 								break;
 							case 1: //palomar
 								var codSocio = $('#martir').val();
-								if (codSocio > 0){
+								if (codSocio >= 0){
 									map.setView([arrPalomares[codSocio].latgr.replace(",","."), arrPalomares[codSocio].longr.replace(",",".")], 20, { animation: true });
 								}
 								break;
-							case 2: //centro de todos los palomares de la provincia
+							case 2: //Centro de todos los palomares de los clubes
+								map.setView([CentroPoligono[0],CentroPoligono[1]], 9, { animation: true });
 								break;
 							case 3: //centro de todos los palomares del club
+								map.setView([CentroPoligono[0],CentroPoligono[1]], 9, { animation: true });
 								break;
 							case 4: //palomar más cercano de la provincia
 								var codProvincia = $('#martir').val();
@@ -1147,6 +1213,7 @@
 								}
 						}
 					});
+					
 					$('#centrarcercano').on('click',function(){
 						var anio = $('#anio').val();
 						var centro = $('#centro').val();
@@ -1162,11 +1229,118 @@
 								map.setView([coordenada[0],coordenada[1]], 20, { animation: true });
 						}
 					});
+					
+					$('#swverprovincia').on('change',function(){
+						chkoptions.prov = !chkoptions.prov;
+						if (chkoptions.prov == false) {
+							if (layerLE){layerLE.remove(map);}
+							if (layerSA){layerSA.remove(map);}
+							if (layerVA){layerVA.remove(map);}
+							if (layerZA){layerZA.remove(map);}
+						}
+					});
+					
+					$('#swvercentro').on('change',function(){
+						chkoptions.center = !chkoptions.center;
+					});
+					
+					$('#swverpoligono').on('change',function(){
+						chkoptions.poly = !chkoptions.poly;
+					});
+					
+					$('#puntocoordenada').on('click',function(){
+						var strLat = $('#latitudsuelta').val().replace(',','.');
+						var strLon = $('#longitudsuelta').val().replace(',','.');
+						var codProv = $('#provincia').val();
+						var codClub = $('#club').val();
+						var codSocio = $('#socio').val();
+						nLat = 0;
+						nLon = 0;
+						
+						if (theMarker != undefined){
+							map.removeLayer(theMarker);
+						};
+						
+						if (strLat.split(' ').length == 3){ //grados minutos segundos
+							grlat = parseFloat(strLat.split(' ')[0]);
+							milat = parseFloat(strLat.split(' ')[1]);
+							sglat = parseFloat(strLat.split(' ')[2]);
+							if (Math.abs(parseFloat(grlat) + parseFloat(milat) / 60 + parseFloat(sglat) / (60 * 60)) > 90){
+								alert("Valor fuera de los límites establecidos de Latitud");
+							}
+							else{
+								nLat = Math.abs(parseFloat(grlat)) + parseFloat(milat) / 60 + parseFloat(sglat) / (60 * 60);
+								if (parseFloat(grlat) < 0){
+									nLat = -nLat;
+								}
+							}
+						}
+						if (strLon.split(' ').length == 3){ //grados minutos segundos
+							grlon = parseFloat(strLon.split(' ')[0]);
+							milon = parseFloat(strLon.split(' ')[1]);
+							sglon = parseFloat(strLon.split(' ')[2]);
+							if (Math.abs(parseFloat(grlon) + parseFloat(milon) / 60 + parseFloat(sglon) / (60 * 60)) > 180){
+								alert("Valor fuera de los límites establecidos de Longitud");
+							}
+							else{
+								nLon = Math.abs(parseFloat(grlon)) + parseFloat(milon) / 60 + parseFloat(sglon) / (60 * 60);
+								if (parseFloat(grlon) < 0){
+									nLon = -nLon;
+								}
+							}
+						}
+						if (strLat.split(' ').length == 1){ //grados decimales
+							if (Math.abs(parseFloat(strLat)) > 90){
+								alert("Valor fuera de los límites establecidos de Latitud");
+							}
+							else{
+								nLat = parseFloat(strLat);
+							}
+						}
+						if (strLon.split(' ').length == 1){ //grados decimales
+							if (Math.abs(parseFloat(strLon)) > 90){
+								alert("Valor fuera de los límites establecidos de Longitud");
+							}
+							else{
+								nLon = parseFloat(strLon);
+							}
+						}
+						
+						if (!isNaN(nLat) && !isNaN(nLon)){
+							theMarker = marcarPuntoSueltaManual(nLat.toString(), nLon.toString(), codClub, false);
+							if (theMarker != undefined){
+								$("#centrarsuelta").prop("disabled", false);
+								$("#delpuntocoordenada").prop("disabled", false);
+								//Si no hay club ni socio seleccionado no hay botón de distancia
+								if ((codClub != null)&&(codClub != -1)&&(codSocio != null)&&(codSocio != -1)){
+									document.getElementById('btn_distancia').style.display='block'; //DISTANCIA
+								}
+							}
+						}
+					});
+					
+					$('#delpuntocoordenada').on('click',function(){
+						polylines.forEach(function (item){
+							map.removeLayer(item)
+						});
+						if (theMarker != undefined){
+							map.removeLayer(theMarker);
+						};
+						//$('#latitudsuelta').val('');
+						//$('#longitudsuelta').val('');
+						$("#delpuntocoordenada").prop("disabled", true);
+						$("#centrarsuelta").prop("disabled", true);
+						document.getElementById('btn_distancia').style.display='none'; //DISTANCIA
+						document.getElementById('datosdistancia').style.display='none';
+						document.getElementById("latitudsuelta").focus();
+					});
+					
 					map = L.map('map').setView([41.66, -4.72], 8);
 					L.control.layers(baselayers).addTo(map);
 					baselayers["Híbrido"].addTo(map);
 					
 					$(window).on("resize", function(){ $("#map").height($(window).height()-57); map.invalidateSize(); }).trigger("resize");
+
 				</script>
 				
 			</div>
