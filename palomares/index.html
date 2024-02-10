@@ -10,9 +10,12 @@
 		
 		<!--Leaflet-->
 		<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>-->
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+		<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />-->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
 		<!--<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>-->
-		<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+		<!--<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>-->
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 		
 		<!--Leaflet UTM-->
 		<script src="js/L.LatLng.UTM.js"></script>
@@ -104,7 +107,8 @@
 										<option value="24">Le&oacute;n</option>
 										<option value="37">Salamanca</option>
 										<option value="47">Valladolid</option>
-										<option value="49">Zamora</option>-->
+										<option value="49">Zamora</option>
+										<option value="9">Burgos</option>-->
 									</select>
 								</div>
 							</div>
@@ -335,7 +339,7 @@
 						<div>
 							<!--<button class="btn btn-primary" id="sidebarToggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Distancias <i class="fa fa-arrow-right" aria-hidden="true"></i></button>-->
 							<button class="btn btn-outline-light" id="sidebarToggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" data-bs-placement="bottom" title="C&aacute;lculo de distancias">Distancias <i class="fa fa-arrow-right" aria-hidden="true"></i></button>&nbsp;
-							<!--BETA<button class="btn btn-outline-light" id="sidebarToggle1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling1" aria-controls="offcanvasScrolling" data-bs-placement="bottom" title="Opciones de distancias">&nbsp;Opciones <i class="fa fa-arrow-right" aria-hidden="true"></i></button>-->
+							<!--<button class="btn btn-outline-light" id="sidebarToggle1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling1" aria-controls="offcanvasScrolling" data-bs-placement="bottom" title="Opciones de distancias">&nbsp;Opciones <i class="fa fa-arrow-right" aria-hidden="true"></i></button>-->
 						</div>
 <!--ORIGINAL
 						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -882,43 +886,71 @@
 					});
 
 					$('#circlemap').on('click',function(){
-						var radio = $('#rad_distancia').val();
+						var radio = $('#rad_distancia').val()*1000;
 						var codCentro = $('#centro').val();
-//						circles.forEach(function (item){
-//							map.removeLayer(item)
-//						});
+						var tolerancia = $('#tolerancia').val();
+						circles.forEach(function (item){
+							map.removeLayer(item)
+						});
 						switch (parseInt(codCentro)){
 							case 0: //centro provincia
 								var codProvincia = $('#martir').val();
 								if (codProvincia > 0){
 									var coordenadas=dimeCentroProv(codProvincia);
-									var micircle = L.circle(coordenadas, {radius: radio*1000, color: 'red'}).addTo(map);
-									circles.push(micircle);
-									micircle.bindPopup("Centro: "+coordenadas[0]+", "+coordenadas[1]+"<br />Radio: "+radio+" km");
+									//var micircle = L.circle(coordenadas, {radius: radio*1000, color: 'red'}).addTo(map);
+									//circles.push(micircle);
+									//micircle.bindPopup("Centro: "+coordenadas[0]+", "+coordenadas[1]+"<br />Radio: "+radio+" Km");
+									var circle1 = L.circle([coordenadas[0],coordenadas[1]], {radius: radio + ((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#00ff00', fillOpacity: 0.1}).addTo(map); //exterior
+									var circle2 = L.circle([coordenadas[0],coordenadas[1]], {radius: radio, color: '#ff0000', weight: 1, opacity: 1.0, fill: false,dashArray: '5,10'}).addTo(map); //centro
+									var circle3 = L.circle([coordenadas[0],coordenadas[1]], {radius:  radio-((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#ffffff', fillOpacity: 0.2}).addTo(map); //interior
+									circles.push(circle1);
+									circles.push(circle2);
+									circles.push(circle3);
+									circle1.bindPopup("Centro: "+coordenadas[0]+", "+coordenadas[1]+"<br />Radio: "+radio/1000+" Km, tolerancia +/-"+tolerancia+"% ("+((radio*tolerancia)/100)/1000+" Km)");
 									$("#delcirclemap").prop("disabled", false);
 								}
 								break;
 							case 1: //palomar
 								var codSocio = $('#martir').val();
 								if (codSocio >= 0){
-									var micircle = L.circle([arrPalomares[codSocio].latgr.replace(",","."),arrPalomares[codSocio].longr.replace(",",".")], {radius: radio*1000, color: 'red'}).addTo(map);
-									circles.push(micircle);
-									micircle.bindPopup("Centro: "+arrPalomares[codSocio].latgr.replace(",",".")+", "+arrPalomares[codSocio].longr.replace(",",".")+"<br />Radio: "+radio+" km");
+									//var micircle = L.circle([arrPalomares[codSocio].latgr.replace(",","."),arrPalomares[codSocio].longr.replace(",",".")], {radius: radio*1000, color: 'red'}).addTo(map);
+									//circles.push(micircle);
+									//micircle.bindPopup("Centro: "+arrPalomares[codSocio].latgr.replace(",",".")+", "+arrPalomares[codSocio].longr.replace(",",".")+"<br />Radio: "+radio+" Km");
+									var circle1 = L.circle([arrPalomares[codSocio].latgr.replace(",","."),arrPalomares[codSocio].longr.replace(",",".")], {radius: radio + ((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#00ff00', fillOpacity: 0.1}).addTo(map); //exterior
+									var circle2 = L.circle([arrPalomares[codSocio].latgr.replace(",","."),arrPalomares[codSocio].longr.replace(",",".")], {radius: radio, color: '#ff0000', weight: 1, opacity: 1.0, fill: false,dashArray: '5,10'}).addTo(map); //centro
+									var circle3 = L.circle([arrPalomares[codSocio].latgr.replace(",","."),arrPalomares[codSocio].longr.replace(",",".")], {radius:  radio-((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#ffffff', fillOpacity: 0.2}).addTo(map); //interior
+									circles.push(circle1);
+									circles.push(circle2);
+									circles.push(circle3);
+									circle1.bindPopup("Centro: "+arrPalomares[codSocio].latgr.replace(",",".")+", "+arrPalomares[codSocio].longr.replace(",",".")+"<br />Radio: "+radio/1000+" Km, tolerancia +/-"+tolerancia+"% ("+((radio*tolerancia)/100)/1000+" Km)");
 									$("#delcirclemap").prop("disabled", false);
 								}
 								break;
 							case 2: //Centro de todos los palomares de los clubes
-								var micircle = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio*1000, color: 'red'}).addTo(map);
-								circles.push(micircle);
-								micircle.bindPopup("Centro de todos los palomares de los clubes de "+$('#martir option:selected').text()+"<br />Radio: "+radio+" km");
+								//var micircle = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio*1000, color: 'red'}).addTo(map);
+								//circles.push(micircle);
+								//micircle.bindPopup("Centro de todos los palomares de los clubes de "+$('#martir option:selected').text()+"<br />Radio: "+radio+" Km");
+								var circle1 = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio + ((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#00ff00', fillOpacity: 0.1}).addTo(map); //exterior
+								var circle2 = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio, color: '#ff0000', weight: 1, opacity: 1.0, fill: false,dashArray: '5,10'}).addTo(map); //centro
+								var circle3 = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius:  radio-((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#ffffff', fillOpacity: 0.2}).addTo(map); //interior
+								circles.push(circle1);
+								circles.push(circle2);
+								circles.push(circle3);
+								circle1.bindPopup("Centro: "+CentroPoligono[0]+", "+CentroPoligono[1]+"<br />Radio: "+radio/1000+" Km, tolerancia +/-"+tolerancia+"% ("+((radio*tolerancia)/100)/1000+" Km)");
 								$("#delcirclemap").prop("disabled", false);
 								break;
 							case 3: //centro de todos los palomares del club
-								var micircle = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio*1000, color: 'red'}).addTo(map);
-								circles.push(micircle);
-								micircle.bindPopup("Centro de todos los palomares del club "+$('#martir option:selected').text()+"<br />Radio: "+radio+" km");
+								//var micircle = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio*1000, color: 'red'}).addTo(map);
+								//circles.push(micircle);
+								//micircle.bindPopup("Centro de todos los palomares del club "+$('#martir option:selected').text()+"<br />Radio: "+radio+" Km");
+								var circle1 = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio + ((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#00ff00', fillOpacity: 0.1}).addTo(map); //exterior
+								var circle2 = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius: radio, color: '#ff0000', weight: 1, opacity: 1.0, fill: false,dashArray: '5,10'}).addTo(map); //centro
+								var circle3 = L.circle([CentroPoligono[0],CentroPoligono[1]], {radius:  radio-((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#ffffff', fillOpacity: 0.2}).addTo(map); //interior
+								circles.push(circle1);
+								circles.push(circle2);
+								circles.push(circle3);
+								circle1.bindPopup("Centro de todos los palomares del club "+$('#martir option:selected').text()+"<br />Radio: "+radio/1000+" Km, tolerancia +/-"+tolerancia+"% ("+((radio*tolerancia)/100)/1000+" Km)");
 								$("#delcirclemap").prop("disabled", false);
-								break;
 								break;
 							case 4: //palomar más cercano de la provincia
 								var codProvinciaOClub = $('#martir').val();
@@ -928,9 +960,16 @@
 								} else {
 									var coordenada=PalomarMasCercano(anio, 1, codProvinciaOClub, direccion);
 								}
-								var micircle = L.circle([coordenada[0],coordenada[1]], {radius: radio*1000, color: 'red'}).addTo(map);
-								circles.push(micircle);
-								micircle.bindPopup("Centro: "+coordenada[0]+", "+coordenada[1]+"<br />Radio: "+radio+" km");
+								//var micircle = L.circle([coordenada[0],coordenada[1]], {radius: radio*1000, color: 'red'}).addTo(map);
+								//circles.push(micircle);
+								//micircle.bindPopup("Centro: "+coordenada[0]+", "+coordenada[1]+"<br />Radio: "+radio+" Km");
+								var circle1 = L.circle([coordenada[0],coordenada[1]], {radius: radio + ((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#00ff00', fillOpacity: 0.1}).addTo(map); //exterior
+								var circle2 = L.circle([coordenada[0],coordenada[1]], {radius: radio, color: '#ff0000', weight: 1, opacity: 1.0, fill: false,dashArray: '5,10'}).addTo(map); //centro
+								var circle3 = L.circle([coordenada[0],coordenada[1]], {radius:  radio-((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#ffffff', fillOpacity: 0.2}).addTo(map); //interior
+								circles.push(circle1);
+								circles.push(circle2);
+								circles.push(circle3);
+								circle1.bindPopup("Centro: "+coordenada[0]+", "+coordenada[1]+"<br />Radio: "+radio/1000+" Km, tolerancia +/-"+tolerancia+"% ("+((radio*tolerancia)/100)/1000+" Km)");
 								$("#delcirclemap").prop("disabled", false);
 								break;
 							case 5: //palomar más cercano del club
@@ -941,9 +980,16 @@
 								} else {
 									var coordenada=PalomarMasCercano(anio, 1, codProvinciaOClub, direccion);
 								}
-								var micircle = L.circle([coordenada[0],coordenada[1]], {radius: radio*1000, color: 'red'}).addTo(map);
-								circles.push(micircle);
-								micircle.bindPopup("Centro: "+coordenada[0]+", "+coordenada[1]+"<br />Radio: "+radio+" km");
+								//var micircle = L.circle([coordenada[0],coordenada[1]], {radius: radio*1000, color: 'red'}).addTo(map);
+								//circles.push(micircle);
+								//micircle.bindPopup("Centro: "+coordenada[0]+", "+coordenada[1]+"<br />Radio: "+radio+" km");
+								var circle1 = L.circle([coordenada[0],coordenada[1]], {radius: radio + ((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#00ff00', fillOpacity: 0.1}).addTo(map); //exterior
+								var circle2 = L.circle([coordenada[0],coordenada[1]], {radius: radio, color: '#ff0000', weight: 1, opacity: 1.0, fill: false,dashArray: '5,10'}).addTo(map); //centro
+								var circle3 = L.circle([coordenada[0],coordenada[1]], {radius:  radio-((radio * tolerancia) / 100), color: '#00ff00', weight: 1, opacity: 1.0, fillColor: '#ffffff', fillOpacity: 0.2}).addTo(map); //interior
+								circles.push(circle1);
+								circles.push(circle2);
+								circles.push(circle3);
+								circle1.bindPopup("Centro: "+coordenada[0]+", "+coordenada[1]+"<br />Radio: "+radio/1000+" Km, tolerancia +/-"+tolerancia+"% ("+((radio*tolerancia)/100)/1000+" Km)");
 								$("#delcirclemap").prop("disabled", false);
 								break;
 						}
@@ -1237,6 +1283,7 @@
 							if (layerSA){layerSA.remove(map);}
 							if (layerVA){layerVA.remove(map);}
 							if (layerZA){layerZA.remove(map);}
+							if (layerBU){layerBU.remove(map);}
 						}
 					});
 					
