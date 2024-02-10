@@ -13,6 +13,7 @@ var layerLE;
 var layerSA;
 var layerVA;
 var layerZA;
+var layerBU;
 var arrMarkers=[];
 var arrPuntoSuelta=[];
 var theMarker=[];
@@ -91,6 +92,15 @@ var greyIcon = new L.Icon({
 	shadowSize: [41, 41]
 })
 
+var goldIcon = new L.Icon({
+	iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+	shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+	iconSize: [25, 41],
+	iconAnchor: [12, 41],
+	popupAnchor: [1, -34],
+	shadowSize: [41, 41]
+})
+
 function Procesa() {
 	arrCentrosProv.length = 0;
 	arrPalomares.length = 0;
@@ -132,6 +142,16 @@ function MuestraProvincia(prov, visible){
 			if (layerSA){layerSA.remove(map);}
 			if (layerVA){layerVA.remove(map);}
 			if (layerZA){layerZA.remove(map);}
+			if (layerBU){layerBU.remove(map);}
+			break;
+		case 9: //Burgos
+			//map.setView([42.361412901,-3.6038873377], 9, { animation: true }); //centro provincia
+			map.setView(dimeCentroProv(prov), 9, { animation: true }); //centro provincia
+			if (layerLE){layerLE.remove(map);}
+			if (layerSA){layerSA.remove(map);}
+			if (layerVA){layerVA.remove(map);}
+			if (layerZA){layerZA.remove(map);}
+			if (visible){layerBU = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getBurgos}).addTo(map);}
 			break;
 		case 24: //Leon
 			//map.setView([42.635377, -5.896341], 9, { animation: true }); //centro provincia
@@ -139,6 +159,7 @@ function MuestraProvincia(prov, visible){
 			if (layerSA){layerSA.remove(map);}
 			if (layerVA){layerVA.remove(map);}
 			if (layerZA){layerZA.remove(map);}
+			if (layerBU){layerBU.remove(map);}
 			if (visible){layerLE = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getLeon}).addTo(map);}
 			break;
 		case 37: //Salamanca
@@ -147,6 +168,7 @@ function MuestraProvincia(prov, visible){
 			if (layerLE){layerLE.remove(map);}
 			if (layerVA){layerVA.remove(map);}
 			if (layerZA){layerZA.remove(map);}
+			if (layerBU){layerBU.remove(map);}
 			if (visible){layerSA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getSalamanca}).addTo(map);}
 			break;
 		case 47: //Valladolid
@@ -155,6 +177,7 @@ function MuestraProvincia(prov, visible){
 			if (layerLE){layerLE.remove(map);}
 			if (layerSA){layerSA.remove(map);}
 			if (layerZA){layerZA.remove(map);}
+			if (layerBU){layerBU.remove(map);}
 			if (visible){layerVA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getValladolid}).addTo(map);}
 			break;
 		case 49: //Zamora
@@ -163,6 +186,7 @@ function MuestraProvincia(prov, visible){
 			if (layerLE){layerLE.remove(map);}
 			if (layerSA){layerSA.remove(map);}
 			if (layerVA){layerVA.remove(map);}
+			if (layerBU){layerBU.remove(map);}
 			if (visible){layerZA = new L.GeoJSON.AJAX("data/spain-provinces.geojson", {filter: getZamora}).addTo(map);}
 			break;
 	}  
@@ -252,7 +276,7 @@ function CargarProvincias(anio){
 
 function dimeCentroProv(codProvincia){
 	for (var i=0; i<arrCentrosProv.length; i++){
-		if (arrCentrosProv[i].cod==codProvincia){
+		if (parseInt(arrCentrosProv[i].cod)==codProvincia){
 			return new Array(arrCentrosProv[i].lat,arrCentrosProv[i].lon);
 		}
 	}
@@ -272,6 +296,10 @@ function getValladolid(feature) {
 
 function getZamora(feature) {
   if (feature.properties.cod_prov==="49") return true
+}
+
+function getBurgos(feature) {
+  if (feature.properties.cod_prov==="09") return true
 }
 
 function Centrar(prov, centro) {
@@ -322,6 +350,19 @@ function Centrar(prov, centro) {
 					break;
 				case "2": 
 					map.setView([41.503848, -5.743542], 9, { animation: true }); //centro capital (Plaza del Mercado)
+					break;
+				case "3": 
+				
+					break;
+			}
+			break;
+		case "09": //Burgos
+			switch(centro) {
+				case "1":
+					map.setView([42.361412901,-3.6038873377], 9, { animation: true }); //centro provincia
+					break;
+				case "2": 
+					map.setView([42.341132160,-3.7018294989], 9, { animation: true }); //centro capital (Plaza Mayor)
 					break;
 				case "3": 
 				
@@ -448,6 +489,9 @@ function CargarPalomar(socio){
 			break;
 		case 167: //Cigales
 			color=greyIcon;
+			break;
+		case 166: //Burgalés
+			color=goldIcon;
 			break;
 		default:
 			color=redIcon;
@@ -632,6 +676,9 @@ function marcarPuntoSuelta(psuelta, codClub){
 			break;
 		case 167: //Cigales
 			color=greyIcon;
+			break;
+		case 166: //Burgalés
+			color=goldIcon;
 			break;
 		default:
 			color=redIcon;
