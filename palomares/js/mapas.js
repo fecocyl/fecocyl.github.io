@@ -383,7 +383,7 @@ function CargarClubes(anio, codProvincia){
 					encontrado=true;
 				}
 			}
-			if (!encontrado){
+			if ((!encontrado)&&(arrPalomares[i].activo==true)&&(arrPalomares[i].codprov==codProvincia)&&(arrPalomares[i].anio==anio)){
 				var nuevo={codclub:arrPalomares[i].codclub,nomclub:arrPalomares[i].nomclub};
 				arrClubes.push(nuevo);
 			}
